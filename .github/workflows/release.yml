@@ -1,0 +1,25 @@
+name: Release skills
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate SKILL.md frontmatter
+        run: python3 scripts/validate.py
+      - name: Build .skill bundles
+        run: ./scripts/build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: skills
+          path: dist/*.skill
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.skill
