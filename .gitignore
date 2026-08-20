@@ -1,0 +1,4 @@
+dist/
+*.skill
+.DS_Store
+__pycache__/
