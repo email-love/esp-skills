@@ -1,0 +1,82 @@
+{
+  "started_utc": "2026-08-21T16:12:47.585866+00:00",
+  "finished_utc": "2026-08-21T16:15:42.045431+00:00",
+  "repo_version": "1.4.0",
+  "model": "claude-sonnet-4-5",
+  "grader_model": "claude-sonnet-4-5",
+  "cli": "2.1.238 (Claude Code)",
+  "settings": {
+    "output_format": "text",
+    "timeout_seconds": 600
+  },
+  "cases": [
+    {
+      "skill": "moengage-jinja",
+      "case": "null-drop-fallback-choice",
+      "category": "authoring",
+      "assertions": 10,
+      "with_skill": {
+        "met": 9,
+        "total": 10,
+        "pct": 90
+      },
+      "baseline": {
+        "met": 0,
+        "total": 10,
+        "pct": 0
+      }
+    },
+    {
+      "skill": "moengage-jinja",
+      "case": "content-api-recommendation-row",
+      "category": "authoring",
+      "assertions": 10,
+      "with_skill": {
+        "met": 3,
+        "total": 10,
+        "pct": 30
+      },
+      "baseline": {
+        "met": 1,
+        "total": 10,
+        "pct": 10
+      }
+    },
+    {
+      "skill": "moengage-jinja",
+      "case": "partial-audience-drop-debug",
+      "category": "debugging",
+      "assertions": 11,
+      "with_skill": {
+        "met": 6,
+        "total": 11,
+        "pct": 55
+      },
+      "baseline": {
+        "met": 1,
+        "total": 11,
+        "pct": 9
+      }
+    },
+    {
+      "skill": "moengage-jinja",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "assertions": 12,
+      "with_skill": {
+        "met": 10,
+        "total": 12,
+        "pct": 83
+      },
+      "baseline": {
+        "met": 7,
+        "total": 12,
+        "pct": 58
+      }
+    }
+  ],
+  "aggregate": {
+    "with_skill_pct": 64.5,
+    "baseline_pct": 19.2
+  }
+}
