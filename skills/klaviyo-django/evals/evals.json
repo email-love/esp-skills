@@ -1,0 +1,26 @@
+{
+  "skill_name": "klaviyo-django",
+  "evals": [
+    {
+      "id": 0,
+      "name": "liquid-instinct-trap",
+      "prompt": "In Klaviyo I need a block in our promo email that shows different copy for our three loyalty tiers (Gold, Silver, Bronze, stored on the profile as `loyalty_tier`), and falls back to generic copy for the ~30% of the list with no tier set. Give me the code.",
+      "expected_output": "Uses {% if %}/{% elif %}/{% else %}, NOT {% elsif %}. No {% assign %}. Correct filter syntax with no space after the colon. Handles the missing-tier case.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "shopify-cart-loop",
+      "prompt": "We're on Shopify and I'm building the abandoned cart email in Klaviyo, triggered off Checkout Started. I need the product block \u2014 image, product title, price, and a link back to the product, max 3 items, plus a button back to the cart. Paste-ready please, our product names sometimes have apostrophes.",
+      "expected_output": "Uses event.extra.line_items with correct Shopify sub-paths, event.extra.checkout_url for the cart link, builds the product URL from organization.url + product.handle, limits with |slice, and notes this only works in a metric-triggered flow.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "blank-personalization-debug",
+      "prompt": "Our Klaviyo email is showing nothing at all where the personalization should be \u2014 not blank values, literally the whole message renders with no tags filled in and preview says something about invalid template tags. This is the block I added:\n\n{% if person | lookup: 'VIP Status' == 'gold' %}\n  <p>Hi {{ first_name | default: 'there' }}, here's your early access.</p>\n{% elsif person|lookup:'VIP Status' == 'silver' %}\n  <p>Hi {{ first_name|default:'there' }}, here's 10% off.</p>\n{% endif %}\n\nAlso our cart block is empty in the campaign we sent yesterday but works fine in the abandoned cart flow. Same code in both.",
+      "expected_output": "Identifies the space after the filter colon AND {% elsif %} as the two hard errors, explains that one bad tag kills the entire render, and separately identifies that event data does not exist in campaigns as the cart cause.",
+      "files": []
+    }
+  ]
+}
