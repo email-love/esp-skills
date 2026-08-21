@@ -1,0 +1,26 @@
+{
+  "skill_name": "customerio-liquid",
+  "evals": [
+    {
+      "id": 0,
+      "name": "failed-status-debug",
+      "prompt": "In Customer.io about 9% of our welcome email deliveries are showing as Failed. Not bounced, Failed. The email uses {{customer.first_name}} in the subject and {{customer.company_size}} in a conditional in the body. Deliverability team says our domain is fine. What's happening?",
+      "expected_output": "Explains that a missing attribute FAILS the send in Customer.io rather than rendering blank, gives fallbacks for both fields with version-appropriate syntax, and points at the delivery detail page + Fix/Retry.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "timezone-promo",
+      "prompt": "Customer.io. I want our flash sale email to show the sale end time in each recipient's own local timezone (we store `timezone` on the profile as an IANA string) and to change the copy once the sale has ended. Also personalize the subject with first name without it breaking for people who don't have one.",
+      "expected_output": "Asks about or explicitly handles the legacy-vs-latest Liquid version difference for the timezone argument, notes timestamps are stored as Unix seconds, guards first_name, and does not use {{unsubscribe_url}} style variables.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "namespace-confusion",
+      "prompt": "In Customer.io I have a campaign triggered by a `subscription` object being updated, and I want to reference the subscription's plan name and renewal date, plus the recipient's own relationship attributes to that subscription, plus a list of the recipient's other active subscriptions. What's the correct syntax for each?",
+      "expected_output": "Uses trigger.subscription.X (singular slug) for the trigger object, customer._relationship.X for the recipient's relationship attributes, objects.subscriptions[0].X (plural slug) for other objects, and notes the 10-object limit and that a wrong namespace renders empty silently.",
+      "files": []
+    }
+  ]
+}
