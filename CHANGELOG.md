@@ -2,6 +2,26 @@
 
 All notable changes to the skills in this repo.
 
+## [1.4.0] — 2026-08-21
+
+Four platforms added, taking the set from six to ten. Each is written against first-party documentation only, and each names what its vendor does not document rather than filling the gap with a guess.
+
+### New skills
+
+- **`hubspot-hubl`** — HubSpot marketing email. HubL is Jinjava, not Liquid and not stock Jinja2, and the fact that reorganizes everything is HubSpot's own: filters apply to personalization tokens on CMS and blog pages, *not in email*. So `{{ contact.firstname|default("there") }}` is wrong in an email and `{{ personalization_token("contact.firstname", "there") }}` is right. Also covers programmable email and `isEnabledForEmailV3Rendering`, `crm_objects()` returning a wrapper you have to iterate as `.results`, single-send `customProperties` not working inside `if`, and the two first-party limit statements that do not reconcile — 10 function invocations per function against 5 CRM functions with 500k–100k recipient ceilings. Both are cited, and the disagreement is stated rather than resolved.
+- **`moengage-jinja`** — MoEngage. One rule governs the platform: *"when a message contains a null value, it will not be sent."* A missing attribute does not render blank, it removes that user from the send, so the skill is built around the five documented fallback forms and the fact that only `{% MOE_NOT_SEND("reason") %}` produces a labelled analytics row. Also covers the `UserAttribute` / `EventAttribute` / `ProductSet` / `ContentApi` namespaces, autoescape being off, the Content API's 5-second timeout and three retries, and the editor behaviour that corrupts a template *after* it saved cleanly — Froala HTML-encoding `<` and `>`, BeautifulSoup rewriting the markup on save, and a `{% for %}` that must wrap a complete `<tr>`.
+- **`sailthru-zephyr`** — Sailthru, now sold as Zeta Engage by Sailthru. Zephyr shares its syntax with nothing else in this repository: single braces, `{if}…{/if}`, `{foreach x as c}`, no filter pipe at all — functions only — and a space after the opening brace stops it evaluating. Covers the `{{double}}` versus `{single}` creation-time/send-time distinction, the Elvis default idiom, Java `SimpleDateFormat` dates with no timezone control, prices as integer cents, `filter_content()` versus the `filter()`/`dedupe()` pair that destroys Recommendations pinning, `sort()` mutating the global content array, and the asymmetry that matters most in production: `assert()` and `cancel()` suppress a campaign send but neither stops a Lifecycle Optimizer flow.
+- **`zeta-zml`** — the Zeta Marketing Platform. ZML is Liquid-derived and its documentation is public. Covers the tag set (`resources`, `recommendation`, `event`, `feeds`, `media_asset`, `coupon`, `segments`, `skip_message`), the filter catalogue as currently published, `elsif` — Zeta's docs note the missing 'e' is intentional — the `liquid_internal` / `custom_skip` / `email_subject_missing` error categories, and the silent failures that are the whole point of the skill: `BETWEEN` inside `{% resources %}`, and lowercase operators where `CONTAINS`, `AFTER`, `BEFORE`, `NOT` and `EXISTS` must be uppercase.
+
+### One vendor, two languages
+
+Zeta Global ships both of the last two. Zeta Marketing Platform speaks ZML; Zeta Engage by Sailthru speaks Zephyr. They share no syntax. Both skills name the other platform as explicitly out of scope in their trigger descriptions, and `zeta-zml` carries an eval case for the routing boundary itself — someone pasting single-brace Zephyr and saying "Zeta" should be asked which platform, not have their syntax silently "corrected".
+
+### Repository
+
+- The shared trust-boundary block now takes a full per-platform sentence rather than a mechanism name spliced into a fixed one. Four of the ten platforms have **no** documented construct that executes a stored string as template code, and the old wording asserted one did. The section is now accurate on all ten: where there is an eval mechanism it is named, and where there is not, the exposure is stated as what it actually is — unescaped output.
+- `shared/figma/` gained fragments for all four platforms. Three have a documented Email Love export route; the Zeta Marketing Platform does not, so that fragment says so and points at **Download as HTML**, including the caveat that the plugin's `unsubscribe.com` sentinel has no ZMP-specific tag to swap to.
+
 ## [1.3.0] — 2026-08-21
 
 Release-readiness pass. Nothing about what the skills teach has been thrown away; what changed is whether the repository can be trusted to ship it.
