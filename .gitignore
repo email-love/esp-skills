@@ -2,3 +2,7 @@ dist/
 *.skill
 .DS_Store
 __pycache__/
+
+# Eval run artifacts are evidence: the published run is committed on purpose.
+# Add throwaway runs here rather than committing them.
+evals-runs/scratch*/

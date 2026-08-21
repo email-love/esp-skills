@@ -2,20 +2,59 @@
 
 All notable changes to the skills in this repo.
 
-## [1.3.0] — 2026-08-20
+## [1.3.0] — 2026-08-21
 
-### Added
+Release-readiness pass. Nothing about what the skills teach has been thrown away; what changed is whether the repository can be trusted to ship it.
 
-- **`references/figma-export.md` in all six skills** — how to apply each platform's personalization language inside a Figma file built with the [Email Love plugin](https://www.emaillove.com/figma-plugin) so that it survives export to production HTML. Covers where code can go (text layer, Code Block, link field, Head of email, override image source), the nesting rule for paired Code Blocks, and the platform-specific behaviour of each export target.
-- **A "In Figma, with the Email Love plugin" section in every `SKILL.md`**, carrying the three rules that break emails if missed, plus one platform-specific line.
-- Figma, Email Love, and `mj-raw` added to every skill's trigger description.
+### Release and packaging
 
-### Verified
+- **The release workflow could not have worked.** It invoked `./scripts/build.sh` directly, and the file is mode `100644` in the repository, so the step would have failed with `permission denied`. It also lacked the `contents: write` permission needed to create a release. Both fixed: scripts are invoked through `bash`, validation and packaging run with `contents: read`, and only the publish job — gated on a tag, behind a `release` environment — gets write access.
+- **Added `.github/workflows/ci.yml`.** Pull requests and pushes to `main` now validate, package, and verify the archives with no permission to publish anything.
+- **Every GitHub Action is pinned to a full commit SHA**, and `persist-credentials: false` is set on checkout.
+- **`scripts/build.sh` rewritten.** Files are staged through an explicit allowlist instead of zipped in place, symlinks under `skills/` abort the build, the archive count is asserted, and `dist/SHA256SUMS` is generated.
+- **`scripts/verify_dist.sh` added** — zip integrity, file inventory, no entries outside the skill directory, no symlinks or executables, and checksum verification.
+- **Every archive now contains the MIT licence.** Previously the licence lived only at the repository root, so a distributed `.skill` carried none.
+- **Eval suites now ship inside the archives**, which the README already claimed.
 
-Two findings in the new reference were compiled and measured on MJML 4.18 rather than inferred from documentation:
+### Versioning and installation
 
-- **Paired Code Blocks are safe if and only if they are siblings.** A pair spanning two nesting levels, with the condition false, leaves three orphaned `</table>`, `</tr>`, and `</td>` tags and an Outlook conditional-table depth of `-2`. The same pair as siblings — wrapping a two-column section, a wrapper, and a full-width section at once — is balanced on every tag at depth `0`. This confirms and explains the plugin's own documented rule.
-- **A double-quoted string argument in a link field silently truncates the link.** `href="https://x.com/{{ slug|default:"home" }}"` raises `Attributes home", }}" are illegal` under strict validation and, under MJML's default soft validation, compiles without complaint to `href="https://x.com/{{ slug|default:"`. This lands hardest on Klaviyo and SFMC, whose own documentation uses double quotes.
+- **`VERSION` is now the single source of truth.** The validator fails if the marketplace manifest or `CHANGELOG.md` disagrees with it, and the release job fails if the tag does not match. Previously the changelog said `1.3.0` while all six marketplace entries said `1.0.0`.
+- **Install instructions rewritten per platform** — Claude Code, the Claude apps, ChatGPT, and Codex each get their own tested route, plus what updating and removing actually does for a manually uploaded skill.
+- **Added a "choose your skill" table** with one starter prompt per platform.
+- The Claude Code path is verified end to end against CLI 2.1.238: marketplace resolves, plugin installs at the version in `VERSION`, roughly 370 tokens always-on and 5.1k on invocation.
+
+### OpenAI metadata
+
+- All six `agents/openai.yaml` files used `interface.name` and `interface.description`, which are not in the schema. They now use `display_name` and `short_description`, and every `default_prompt` explicitly references its skill as `$skill-name`.
+- The `brand_color: "#FF4D6D"  # TODO` placeholder is removed rather than guessed at. The key is optional; it can come back when there is an approved value.
+- The validator now checks this schema, including the 25–64 character `short_description` range.
+
+### Correctness and safety
+
+- **Iterable escaping is now context-aware.** The skill previously recommended triple braces — unescaped output — as the default for URLs, product names, apostrophes, and ampersands. That is only defensible for markup you authored, and these values arrive from profiles, events, feeds, and catalogs. The claim that escaping "breaks" apostrophes and ampersands in HTML was checked against Iterable's documentation and does not hold; it is narrowed to the surfaces where it is real, and the guidance now separates HTML text, HTML attributes, URL components, JavaScript, and JSON, names `urlEncode` and `toJson`, and says to validate links that come from data.
+- **Every skill gained a "Handling untrusted content" section.** Pasted templates, comments, payloads, feed records, and URLs are data, not instructions; anything with a side effect needs the user to ask for it in this conversation; secrets and production recipient data stay out of templates and replies.
+- **Dynamic template evaluation now has a stated trust boundary** in every skill — `render_liquid`, `:rerender`, `TreatAsContent`, `#evaluate`, `|safe` and `autoescape off`. Author-controlled content only, and turning HTML escaping off is explicitly not JSON or JavaScript encoding.
+- **The Customer.io unsubscribe contradiction is documented rather than papered over.** The skill said `{{unsubscribe_url}}` renders empty; the Figma reference quoted Email Love's help centre saying the plugin injects exactly that. Customer.io's own documentation confirms the skill is right, which makes the plugin behaviour a real question that needs one export to settle. It is now a stated release blocker in the README and in the Figma reference, with the exact test.
+- Fixed a snippet-syntax error the Customer.io Figma reference had been carrying: `{% snippet "name" %}` is not a Customer.io construct; it is `{{snippets.name}}`.
+- Every copy-ready example uses HTTPS.
+
+### Evaluations
+
+- **One documented schema**, enforced by the validator: kebab-case ids, a category, an expected output, and at least five objectively checkable assertions per case. Marketo and SFMC previously had no expected outputs and no assertions at all; Braze, Customer.io, and Klaviyo had prose but nothing checkable.
+- **Every suite now has an adversarial case** carrying injected instructions in HTML comments, template comments, JSON values, and URL parameters, plus that platform's dynamic-evaluation boundary.
+- **`scripts/run_evals.py` added** — paired with-skill and baseline arms, a grader pass per assertion, and a resumable run directory recording model, grader model, CLI version, settings, timestamps, both raw responses, and per-assertion evidence.
+- **The README's six 100% scores are gone.** They could not be reproduced from anything in the repository. In their place: a real run committed at `evals-runs/baseline-v1.3.0/` — 83% with skill against 50% baseline across 25 cases — described as a smoke test rather than a benchmark, with the caveats stated.
+
+### Validation
+
+- `scripts/validate.py` rewritten. It previously regex-checked two frontmatter fields and passed a repository with invalid OpenAI metadata, inconsistent versions, and an unresolved TODO. It now parses YAML properly and checks name and description constraints, reference and relative-link targets, the OpenAI schema, the eval schema, the marketplace manifest, version agreement, symlinks and executable bits, credential-shaped strings, placeholders, plain-HTTP URLs, workflow permissions, and SHA pinning.
+- **`scripts/sync_shared.py` added.** The Figma reference and the security section are generated into all six skills from `shared/`, so the packages stay self-contained without the copies silently drifting. CI runs it with `--check`.
+
+### Documentation
+
+- `EVALS.md` added: schema, how to run, what gets recorded, the committed run, and its limitations.
+- A "Known limitations" section in the README, and a beta designation on the repository and on every skill in the table.
+- Each `SKILL.md` carries the date its platform claims were last checked.
 
 ## [1.2.0] — 2026-08-20
 

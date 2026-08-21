@@ -4,6 +4,8 @@ Free, open-source AI skills for the personalization languages inside email servi
 
 Built and maintained by [Email Love](https://www.emaillove.com). Works in **Claude** and **ChatGPT**.
 
+> **Beta.** The content is grounded in first-party documentation and measured against a no-skill baseline, but the suites are small, one Customer.io behaviour is unverified end to end (see [Known limitations](#known-limitations)), and nothing here has been through a stable release. Use it, and report what it gets wrong.
+
 ## Why these exist
 
 Every ESP has its own templating language, and general-purpose AI is confidently wrong about them in ways that survive review.
@@ -22,12 +24,12 @@ Each skill encodes what a platform *actually* supports, what it doesn't, and whi
 
 | Skill | Platform | Language | Status |
 |---|---|---|---|
-| [`iterable-handlebars`](skills/iterable-handlebars) | Iterable | Handlebars (handlebars.java) | ✅ Available |
-| [`klaviyo-django`](skills/klaviyo-django) | Klaviyo | **Django templates** — not Liquid | ✅ Available |
-| [`braze-liquid`](skills/braze-liquid) | Braze | Liquid 5 (Shopify), partial | ✅ Available |
-| [`customerio-liquid`](skills/customerio-liquid) | Customer.io | Liquid — two engines, set per message | ✅ Available |
-| [`sfmc-ampscript`](skills/sfmc-ampscript) | Salesforce Marketing Cloud | AMPscript, GTL, SSJS | ✅ Available |
-| [`marketo-velocity`](skills/marketo-velocity) | Marketo Engage | Tokens + Velocity | ✅ Available |
+| [`iterable-handlebars`](skills/iterable-handlebars) | Iterable | Handlebars (handlebars.java) | 🧪 Beta |
+| [`klaviyo-django`](skills/klaviyo-django) | Klaviyo | **Django templates** — not Liquid | 🧪 Beta |
+| [`braze-liquid`](skills/braze-liquid) | Braze | Liquid 5 (Shopify), partial | 🧪 Beta |
+| [`customerio-liquid`](skills/customerio-liquid) | Customer.io | Liquid — two engines, set per message | 🧪 Beta |
+| [`sfmc-ampscript`](skills/sfmc-ampscript) | Salesforce Marketing Cloud | AMPscript, GTL, SSJS | 🧪 Beta |
+| [`marketo-velocity`](skills/marketo-velocity) | Marketo Engage | Tokens + Velocity | 🧪 Beta |
 | `hubspot-hubl` | HubSpot | HubL | 🔜 Planned |
 | `mailchimp-merge-tags` | Mailchimp | Merge tags | 🔜 Planned |
 
@@ -68,31 +70,69 @@ A second one, found the same way: a **double-quoted string argument in a link fi
 
 Each skill's `references/figma-export.md` has the rest, including the specifics of that platform's export target — Braze Content Blocks dropping the `<head>`, Iterable snippets carrying no CSS, Marketo's reserved words breaking a link URL, SFMC impression regions taking their names from Figma layer names.
 
+## Choose your skill
+
+| Your ESP | Skill | Try it with |
+|---|---|---|
+| Iterable | [`iterable-handlebars`](skills/iterable-handlebars) | "Why is my Iterable cart loop rendering blank for some users?" |
+| Klaviyo | [`klaviyo-django`](skills/klaviyo-django) | "Write a Klaviyo block that shows different copy per loyalty tier." |
+| Braze | [`braze-liquid`](skills/braze-liquid) | "My Braze campaign sent to half the audience and stopped. Why?" |
+| Customer.io | [`customerio-liquid`](skills/customerio-liquid) | "Some Customer.io deliveries show as Failed, not bounced. What's happening?" |
+| Salesforce Marketing Cloud | [`sfmc-ampscript`](skills/sfmc-ampscript) | "Subscribers are showing as Errored on this AMPscript send." |
+| Marketo Engage | [`marketo-velocity`](skills/marketo-velocity) | "This Marketo email won't validate and there's no scripting in it." |
+
+Install only the one you use. Each skill is deliberately scoped to a single platform and tells the model not to apply itself to the others, so installing all six is fine but installing one is better.
+
 ## Install
 
 ### Claude Code
 
 ```bash
 claude plugin marketplace add email-love/esp-skills
-claude plugin install iterable-handlebars@email-love-esp
+claude plugin install klaviyo-django@email-love-esp
 ```
 
-### Claude (web, desktop, Cowork)
+Update with `claude plugin marketplace update email-love-esp`, then reinstall. Remove with `claude plugin uninstall klaviyo-django@email-love-esp`.
 
-Download the `.skill` file from [Releases](../../releases) and upload it in Settings → Capabilities → Skills.
+Verified against Claude Code 2.1.238: the marketplace resolves, the plugin installs at the version in `VERSION`, and `claude plugin details` reports roughly 370 tokens always-on with about 5.1k paid when the skill actually fires.
+
+### Claude apps (web, desktop, Cowork)
+
+Download the `.skill` file for your platform from [Releases](../../releases), then **Settings → Capabilities → Skills → Upload**.
+
+An uploaded skill is a snapshot, not a subscription. It does not update itself — to move to a new version, download the new `.skill` and upload it again; same name replaces the old one. Remove it from the same screen.
 
 ### ChatGPT
 
-These follow the [Agent Skills open standard](https://help.openai.com/en/articles/20001066-skills-in-chatgpt), so the same folder works unmodified. Download the `.skill` from [Releases](../../releases), then in ChatGPT: **Skills → Create → Upload from your computer**. Requires a Business, Enterprise, Healthcare, or Edu plan. Also works in Codex and via the API.
+These follow the [Agent Skills open standard](https://help.openai.com/en/articles/20001066-skills-in-chatgpt), so the same folder works unmodified. Download the `.skill` from [Releases](../../releases), then **Skills → Create → Upload from your computer**. Requires a Business, Enterprise, Healthcare, or Edu plan. Updates and removal work the same way as the Claude apps: re-upload to update, delete to remove.
 
-### Claude Code / Codex, manual
+`agents/openai.yaml` supplies the display name, blurb, and default prompt ChatGPT shows. Claude ignores that file.
+
+### Codex
+
+Codex reads the same directory layout. Clone and copy the skill you want into your Codex skills directory:
 
 ```bash
 git clone https://github.com/email-love/esp-skills.git
-cp -r esp-skills/skills/iterable-handlebars ~/.claude/skills/
+cp -r esp-skills/skills/klaviyo-django ~/.codex/skills/
+```
+
+### Manually, into Claude Code
+
+```bash
+git clone https://github.com/email-love/esp-skills.git
+cp -r esp-skills/skills/klaviyo-django ~/.claude/skills/
 ```
 
 Once installed, skills trigger on their own. You don't invoke them — ask a question about your ESP's templating and the right one loads.
+
+### Verifying a download
+
+Every release ships `SHA256SUMS`. From the directory holding the downloaded files:
+
+```bash
+sha256sum -c SHA256SUMS
+```
 
 ## One skill, both platforms
 
@@ -101,36 +141,49 @@ There is no Claude version and ChatGPT version. Both products read the same `SKI
 ```
 skills/iterable-handlebars/
 ├── SKILL.md                 # frontmatter (name, description) + workflow
+├── LICENSE                  # every archive is independently licensed
 ├── references/              # loaded on demand, not upfront
 │   ├── helpers.md
 │   ├── data-sources.md
-│   └── troubleshooting.md
-├── agents/openai.yaml       # optional ChatGPT display metadata; Claude ignores it
-└── evals/                   # test prompts and assertions
+│   ├── troubleshooting.md
+│   └── figma-export.md      # generated from shared/ - see Contributing
+├── agents/openai.yaml       # ChatGPT display metadata; Claude ignores it
+└── evals/evals.json         # test prompts and assertions
 ```
 
 The one thing that isn't portable is *tools*. A skill that drives Figma or a browser only works where those tools exist. Everything in this repo is pure knowledge — no tool dependencies — so it runs anywhere.
 
 ## How these are built
 
-Every skill here is written against the platform's official documentation, then measured against a no-skill baseline on realistic test prompts before release. Three cases per platform, run with and without the skill, graded on objective assertions:
+Every skill is written against the platform's official documentation, then measured against a no-skill baseline before release. Each case runs twice — with the skill's content in context and without it — and a grader scores the response against that case's assertions one at a time.
 
-| Skill | With skill | Baseline | Delta |
-|---|---|---|---|
-| `customerio-liquid` | 100% | 39% | +60 |
-| `marketo-velocity` | 100% | 46% | +54 |
-| `sfmc-ampscript` | 100% | 48% | +52 |
-| `iterable-handlebars` | 100% | 52% | +48 |
-| `braze-liquid` | 100% | 57% | +43 |
-| `klaviyo-django` | 100% | 76% | +24 |
+25 cases, `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.238:
 
-The spread is the interesting part, and we publish it rather than the average.
+| Skill | Cases | With skill | Baseline | Delta |
+|---|---:|---:|---:|---:|
+| `customerio-liquid` | 4 | 75% | 36% | +39 |
+| `sfmc-ampscript` | 4 | 88% | 51% | +37 |
+| `marketo-velocity` | 4 | 90% | 53% | +37 |
+| `klaviyo-django` | 4 | 82% | 46% | +36 |
+| `braze-liquid` | 4 | 77% | 42% | +35 |
+| `iterable-handlebars` | 5 | 88% | 65% | +23 |
+| **All** | **25** | **83%** | **50%** | **+33** |
 
-**Klaviyo has the smallest gap.** A general model already knows Klaviyo is Django-based, so the skill mostly adds second-order rules like the filter-colon spacing. **Customer.io has the largest**, because the baseline there doesn't fail by omission — it produces confident, elaborate, wrong answers that look reviewable.
+**These are smoke tests, not a benchmark.** Four or five cases per platform catches a regression and shows what the skill claims to fix. It cannot rank skills or prove a capability, and one run of one model gives no variance estimate. Every prompt, response, per-assertion verdict, and setting is committed under `evals-runs/baseline-v1.3.0/` — [`EVALS.md`](EVALS.md) has the schema, the command, and the caveats.
+
+The spread is the interesting part, and we publish it rather than the average. **Klaviyo and Iterable have the smallest gaps**, because a general model already knows roughly what those languages are. **Customer.io has the largest**, because the baseline there doesn't fail by omission — it produces confident, elaborate, wrong answers that look reviewable.
 
 The pattern across all six: the baseline is better at *syntax* than at *consequences*. It usually knows the language. What it reliably misses is which mistakes cost you a send, where the platform records the failure, and what the platform's own documentation gets wrong.
 
-Test prompts and assertions ship with each skill in `evals/`, so you can see exactly what was checked and disagree with it.
+**With-skill is not 100%, and the adversarial cases are the weakest across the board.** That is the honest state of it, and the main reason this is a beta rather than a stable release.
+
+## Known limitations
+
+**Customer.io unsubscribe tags, via the Email Love plugin — unverified.** Customer.io documents `{% unsubscribe_url %}` as a tag and states that the variable form `{{unsubscribe_url}}` "will render as empty text". Email Love's own [Customer.io export documentation](https://help.emaillove.com/plugin/export/customerio) says the plugin swaps the footer link for `{{unsubscribe_url}}` — the variable form. If the plugin really emits that, a Figma-exported Customer.io email ships with an empty unsubscribe link, which is a compliance problem and not a cosmetic one.
+
+We could not resolve this from the outside: it needs one Figma file exported through the current plugin to Customer.io, and the exported HTML read. Until someone does that, this skill follows Customer.io's documented syntax, and the Figma reference says so explicitly. If you have both halves, [tell us what you see](../../issues).
+
+**Nothing here has been through a stable release.** The eval suites are small, the guidance on trust boundaries is new, and no platform behaviour has been re-verified on a schedule yet.
 
 ## Contributing
 
@@ -139,9 +192,16 @@ ESPs change. If a skill tells you something that's no longer true, [open an issu
 Adding a platform:
 
 ```bash
-./scripts/build.sh        # package every skill into dist/*.skill
-python3 scripts/validate.py   # check frontmatter before you commit
+python3 -m pip install pyyaml==6.0.2
+python3 scripts/validate.py          # frontmatter, metadata, evals, versions, hygiene
+python3 scripts/sync_shared.py       # regenerate the blocks shared by all six skills
+bash scripts/build.sh                # package every skill into dist/*.skill
+bash scripts/verify_dist.sh          # zip integrity, inventory, licence, checksums
 ```
+
+Two blocks are shared between all six skills and generated rather than hand-edited: `references/figma-export.md`, and the "Handling untrusted content" section in each `SKILL.md`. Edit them in `shared/` and run `scripts/sync_shared.py`. CI runs `--check` and fails on drift.
+
+Changing the version means editing `VERSION` and adding a matching `## [x.y.z]` section to `CHANGELOG.md`; the validator checks that the marketplace manifest agrees.
 
 Keep `SKILL.md` under ~500 lines and push lookup tables into `references/` — both platforms load reference files on demand, so depth there is close to free while depth in `SKILL.md` is paid on every trigger.
 
