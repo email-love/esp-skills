@@ -1,0 +1,26 @@
+{
+  "skill_name": "braze-liquid",
+  "evals": [
+    {
+      "id": 0,
+      "name": "filter-in-if-trap",
+      "prompt": "In Braze I want to show a 'your cart is filling up' block only when the user has more than 3 items in their `cart_items` custom attribute array, and inside it loop the first 3 items showing name and price. Also show their rewards balance plus their giftcard balance added together. Give me the Liquid.",
+      "expected_output": "Assigns size to a variable before comparing (no filter inside {% if %}), loops with limit:, and assigns one custom attribute to a variable before adding the second \u2014 does not put two custom attributes in one expression.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "connected-content-guard",
+      "prompt": "We pull product recommendations into our Braze emails from our own API endpoint. I want it to render a 3-across recommendation row, but if the API is down or returns fewer than 3 products I'd rather the email not go out at all than go out with a broken row. How do I set that up?",
+      "expected_output": "Uses {% connected_content %} with :save, checks __http_status_code__ and item count, aborts with {% abort_message('static string') %}, and correctly notes abort_message takes a static string, that abort beats :retry, and the 2s timeout.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "partial-send-debug",
+      "prompt": "Braze campaign went out to 180k, about 22k show as aborted in the log. No idea why. The only thing that changed is I added this block:\n\n{% if custom_attribute.${lifetime_orders} | size > 0 %}\n  <p>Welcome back, {{${first_name}}}!</p>\n  <a href=\"{{custom_attribute.${account_url}}}?utm_source=braze&utm_campaign={{campaign.${name}}}\">View your account</a>\n{% endif %}\n\nSome people also say the account link is broken.",
+      "expected_output": "Identifies the filter inside {% if %} as invalid in Braze and the fix (assign first), identifies campaign.${name} needing url_encode as the broken-link cause, and points at the Message Activity Log / Currents abort_type.",
+      "files": []
+    }
+  ]
+}
