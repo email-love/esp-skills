@@ -1,0 +1,8 @@
+{
+  "braze-liquid": "Braze's `:rerender` modifier",
+  "customerio-liquid": "Customer.io's `{% render_liquid %}` tag",
+  "iterable-handlebars": "Rendering a stored string as markup with triple-brace output",
+  "klaviyo-django": "Django's `|safe` filter and `{% autoescape off %}`",
+  "marketo-velocity": "Velocity's `#evaluate($string)`",
+  "sfmc-ampscript": "AMPscript's `TreatAsContent()`"
+}
