@@ -1,0 +1,9 @@
+# Optional ChatGPT presentation metadata (Agent Skills open standard).
+# Claude ignores this file entirely — the same skill folder works on both platforms.
+interface:
+  name: Customer.io Liquid
+  description: Write and debug Liquid personalization in Customer.io messages.
+  brand_color: "#FF4D6D"  # TODO: swap for the Email Love brand hex
+  default_prompt: Check this Customer.io Liquid for anything that would make the delivery fail.
+policy:
+  allow_implicit_invocation: true
