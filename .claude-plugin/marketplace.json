@@ -5,13 +5,13 @@
     "email": "hello@emaillove.com",
     "url": "https://emaillove.com"
   },
-  "description": "Email Love ESP personalization skills: write and debug merge-tag logic in Iterable, Klaviyo, Customer.io and other lifecycle platforms",
+  "description": "Email Love ESP personalization skills: write and debug merge-tag logic in Iterable, Klaviyo, Customer.io, Braze, Salesforce Marketing Cloud, Marketo, HubSpot, MoEngage, Sailthru and Zeta and other lifecycle platforms",
   "plugins": [
     {
       "name": "iterable-handlebars",
       "source": "./skills/iterable-handlebars",
       "description": "Write, review and debug Handlebars personalization in Iterable templates. Covers the helper set Iterable actually ships (handlebars.java, not JavaScript Handlebars), the field paths for profiles, events, catalogs, commerce and data feeds, and the failure modes that skip a send rather than rendering blank",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "author": {
         "name": "Email Love"
       },
@@ -21,18 +21,18 @@
     {
       "name": "klaviyo-django",
       "source": "./skills/klaviyo-django",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "author": {
         "name": "Email Love"
       },
-      "description": "Write, review and debug personalization in Klaviyo templates. Klaviyo runs the Django template language, not Liquid — this skill covers the tag and filter set it actually ships, the per-integration event paths for Shopify, WooCommerce, Magento and BigCommerce, and the three distinct ways a Klaviyo template fails",
+      "description": "Write, review and debug personalization in Klaviyo templates. Klaviyo runs the Django template language, not Liquid \u2014 this skill covers the tag and filter set it actually ships, the per-integration event paths for Shopify, WooCommerce, Magento and BigCommerce, and the three distinct ways a Klaviyo template fails",
       "license": "MIT",
       "homepage": "https://github.com/email-love/esp-skills"
     },
     {
       "name": "braze-liquid",
       "source": "./skills/braze-liquid",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "author": {
         "name": "Email Love"
       },
@@ -43,7 +43,7 @@
     {
       "name": "customerio-liquid",
       "source": "./skills/customerio-liquid",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "author": {
         "name": "Email Love"
       },
@@ -54,7 +54,7 @@
     {
       "name": "sfmc-ampscript",
       "source": "./skills/sfmc-ampscript",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "author": {
         "name": "Email Love"
       },
@@ -65,11 +65,55 @@
     {
       "name": "marketo-velocity",
       "source": "./skills/marketo-velocity",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "author": {
         "name": "Email Love"
       },
-      "description": "Write, review and debug personalization in Adobe Marketo Engage — both tokens and Velocity email scripting. Covers which mechanism to use, why :default= and $display.alt silently fail on script tokens, custom object loops and their retrieval limits, link-tracking breakage, and the reserved words that break an email containing no scripting at all",
+      "description": "Write, review and debug personalization in Adobe Marketo Engage \u2014 both tokens and Velocity email scripting. Covers which mechanism to use, why :default= and $display.alt silently fail on script tokens, custom object loops and their retrieval limits, link-tracking breakage, and the reserved words that break an email containing no scripting at all",
+      "license": "MIT",
+      "homepage": "https://github.com/email-love/esp-skills"
+    },
+    {
+      "name": "hubspot-hubl",
+      "source": "./skills/hubspot-hubl",
+      "version": "1.4.0",
+      "author": {
+        "name": "Email Love"
+      },
+      "description": "Write, review and debug HubL personalization in HubSpot marketing email. Covers the rule that filters do not apply to personalization tokens in email at all, the personalization_token() fallback idiom that replaces them, programmable email and its CRM function and recipient limits, and the difference between a token that renders blank and one that drops the recipient",
+      "license": "MIT",
+      "homepage": "https://github.com/email-love/esp-skills"
+    },
+    {
+      "name": "moengage-jinja",
+      "source": "./skills/moengage-jinja",
+      "version": "1.4.0",
+      "author": {
+        "name": "Email Love"
+      },
+      "description": "Write, review and debug Jinja personalization in MoEngage. Covers the rule that governs everything there \u2014 a null value removes the user from the send rather than rendering blank \u2014 the five fallback forms and which one shows up in analytics, the UserAttribute, EventAttribute, ProductSet and ContentApi namespaces, and the editor behaviour that corrupts a template after it saves cleanly",
+      "license": "MIT",
+      "homepage": "https://github.com/email-love/esp-skills"
+    },
+    {
+      "name": "sailthru-zephyr",
+      "source": "./skills/sailthru-zephyr",
+      "version": "1.4.0",
+      "author": {
+        "name": "Email Love"
+      },
+      "description": "Write, review and debug Zephyr personalization in Sailthru, now sold as Zeta Engage by Sailthru. Covers a syntax nothing else shares \u2014 single braces, no filter pipe, functions only \u2014 the creation-time versus send-time brace distinction, the suppression functions and why they do not stop a Lifecycle Optimizer flow, and the feed response that ships an empty email instead of cancelling",
+      "license": "MIT",
+      "homepage": "https://github.com/email-love/esp-skills"
+    },
+    {
+      "name": "zeta-zml",
+      "source": "./skills/zeta-zml",
+      "version": "1.4.0",
+      "author": {
+        "name": "Email Love"
+      },
+      "description": "Write, review and debug ZML personalization in the Zeta Marketing Platform. Covers the tag and filter set ZML actually ships, the resources, recommendation, feeds and skip_message tags, the documented campaign error categories, the constructs that fail silently rather than erroring, and the fact that Zeta's other email platform speaks a different language entirely",
       "license": "MIT",
       "homepage": "https://github.com/email-love/esp-skills"
     }
