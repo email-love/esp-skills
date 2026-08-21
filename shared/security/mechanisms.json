@@ -1,8 +1,12 @@
 {
-  "braze-liquid": "Braze's `:rerender` modifier",
-  "customerio-liquid": "Customer.io's `{% render_liquid %}` tag",
-  "iterable-handlebars": "Rendering a stored string as markup with triple-brace output",
-  "klaviyo-django": "Django's `|safe` filter and `{% autoescape off %}`",
-  "marketo-velocity": "Velocity's `#evaluate($string)`",
-  "sfmc-ampscript": "AMPscript's `TreatAsContent()`"
+  "braze-liquid": "Braze's `:rerender` modifier executes a stored string as template code.",
+  "customerio-liquid": "Customer.io's `{% render_liquid %}` tag executes a stored string as template code.",
+  "hubspot-hubl": "HubL has no documented construct that executes a stored string as template code, but `|safe` and unescaped module or property fields put a stored string into the message as markup.",
+  "iterable-handlebars": "Triple-brace output puts a stored string into the message as markup rather than escaped text.",
+  "klaviyo-django": "Django's `|safe` filter and `{% autoescape off %}` put a stored string into the message as markup rather than escaped text.",
+  "marketo-velocity": "Velocity's `#evaluate($string)` executes a stored string as template code.",
+  "moengage-jinja": "MoEngage renders with autoescape off, so every stored string reaches the message as markup rather than escaped text.",
+  "sailthru-zephyr": "Zephyr has no documented construct that executes a stored string as template code, and its output is unescaped unless you call `h()`, so a stored string reaches the message as markup.",
+  "sfmc-ampscript": "AMPscript's `TreatAsContent()` executes a stored string as template code.",
+  "zeta-zml": "ZML has no documented construct that executes a stored string as template code, so the exposure is resource, feed, recommendation and coupon field values landing in the message as markup."
 }
