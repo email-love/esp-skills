@@ -235,12 +235,14 @@ Hello, {{ username -}} !          →  Hello, Charlie!
 {{ product_color | default: "red" }}                    latest only
 {{ product_price | default: 2.99 }}
 {% assign v = '{"key":"value","number":123}' | from_json %}
-{{ customer | to_json }}
+{{ customer.purchases | to_json }}
 {{ arr | json: 4 }}
 {{snippets.footer}}
 ```
 
 `from_json` is only for **stringified** JSON — profile, event, and object JSON is already parsed.
+
+⚠️ `to_json` on a whole namespace — `{{ customer | to_json }}`, `{{ event | to_json }}` — serializes every attribute on it, including ones added to the schema after you wrote the template. Name the fields you want.
 
 ---
 
@@ -338,11 +340,12 @@ In latest Liquid, `escape` **no longer URL-encodes**. If a template relied on th
 1. **Empty Liquid in URL parameters is fatal.** *"If you leave the `utm_campaign` set to `campaign.name` and try to use `cio_link` to include URL parameters on links in a broadcast, one-time send, or transactional message, your message will fail."*
 2. **Fully personalized transactional URLs pollute link metrics.** *"Customer.io will track a new link for each transactional message you send."* Use `{{trigger.custom_url}}` inside the href and group with `data-cio-tag`:
    ```html
-   <a href="http://mydomain.com?token=123abc" data-cio-tag="YOUR-LINK-GROUP">CLICK HERE</a>
+   <a href="https://mydomain.com?token=123abc" data-cio-tag="YOUR-LINK-GROUP">CLICK HERE</a>
    ```
+   ⚠️ A token in a query string is readable in the Referer header, browser history, and any proxy or analytics log on the way. Keep it short-lived and single-use, and never put an email address or raw profile ID there.
 3. **Opt a link out of tracking or params:**
    ```html
-   <a href="http://mydomain.com" class="untracked">CLICK HERE</a>
+   <a href="https://mydomain.com" class="untracked">CLICK HERE</a>
    ```
    Drag-and-drop classes: `untracked`, `disable-url-params` — both may be used together, space-separated.
 4. **Deep links use `{% cio_link_id %}`, not `{% cio_link %}`:**
@@ -350,7 +353,7 @@ In latest Liquid, `escape` **no longer URL-encodes**. If a template relied on th
    <a href="https://yourwebsite.com/confirm?link_id={% cio_link_id %}" class="untracked">Text</a>
    ```
 5. Shorten long UTM values: `{{ campaign.name | truncate: 15, "" }}`
-6. Auto-identify on click: append `ajs_uid=cio_{{customer.cio_id}}`
+6. Auto-identify on click: append `ajs_uid=cio_{{customer.cio_id}}` — ⚠️ this puts the profile identifier in the query string of every link it is added to. Add it to the specific links that need it, not site-wide.
 
 ---
 
@@ -400,10 +403,10 @@ Customer.io's position: **"Any part of your message can contain liquid."**
 | **To** | `{{customer.name}} <{{customer.email}}>` |
 | **SMS** | To: `{{customer.phone}}`. Sender ID accepts Liquid. **URL params are not auto-appended** — use `{% cio_link %}` |
 | **Push** | Full Liquid in title and body. Device-token targeting can be Liquid. `{% view_in_browser_url %}` **not supported** |
-| **Webhook JSON body** | `{"id":"{{customer.id}}","email":"{{customer.email}}"}`. Whole-object dump: `{{ customer \| replace: "=>", ":"}}`. Use `strip`, `strip_newlines`, `escape`, `normalize_whitespace` to keep JSON valid |
+| **Webhook JSON body** | Name the fields the endpoint needs: `{"id":"{{customer.id}}","email":"{{customer.email}}"}`. The whole-object dump `{{ customer \| replace: "=>", ":"}}` works, and ships every attribute on the profile — including ones nobody added when the endpoint was written. Use `strip`, `strip_newlines`, `escape`, `normalize_whitespace` to keep JSON valid |
 | **In-app** | Full Liquid, including page rules (`/{{event.product_family}}/*`). **Anonymous in-app messages have no profile** — always add fallbacks |
 | **WhatsApp** | Links go in template variable fields and **must** use `{% cio_link %}`. No `{% view_in_browser_url %}` |
-| **URL parameter settings** | Workspace-level UTM values accept `{{campaign.name}}`, `{{message.id}}`, `{{delivery_id}}`, `{{customer.id}}` |
+| **URL parameter settings** | Workspace-level UTM values accept `{{campaign.name}}`, `{{message.id}}`, `{{delivery_id}}`, `{{customer.id}}`. ⚠️ These are appended to **every** link in the email, so `{{customer.id}}` leaks the identifier to every destination site, its analytics, and its referrer chain — prefer `{{delivery_id}}` |
 | **Create Event / Create-or-Update Profile actions** | Liquid **or** JavaScript (V8, no network calls). **You cannot use Liquid inside the JavaScript option** — returning a snippet value containing Liquid throws an error |
 | **Drag-and-drop editor** | Merge Tags for a single attribute; use the **Add Liquid** dropdown for anything with `&`, `>`, `<`, or a conditional |
 
