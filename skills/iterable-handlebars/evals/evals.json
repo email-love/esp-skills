@@ -1,0 +1,52 @@
+{
+  "skill_name": "iterable-handlebars",
+  "evals": [
+    {
+      "id": 0,
+      "name": "cart-loop-authoring",
+      "prompt": "we're building an abandoned cart email in Iterable, triggered off the updateCart event with a 4 hour delay. i need the HTML for the product block \u2014 loop the cart items and show image, product name, qty and price, max 3 items, then a \"and more in your cart\" line if there are extras. product image urls come from our CDN and the item links already have utm params on them. some of our catalog has apostrophes in the product names (like \"Levi's 501\"). give me something i can paste straight into the template.",
+      "expected_output": "Paste-ready HTML with a Handlebars each loop, triple braces on imageUrl/url/name, @index limiting to 3, size-based 'and more' line, correct cart field path for a delayed updateCart trigger, currency formatting, and a note about previewing.",
+      "files": [],
+      "assertions": [
+        "Uses only helpers that actually exist in Iterable (no subtract/multiply/toFixed/#with/JS-style lookup)",
+        "Uses triple braces on the product URL and image URL so UTM ampersands survive",
+        "Limits the loop to 3 items with an @index comparison inside #each",
+        "Addresses which cart field path applies to a delayed updateCart trigger",
+        "Recommends triple braces for the product name so apostrophes render correctly",
+        "Formats price with numberFormat \"currency\" rather than raw output",
+        "Tells the user how to verify in Preview with specific edge cases"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "send-skip-debug",
+      "prompt": "help. we sent a winback campaign in Iterable to 42k people and only about 31k actually got it. no bounces, the rest just show as skipped. this is the block i added right before we launched:\n\n{{#ifGte daysSinceLastOrder 90}}\n  <p>It's been a while, {{firstName}}! Here's 20% off.</p>\n  <a href=\"{{returnUrl}}?utm_source=iterable&utm_campaign=winback\">Shop now</a>\n{{else}}\n  <p>Thanks for being a regular, {{firstName}}.</p>\n{{/ifGte}}\n\nsome people who did get it are also complaining the shop now link is broken. what's going on",
+      "expected_output": "Identifies ifGte on a null/missing daysSinceLastOrder as the send-skip cause (HandlebarsExecutionError), identifies double-brace escaping of returnUrl + & as the broken-link cause, gives corrected code with an #if guard or defaultIfEmpty and triple braces, and points at Event History to confirm.",
+      "files": [],
+      "assertions": [
+        "Identifies the unguarded comparison helper on a null field as the send-skip cause",
+        "Points the user at the Event History skip reason to confirm the diagnosis",
+        "Identifies double-brace HTML escaping of the URL as the broken-link cause",
+        "Corrected code actually applies both fixes (null guard AND triple braces)",
+        "Warns that 0 is falsy, so a bare #if guard mis-branches a same-day buyer",
+        "Uses only helpers that actually exist in Iterable"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "expiring-offer-conditional",
+      "prompt": "In our Iterable promo template I want the subject line and a body block to change based on whether the user's offerExpiresAt date has passed, and I want the body to say the expiry date in a friendly format in the user's own timezone (we store an IANA timezone string on the profile as tz). Also the subject should use their first name but not look broken for the ~15% of our list where firstName is empty.",
+      "expected_output": "Uses numeric-only date format (yyyyMMddHHmmss) with pinned tz for the comparison, dateFormat with a friendly pattern and tz= referencing the profile field for display, defaultIfEmpty for the subject line, and warns that subject-line personalization needs a non-awkward fallback. Should note the null-guard on the date comparison.",
+      "files": [],
+      "assertions": [
+        "Uses a numeric-only date format (no hyphens/slashes/spaces) for the comparison",
+        "Pins the same timezone on both sides of the date comparison",
+        "Uses the correct dateFormat timezone argument name (tz=, not timeZone=)",
+        "Guards the date comparison so a missing offerExpiresAt cannot skip the send",
+        "Provides a firstName fallback that reads cleanly when the field is empty",
+        "Solves the comparison in-template rather than punting to a precomputed boolean",
+        "Uses only helpers that actually exist in Iterable"
+      ]
+    }
+  ]
+}
