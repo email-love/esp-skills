@@ -72,9 +72,21 @@ run.json              model, grader model, CLI version, settings, timestamps,
 
 Every number published anywhere in this repository has to be reproducible from a committed run directory. If you cannot point at one, do not publish the number.
 
-## Current committed run
+## Current committed runs
 
-`evals-runs/baseline-v1.3.0/` — 25 cases, `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.238.
+Two directories, because the four platforms added in 1.4.0 were run separately rather than re-running the six that had not changed. Both used `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.238.
+
+`evals-runs/baseline-v1.4.0/` — 16 cases, the platforms added in 1.4.0.
+
+| Skill | Cases | With skill | Baseline | Delta |
+|---|---:|---:|---:|---:|
+| `sailthru-zephyr` | 4 | 86% | 33% | +53 |
+| `moengage-jinja` | 4 | 65% | 21% | +44 |
+| `zeta-zml` | 4 | 89% | 48% | +41 |
+| `hubspot-hubl` | 4 | 79% | 40% | +39 |
+| **These four** | **16** | **80%** | **35%** | **+45** |
+
+`evals-runs/baseline-v1.3.0/` — 25 cases, the original six.
 
 | Skill | Cases | With skill | Baseline | Delta |
 |---|---:|---:|---:|---:|
@@ -84,10 +96,14 @@ Every number published anywhere in this repository has to be reproducible from a
 | `klaviyo-django` | 4 | 82% | 46% | +36 |
 | `braze-liquid` | 4 | 77% | 42% | +35 |
 | `iterable-handlebars` | 5 | 88% | 65% | +23 |
-| **All** | **25** | **83%** | **50%** | **+33** |
+| **These six** | **25** | **82%** | **49%** | **+33** |
+
+Across both directories: **41 cases, 412 assertions, 81% with skill against 43% baseline.** The six skills in the 1.3.0 directory did change in 1.4.0 — the shared trust-boundary block was reworded — so their numbers are from the wording that shipped in 1.3.0, not from what is on disk now. Re-run them before quoting those rows as current.
 
 ### Caveats worth stating plainly
 
 - **One run, one model, no repeats.** No variance estimate. A few points of movement between runs means nothing.
 - **The grader is a model.** It reads the assertion and the response and judges. It is more consistent than a human on a rubric this narrow, and it is not infallible; the per-assertion evidence is committed so you can check its work.
 - **With-skill is not 100%, and should not be.** The adversarial cases are the weakest across the board — several sit at 8/12 or below. That is a real finding about the skills, not noise to be tuned away, and it is the main reason this release is a beta.
+- **One grader call in the 1.4.0 run returned malformed JSON** on `moengage-jinja/partial-audience-drop-debug`, scoring the with-skill arm 0. The case was deleted from the artifact and re-run rather than left as a zero; the committed directory holds the re-run. A grader that can fail this way is a known weakness of the harness.
+- **`moengage-jinja/content-api-recommendation-row` scores 3/10 with the skill in context.** The response was sound code — `{% set %}`, a `|length` guard, `MOE_NOT_SEND` with reason strings, `|e` and `|urlencode` — and it missed six recall assertions whose answers live in `references/`, not in `SKILL.md`. Both readings are worth holding: the assertions may be asking for more recall than one response should carry, and the skill may be putting load-bearing facts a level too deep. It is published as it scored.

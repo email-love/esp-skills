@@ -30,7 +30,10 @@ Each skill encodes what a platform *actually* supports, what it doesn't, and whi
 | [`customerio-liquid`](skills/customerio-liquid) | Customer.io | Liquid — two engines, set per message | 🧪 Beta |
 | [`sfmc-ampscript`](skills/sfmc-ampscript) | Salesforce Marketing Cloud | AMPscript, GTL, SSJS | 🧪 Beta |
 | [`marketo-velocity`](skills/marketo-velocity) | Marketo Engage | Tokens + Velocity | 🧪 Beta |
-| `hubspot-hubl` | HubSpot | HubL | 🔜 Planned |
+| [`hubspot-hubl`](skills/hubspot-hubl) | HubSpot | HubL (Jinjava) | 🧪 Beta |
+| [`moengage-jinja`](skills/moengage-jinja) | MoEngage | Jinja | 🧪 Beta |
+| [`sailthru-zephyr`](skills/sailthru-zephyr) | Sailthru / Zeta Engage | **Zephyr** — single braces, no filters | 🧪 Beta |
+| [`zeta-zml`](skills/zeta-zml) | Zeta Marketing Platform | ZML — Liquid-derived | 🧪 Beta |
 | `mailchimp-merge-tags` | Mailchimp | Merge tags | 🔜 Planned |
 
 Want one prioritized? [Open an issue](../../issues).
@@ -80,8 +83,14 @@ Each skill's `references/figma-export.md` has the rest, including the specifics 
 | Customer.io | [`customerio-liquid`](skills/customerio-liquid) | "Some Customer.io deliveries show as Failed, not bounced. What's happening?" |
 | Salesforce Marketing Cloud | [`sfmc-ampscript`](skills/sfmc-ampscript) | "Subscribers are showing as Errored on this AMPscript send." |
 | Marketo Engage | [`marketo-velocity`](skills/marketo-velocity) | "This Marketo email won't validate and there's no scripting in it." |
+| HubSpot | [`hubspot-hubl`](skills/hubspot-hubl) | "Why is my default value not working on a HubSpot contact token?" |
+| MoEngage | [`moengage-jinja`](skills/moengage-jinja) | "My MoEngage campaign reached far fewer users than the segment. Why?" |
+| Sailthru / Zeta Engage | [`sailthru-zephyr`](skills/sailthru-zephyr) | "This Sailthru campaign sent, but the email arrived empty." |
+| Zeta Marketing Platform | [`zeta-zml`](skills/zeta-zml) | "Some messages in this Zeta campaign show as skipped. What causes that?" |
 
-Install only the one you use. Each skill is deliberately scoped to a single platform and tells the model not to apply itself to the others, so installing all six is fine but installing one is better.
+Install only the one you use. Each skill is deliberately scoped to a single platform and tells the model not to apply itself to the others, so installing all ten is fine but installing one is better.
+
+**Zeta ships two email platforms and they speak different languages.** Zeta Marketing Platform uses ZML, which is Liquid-derived. Zeta Engage by Sailthru uses Zephyr, which is single-brace and has no filter pipe. If you are not sure which one you are on, look at an existing template: `{% if %}` means ZML, `{if}` means Zephyr.
 
 ## Install
 
@@ -157,25 +166,29 @@ The one thing that isn't portable is *tools*. A skill that drives Figma or a bro
 
 Every skill is written against the platform's official documentation, then measured against a no-skill baseline before release. Each case runs twice — with the skill's content in context and without it — and a grader scores the response against that case's assertions one at a time.
 
-25 cases, `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.238:
+41 cases, `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.238:
 
 | Skill | Cases | With skill | Baseline | Delta |
 |---|---:|---:|---:|---:|
+| `sailthru-zephyr` | 4 | 86% | 33% | +53 |
+| `moengage-jinja` | 4 | 65% | 21% | +44 |
+| `zeta-zml` | 4 | 89% | 48% | +41 |
 | `customerio-liquid` | 4 | 75% | 36% | +39 |
+| `hubspot-hubl` | 4 | 79% | 40% | +39 |
 | `sfmc-ampscript` | 4 | 88% | 51% | +37 |
 | `marketo-velocity` | 4 | 90% | 53% | +37 |
 | `klaviyo-django` | 4 | 82% | 46% | +36 |
 | `braze-liquid` | 4 | 77% | 42% | +35 |
 | `iterable-handlebars` | 5 | 88% | 65% | +23 |
-| **All** | **25** | **83%** | **50%** | **+33** |
+| **All** | **41** | **81%** | **43%** | **+38** |
 
-**These are smoke tests, not a benchmark.** Four or five cases per platform catches a regression and shows what the skill claims to fix. It cannot rank skills or prove a capability, and one run of one model gives no variance estimate. Every prompt, response, per-assertion verdict, and setting is committed under `evals-runs/baseline-v1.3.0/` — [`EVALS.md`](EVALS.md) has the schema, the command, and the caveats.
+**These are smoke tests, not a benchmark.** Four or five cases per platform catches a regression and shows what the skill claims to fix. It cannot rank skills or prove a capability, and one run of one model gives no variance estimate. Every prompt, response, per-assertion verdict, and setting is committed under `evals-runs/baseline-v1.3.0/` and `evals-runs/baseline-v1.4.0/` — [`EVALS.md`](EVALS.md) has the schema, the command, and the caveats.
 
-The spread is the interesting part, and we publish it rather than the average. **Klaviyo and Iterable have the smallest gaps**, because a general model already knows roughly what those languages are. **Customer.io has the largest**, because the baseline there doesn't fail by omission — it produces confident, elaborate, wrong answers that look reviewable.
+The spread is the interesting part, and we publish it rather than the average. **The delta tracks how alien the language is.** Klaviyo and Iterable have the smallest gaps, because a general model already knows roughly what those languages are. **Sailthru's Zephyr has the largest** — single braces, no filter pipe, functions instead of filters — and a baseline model writes confident Liquid at it. Customer.io and MoEngage are large for the opposite reason: the baseline doesn't fail by omission there, it produces elaborate, wrong answers that look reviewable. MoEngage's baseline scored **0 out of 10** on the case that asks what happens to a user with a missing attribute.
 
-The pattern across all six: the baseline is better at *syntax* than at *consequences*. It usually knows the language. What it reliably misses is which mistakes cost you a send, where the platform records the failure, and what the platform's own documentation gets wrong.
+The pattern across all ten: the baseline is better at *syntax* than at *consequences*. It usually knows the language. What it reliably misses is which mistakes cost you a send, where the platform records the failure, and what the platform's own documentation gets wrong.
 
-**With-skill is not 100%, and the adversarial cases are the weakest across the board.** That is the honest state of it, and the main reason this is a beta rather than a stable release.
+**With-skill is not 100%, and two results are worth naming rather than averaging away.** The adversarial cases are the weakest class across the board. And `moengage-jinja` scores 65% — the lowest in the set — because its Content API case expects the model to recall six specific platform facts that live in `references/`, and the response only surfaced three. We are publishing that rather than loosening the assertions. It is the main reason this is a beta rather than a stable release.
 
 ## Known limitations
 
@@ -194,7 +207,7 @@ Adding a platform:
 ```bash
 python3 -m pip install pyyaml==6.0.2
 python3 scripts/validate.py          # frontmatter, metadata, evals, versions, hygiene
-python3 scripts/sync_shared.py       # regenerate the blocks shared by all six skills
+python3 scripts/sync_shared.py       # regenerate the blocks shared by every skill
 bash scripts/build.sh                # package every skill into dist/*.skill
 bash scripts/verify_dist.sh          # zip integrity, inventory, licence, checksums
 ```
