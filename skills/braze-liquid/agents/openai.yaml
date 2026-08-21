@@ -1,9 +1,9 @@
-# Optional ChatGPT presentation metadata (Agent Skills open standard).
-# Claude ignores this file entirely — the same skill folder works on both platforms.
+# ChatGPT presentation metadata (Agent Skills open standard).
+# Claude ignores this file entirely - the same skill folder works on both platforms.
+# Schema: https://github.com/openai/codex/blob/main/codex-rs/skills/src/assets/samples/skill-creator/references/openai_yaml.md
 interface:
-  name: Braze Liquid
-  description: Write and debug Liquid personalization in Braze messages.
-  brand_color: "#FF4D6D"  # TODO: swap for the Email Love brand hex
-  default_prompt: Check this Braze Liquid for anything that would abort the send or render blank.
+  display_name: "Braze Liquid"
+  short_description: "Write and debug Braze Liquid personalization"
+  default_prompt: "Use $braze-liquid to review this Braze message for anything that renders blank or aborts the send."
 policy:
   allow_implicit_invocation: true
