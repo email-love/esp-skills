@@ -129,6 +129,8 @@ Product URL — Shopify's payload has no absolute URL, so build it:
 
 Cart rebuild: `{{ organization.url|trim_slash }}/cart?wck_rebuild_cart={{ event.extra.CartRebuildKey }}`
 
+⚠️ The rebuild key restores someone's cart to whoever holds it, and a query string is readable in the Referer header, browser history, and proxy logs. Treat it as a credential, not an identifier.
+
 ### BigCommerce — mixes `line_items` and `items`
 
 ```django
@@ -166,6 +168,8 @@ Product URL: `{{ organization.url }}{{ item.product.key }}`
 ```
 
 Cart rebuild: `{{ organization.url }}/reclaim/checkout/cart?quote_id={{ event.Extra.QuoteID }}`
+
+⚠️ Same as the WooCommerce key above — `quote_id` in a query string is a bearer token for that cart.
 
 ### PrestaShop
 
