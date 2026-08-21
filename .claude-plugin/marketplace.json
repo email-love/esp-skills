@@ -11,55 +11,67 @@
       "name": "iterable-handlebars",
       "source": "./skills/iterable-handlebars",
       "description": "Write, review and debug Handlebars personalization in Iterable templates. Covers the helper set Iterable actually ships (handlebars.java, not JavaScript Handlebars), the field paths for profiles, events, catalogs, commerce and data feeds, and the failure modes that skip a send rather than rendering blank",
-      "version": "1.0.0",
+      "version": "1.3.0",
       "author": {
         "name": "Email Love"
-      }
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/email-love/esp-skills"
     },
     {
       "name": "klaviyo-django",
       "source": "./skills/klaviyo-django",
-      "version": "1.0.0",
+      "version": "1.3.0",
       "author": {
         "name": "Email Love"
       },
-      "description": "Write, review and debug personalization in Klaviyo templates. Klaviyo runs the Django template language, not Liquid \u2014 this skill covers the tag and filter set it actually ships, the per-integration event paths for Shopify, WooCommerce, Magento and BigCommerce, and the three distinct ways a Klaviyo template fails"
+      "description": "Write, review and debug personalization in Klaviyo templates. Klaviyo runs the Django template language, not Liquid — this skill covers the tag and filter set it actually ships, the per-integration event paths for Shopify, WooCommerce, Magento and BigCommerce, and the three distinct ways a Klaviyo template fails",
+      "license": "MIT",
+      "homepage": "https://github.com/email-love/esp-skills"
     },
     {
       "name": "braze-liquid",
       "source": "./skills/braze-liquid",
-      "version": "1.0.0",
+      "version": "1.3.0",
       "author": {
         "name": "Email Love"
       },
-      "description": "Write, review and debug Liquid personalization in Braze. Covers Braze's ${} variable syntax, the restriction on where filters and operators may appear, Connected Content, catalogs and Content Blocks, and the abort reasons behind a message that never sent"
+      "description": "Write, review and debug Liquid personalization in Braze. Covers Braze's ${} variable syntax, the restriction on where filters and operators may appear, Connected Content, catalogs and Content Blocks, and the abort reasons behind a message that never sent",
+      "license": "MIT",
+      "homepage": "https://github.com/email-love/esp-skills"
     },
     {
       "name": "customerio-liquid",
       "source": "./skills/customerio-liquid",
-      "version": "1.0.0",
+      "version": "1.3.0",
       "author": {
         "name": "Email Love"
       },
-      "description": "Write, review and debug Liquid personalization in Customer.io. Covers both Liquid engines and what changes between them, the namespace rules for customer, event, trigger, objects and journey data, and why a missing attribute fails the send rather than rendering blank"
+      "description": "Write, review and debug Liquid personalization in Customer.io. Covers both Liquid engines and what changes between them, the namespace rules for customer, event, trigger, objects and journey data, and why a missing attribute fails the send rather than rendering blank",
+      "license": "MIT",
+      "homepage": "https://github.com/email-love/esp-skills"
     },
     {
       "name": "sfmc-ampscript",
       "source": "./skills/sfmc-ampscript",
-      "version": "1.0.0",
+      "version": "1.3.0",
       "author": {
         "name": "Email Love"
       },
-      "description": "Write, review and debug AMPscript, Guide Template Language and personalization strings in Salesforce Marketing Cloud. Covers the two independent substitution engines and their opposite case rules, Data Extension lookups and the rowset emptiness trap, Journey Builder data binding, and the send error codes behind subscribers who show as Errored or NotSent"
+      "description": "Write, review and debug AMPscript, Guide Template Language and personalization strings in Salesforce Marketing Cloud. Covers the two independent substitution engines and their opposite case rules, Data Extension lookups and the rowset emptiness trap, Journey Builder data binding, and the send error codes behind subscribers who show as Errored or NotSent",
+      "license": "MIT",
+      "homepage": "https://github.com/email-love/esp-skills"
     },
     {
       "name": "marketo-velocity",
       "source": "./skills/marketo-velocity",
-      "version": "1.0.0",
+      "version": "1.3.0",
       "author": {
         "name": "Email Love"
       },
-      "description": "Write, review and debug personalization in Adobe Marketo Engage \u2014 both tokens and Velocity email scripting. Covers which mechanism to use, why :default= and $display.alt silently fail on script tokens, custom object loops and their retrieval limits, link-tracking breakage, and the reserved words that break an email containing no scripting at all"
+      "description": "Write, review and debug personalization in Adobe Marketo Engage — both tokens and Velocity email scripting. Covers which mechanism to use, why :default= and $display.alt silently fail on script tokens, custom object loops and their retrieval limits, link-tracking breakage, and the reserved words that break an email containing no scripting at all",
+      "license": "MIT",
+      "homepage": "https://github.com/email-love/esp-skills"
     }
   ]
 }
