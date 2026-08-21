@@ -1,0 +1,153 @@
+---
+name: klaviyo-django
+description: Write, review, and debug personalization code in Klaviyo email, SMS, and push templates. Use this skill whenever someone is writing merge tags, conditionals, or dynamic blocks in Klaviyo, asks why a personalization renders blank or why a template will not preview, is building abandoned-cart or product loops over event data or catalog items, needs conditional show/hide logic or date formatting in a Klaviyo template, hits "Could not parse the remainder" or a skipped send, or shares Klaviyo template code and wants it checked. Trigger on "Klaviyo variable", "Klaviyo personalization", "Klaviyo dynamic block", "event.extra.line_items", or Klaviyo flow and campaign template questions, even when the templating language is not named. Klaviyo-only, and note that Klaviyo uses Django templates, NOT Liquid, so do not apply this skill to Braze, Customer.io, Shopify, or other Liquid platforms. Also covers Figma, the Email Love plugin, and mj-raw export.
+---
+
+# Klaviyo Templating
+
+**Klaviyo runs the Django template language, not Liquid.** This is the single most important fact in this skill, and getting it wrong is the most common way Klaviyo templates break.
+
+Klaviyo's own documentation says so — the developer page is slugged `django_message_design` and links out to the Django built-ins reference. Verified empirically against Klaviyo's render API:
+
+| Written as | Result |
+|---|---|
+| `{% elsif %}` | **HTTP 400 — hard error.** Django uses `{% elif %}` |
+| `{% assign x = 1 %}` | **HTTP 400 — hard error.** No `assign`; use `{% with %}` |
+| `{{ items.size }}` | Renders empty. Use `{{ items\|length }}` |
+| `{{ p \| lookup: 'Name' }}` | **HTTP 400.** A space after the colon is fatal |
+
+The confusion is understandable and worth explaining to anyone who asks: Klaviyo bolted **Liquid-named filter aliases** (`append`, `prepend`, `upcase`, `downcase`, `truncate`, `plus`, `minus`, `uniq`, `map`) onto a Django engine. The filters read like Liquid; the tags and control flow are Django. So Liquid instincts produce code that looks right and hard-errors.
+
+Treat Klaviyo as: **Django templates + a Klaviyo tag library + a Liquid-named filter alias set.**
+
+## The three failure classes
+
+Klaviyo fails in three distinct ways, and naming the class is most of the debugging:
+
+1. **Missing property → silent blank.** An undefined variable renders as an empty string and the message sends anyway. Inside `{% if %}` it evaluates falsy. Nothing is logged. This is the quiet one, and it's why fallbacks matter.
+2. **Malformed tag → the template won't render at all.** Unknown tag, unknown filter, space after a filter colon, unclosed block. Preview shows *"Message displayed without tags or variables"*; the API returns HTTP 400; custom-HTML upload says *"Could not parse the remainder"*.
+3. **Catalog or coupon lookup failure → the send is skipped.** A `{% catalog %}` block that can't find its item skips the entire message. So does a coupon with no codes left. These show under Analytics → Recipient Activity → Other.
+
+## Reference files
+
+Read the one you need. Each is a lookup table.
+
+| File | Read it when |
+|---|---|
+| `references/syntax.md` | You need exact tag or filter syntax, argument order, or the Django-vs-Liquid mapping. **Read before writing any filter you haven't used in this conversation** — argument shapes are irregular (`find_replace` takes one pipe-delimited string) and a wrong guess hard-errors. |
+| `references/data-sources.md` | You need field paths: profile vs event vs organization vs object, and the per-integration cart paths for Shopify, WooCommerce, Magento, BigCommerce. |
+| `references/troubleshooting.md` | You're diagnosing a symptom, decoding an error string, or want the pre-ship checklist. |
+| `references/figma-export.md` | The email is being designed in **Figma with the Email Love plugin** and exported from there. **Read before advising on placement** — the nesting rule for paired Code Blocks, the link-field quoting trap, and the specifics of this platform's export target are all Figma-only, and none of them are visible in the plugin's preview. |
+
+---
+
+## Writing Klaviyo personalization
+
+### 1. Never guess a variable path — the preview panel is the source of truth
+
+Klaviyo's data shapes are inconsistent *between integrations*, and every tag is case-sensitive. Shopify puts cart items at `event.extra.line_items`; WooCommerce uses `event.extra.Items`; Magento 2 uses `event.Items.0.Product.FullURL`. There is no rule that derives one from another.
+
+So the honest first move is to tell the user to copy the tag from **Preview & test**, where hovering a property gives you the exact tag. If they've pasted preview output or a payload, work from that. If they haven't, write the code against the documented path for their platform and say plainly which platform you assumed — being wrong about `line_items` vs `Items` is a five-second fix once they check, and an invisible blank if they don't.
+
+Ask which they have when it matters: campaign or flow? Which integration? Klaviyo's `event` namespace **only exists in metric-triggered flows** — a campaign has no event data at all, so cart personalization in a campaign is silently blank no matter how correct the path is.
+
+### 2. Write it
+
+```django
+{{ first_name|default:'there' }}
+
+{{ person|lookup:'Favorite Color' }}
+
+{% for item in event.extra.line_items|slice:':3' %}
+  {{ item.title }} &times; {{ item.quantity }}
+  {% currency_format item.line_price %}
+{% endfor %}
+
+{% if person.VIP == 1 %}Early access{% else %}Shop the sale{% endif %}
+```
+
+Four syntax rules that account for most hard errors:
+
+**No space after a filter colon.** `{{ x|default:'y' }}` works. `{{ x|default: 'y' }}` is HTTP 400. Spaces *around the pipe* are fine. Klaviyo's own custom-objects doc publishes the broken form, so a user may have copied it from there — worth mentioning if their code has it.
+
+**Dot notation until a name has a space or `$`, then `lookup` all the way down.** `{{ event|lookup:'Collection Names'|lookup:'0' }}` is right; `{{ event|lookup:'Collection Names'.0 }}` is not. Array indices are dot segments (`.0`) in dot notation and quoted strings (`|lookup:'0'`) in lookup chains.
+
+**Straight single quotes only.** Smart quotes from a word processor break parsing. Suggest pasting as plain text.
+
+**Booleans are `1`/`0`, unquoted.** And if the data source is mixed, cover the spellings: `person|lookup:'VIP' == 1 or person|lookup:'VIP' == 'true'`.
+
+### 3. Add fallbacks, because blank is the default
+
+A missing property renders empty and the message still sends. That's the failure mode that reaches the inbox looking like "Hi ,".
+
+```django
+{{ first_name|default:'there' }}
+{{ event.image_url|missing_product_image }}
+```
+
+Note what the Personalization menu does: every tag it inserts arrives with `|default:''` already attached. That empty default is a placeholder for the user to fill in, not a solution — point this out when reviewing code that's full of `|default:''`.
+
+Numbers stored as text won't compare. Coerce first: `{{ person.Birthday|multiply:"1" }}`.
+
+### 4. Check the four traps
+
+**Autoescaping is on.** `{{ url }}` turns `&` into `&amp;`. Harmless inside an `href` (browsers decode it), but it breaks inside `<script>`, inside JSON, and in any non-HTML context. Use `|safe` or wrap in `{% autoescape off %}` where it matters.
+
+**`{% catalog %}` can kill the send.** If the lookup misses, the whole message is skipped. That's sometimes what you want — better nothing than a broken product block — but it should be deliberate, and `unpublished="cancel"` makes it stricter still.
+
+**Conditional tags go invisible in the rich-text editor.** `{% if %}`, `{% for %}`, `{% with %}` and their closers are present but not displayed in the inline editor. Users re-add them and end up double-nested. Route them to the Django Tag Builder or an HTML block.
+
+**Dates don't convert to the recipient's timezone.** `{% today %}` and `{% current_* %}` use the *account* timezone, and event timestamps render in UTC. There is no per-recipient timezone filter. If someone asks for "their local time," say plainly that Klaviyo can't do it in-template — `{{ person|lookup:"$timezone" }}` exposes the value but nothing converts with it.
+
+### 5. Tell them how to verify
+
+> Test in **Preview & test**. For a flow, switch the preview to a real profile who actually triggered the event (the default is your own login profile, which has almost no properties). Check: a profile missing the key property, a cart with one item, and a cart with five. Note that coupons render as a placeholder in previews and link tags point at a placeholder page — those need a live test.
+
+---
+
+## Debugging Klaviyo personalization
+
+Start by classifying the symptom against the three failure classes above.
+
+| Symptom | Class | Likely cause |
+|---|---|---|
+| Blank where a value should be | Missing property | Wrong case; wrong integration path (`line_items` vs `Items`); needs `lookup` not dot notation; **event data in a campaign** |
+| "Message displayed without tags or variables" in preview | Malformed tag | Space after a filter colon; `{% elsif %}`; `{% assign %}`; unknown filter; unclosed block |
+| "Could not parse the remainder: 'Z' from 'XYZ'" | Malformed tag | Unrecognized tag in a custom-HTML upload |
+| Message never sent, shows as skipped | Lookup failure | `{% catalog %}` miss, unpublished item with `unpublished="cancel"`, or coupon codes exhausted |
+| `&amp;` in a URL or broken JSON | Autoescaping | Needs `\|safe` or `{% autoescape off %}` |
+| Conditional appears twice or is nested wrong | Editor | Tags hidden in the rich-text editor and re-added |
+| Works in preview, wrong in the inbox | Preview limits | Coupons, link tags, and SMS link shortening don't behave in preview |
+
+Then confirm against evidence rather than reading the template harder: **Analytics → Recipient Activity → Other** shows skipped sends and why. The **preview panel** against an affected profile reproduces most rendering bugs immediately. And the profile itself settles every case-sensitivity question.
+
+Ask for whichever of those you're missing. "Is this a flow or a campaign, and which integration?" resolves a surprising share of blank-value reports on its own.
+
+---
+
+## In Figma, with the Email Love plugin
+
+When the email is designed in Figma and exported with the [Email Love plugin](https://www.emaillove.com/figma-plugin), the language does not change. The plugin "simply inserts your templating language as raw code into the exported HTML" and validates none of it. What changes is *placement*.
+
+- **Inline tags** — merge tags, and anything that opens and closes inside one string — go straight into the Figma text layer.
+- **Anything structural** — a conditional or loop that wraps designed content — goes into paired **Code Blocks** (`mj-raw`), and the opening and closing blocks **must be siblings at the same nesting level**: both between wrappers, both between sections, or both inside the same column. A cross-level pair splices mismatched table markup and breaks the email in Outlook, on the branch you did not test.
+- **A merge tag as a link destination** goes in the link field — but a **double-quoted string argument silently truncates the href**. Use single quotes there, or build the whole `<a>` in a Code Block.
+- **Klaviyo:** `default:"there"` is correct in a text layer and breaks a link field — write `default:'there'` there. Any text reading "preferences" is auto-linked to the preference centre.
+
+Code Blocks are skipped in the plugin's preview and invisible on the Figma canvas, so none of this shows up before export. Read `references/figma-export.md` before advising on any Figma-built email.
+
+---
+
+## Output style
+
+These get pasted into Klaviyo by marketers and shipped.
+
+**Give complete, paste-ready code.** If it's a product loop, include the table markup around it.
+
+**Comment the non-obvious lines** with `{% comment %}` blocks — why `lookup` here, why `|slice:':3'`, why `|safe` on that URL. Skip the obvious.
+
+**Say which integration and campaign type you assumed**, at the end, in a line. Field paths differ per platform and there is no way to infer them.
+
+**Explain the one thing most likely to break it.** For a cart loop that's usually "this only works in a flow triggered by that metric."
+
+**Match depth to the question.** A one-line variable question gets a one-line answer plus the gotcha.
