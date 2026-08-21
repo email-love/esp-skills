@@ -1,0 +1,9 @@
+# Optional ChatGPT presentation metadata (Agent Skills open standard).
+# Claude ignores this file entirely — the same skill folder works on both platforms.
+interface:
+  name: Klaviyo Personalization
+  description: Write and debug Django-template personalization in Klaviyo.
+  brand_color: "#FF4D6D"  # TODO: swap for the Email Love brand hex
+  default_prompt: Check this Klaviyo template for anything that would render blank or break the send.
+policy:
+  allow_implicit_invocation: true
