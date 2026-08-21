@@ -1,0 +1,54 @@
+name: CI
+
+# Validation and packaging for pull requests and the default branch.
+# This workflow can never publish: the only token it is given is read-only.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-package:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+
+      - name: Install validator dependencies
+        run: python3 -m pip install pyyaml==6.0.2
+
+      - name: Validate repository
+        run: python3 scripts/validate.py
+
+      - name: Check shared blocks are in sync
+        run: python3 scripts/sync_shared.py --check
+
+      # Invoked through bash so the job does not depend on the executable bit,
+      # which is not preserved by every path a file can reach this repository.
+      - name: Build .skill archives
+        run: bash scripts/build.sh
+
+      - name: Verify archives
+        run: bash scripts/verify_dist.sh
+
+      - name: Upload archives for inspection
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: skill-archives
+          path: |
+            dist/*.skill
+            dist/SHA256SUMS
+          if-no-files-found: error
