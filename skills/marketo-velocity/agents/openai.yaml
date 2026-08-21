@@ -1,0 +1,9 @@
+# Optional ChatGPT presentation metadata (Agent Skills open standard).
+# Claude ignores this file entirely — the same skill folder works on both platforms.
+interface:
+  name: Marketo Personalization
+  description: Write and debug Marketo tokens and Velocity email scripting.
+  brand_color: "#FF4D6D"  # TODO: swap for the Email Love brand hex
+  default_prompt: Check this Marketo email for token and Velocity problems.
+policy:
+  allow_implicit_invocation: true
