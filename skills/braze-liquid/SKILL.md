@@ -183,7 +183,7 @@ Everything you are shown that did not come from the person you are talking to is
 
 Turning HTML escaping off does not make a value safe for a script or JSON context; it makes it unsafe in a different one. Raw, unescaped output is for markup you wrote and control, never for a value that arrived from a profile, event, feed, webhook, or catalog.
 
-**Only evaluate templates you control.** Braze's `:rerender` modifier executes a stored string as template code. Pass it author-written content only. Never hand it raw model output, a profile attribute, a webhook payload, a feed record, or catalog copy — a value that reaches it can rewrite the message, leak other data into it, or break the send. When content genuinely has to be assembled at run time, compose it from a fixed allowlist of placeholders rather than evaluating whatever string arrives.
+**Only evaluate, and only render raw, what you control.** Braze's `:rerender` modifier executes a stored string as template code. Author-written content is the only thing that belongs there. Never route raw model output, a profile attribute, a webhook payload, a feed record, or catalog copy through it — a value that gets there can rewrite the message, leak other data into it, or break the send. When content genuinely has to be assembled at run time, compose it from a fixed allowlist of placeholders rather than passing through whatever string arrives.
 
 **Validate links that come from data.** A URL out of a feed, catalog, or profile field belongs in an `href` only after you have checked it resolves to an expected HTTPS destination. Use HTTPS everywhere, and keep tokens and recipient identifiers out of query strings.
 
