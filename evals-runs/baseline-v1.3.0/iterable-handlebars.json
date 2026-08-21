@@ -1,0 +1,450 @@
+{
+  "skill": "iterable-handlebars",
+  "cases": [
+    {
+      "case": "cart-loop-authoring",
+      "with_skill": {
+        "response": "Looking at the data sources reference, I'll give you paste-ready HTML using `updatedShoppingCartItems` from the updateCart event.\n\n```handlebars\n{{#if updatedShoppingCartItems}}\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n  {{#each updatedShoppingCartItems}}\n    {{#lt @index 3}}\n    <tr>\n      <td width=\"120\" valign=\"top\">\n        <img src=\"{{imageUrl}}\" alt=\"{{name}}\" width=\"120\" style=\"display:block;\">\n      </td>\n      <td valign=\"top\" style=\"padding-left:16px;\">\n        <a href=\"{{url}}\" style=\"font-weight:bold; color:#000000; text-decoration:none;\">{{name}}</a><br>\n        Qty {{quantity}} &middot; {{numberFormat price \"currency\"}}\n      </td>\n    </tr>\n    {{/lt}}\n  {{/each}}\n  {{#ifGt updatedShoppingCartItems.size 3}}\n  <tr>\n    <td colspan=\"2\" style=\"padding-top:16px; font-style:italic; color:#666666;\">\n      ...and {{math updatedShoppingCartItems.size '-' 3}} more in your cart\n    </td>\n  </tr>\n  {{/ifGt}}\n</table>\n{{else}}\n  <!-- Empty cart fallback or skip send -->\n{{/if}}\n```\n\n**What it does:** Loops the first 3 cart items with image, linked product name, quantity, and formatted price. If there are more than 3 items, shows a count of the extras.\n\n**About the apostrophes:** The double braces `{{ }}` on `{{name}}` will escape `Levi's 501` as `Levi&#x27;s 501` in the HTML source, which displays correctly as `Levi's 501` in every inbox. That's the right behavior for data values — keep the double braces.\n\n**Data source note:** With a 4-hour delay, you have two cart snapshots available: `updatedShoppingCartItems` (what was in the cart when the event fired) and `profile.shoppingCartItems` (what's in the cart *now* at send time). I used the event version above since you said \"triggered off the updateCart event,\" but if someone adds items during the delay window or checks out, the profile version might be what you want. Confirm which reflects your intended send logic.\n\n**Verify in Preview:** Load a user with a cart, then edit the cart size in Preview to test the 3-item cap and the \"and more\" line.",
+        "verdicts": [
+          {
+            "assertion": "Uses only helpers that actually exist in Iterable (no subtract/multiply/toFixed/#with/JS-style lookup)",
+            "met": true,
+            "evidence": "Uses {{#lt}}, {{#ifGt}}, {{math updatedShoppingCartItems.size '-' 3}}, {{numberFormat}} - all valid Iterable helpers"
+          },
+          {
+            "assertion": "Keeps the product URL and image URL in double braces rather than recommending triple braces for them",
+            "met": true,
+            "evidence": "Shows <img src=\"{{imageUrl}}\" and <a href=\"{{url}}\" with double braces, no triple-brace recommendation"
+          },
+          {
+            "assertion": "Keeps the product name in double braces and states that escaped output displays the apostrophe in \"Levi's 501\" correctly",
+            "met": true,
+            "evidence": "Uses {{name}} and explains: 'The double braces {{ }} on {{name}} will escape Levi's 501 as Levi&#x27;s 501 in the HTML source, which displays correctly as Levi's 501 in every inbox.'"
+          },
+          {
+            "assertion": "Does not claim that double braces break UTM ampersands or apostrophes in an HTML email body",
+            "met": true,
+            "evidence": "States double braces work correctly for apostrophes ('That's the right behavior for data values'), makes no claims about breaking UTM ampersands"
+          },
+          {
+            "assertion": "Limits the loop to 3 items with an @index comparison inside #each",
+            "met": true,
+            "evidence": "{{#each updatedShoppingCartItems}} {{#lt @index 3}} ... {{/lt}} {{/each}}"
+          },
+          {
+            "assertion": "Addresses which cart field path applies to a delayed updateCart trigger",
+            "met": true,
+            "evidence": "'With a 4-hour delay, you have two cart snapshots available: updatedShoppingCartItems (what was in the cart when the event fired) and profile.shoppingCartItems (what's in the cart *now* at send time)'"
+          },
+          {
+            "assertion": "Formats price with numberFormat \"currency\" rather than raw output",
+            "met": true,
+            "evidence": "{{numberFormat price \"currency\"}}"
+          },
+          {
+            "assertion": "If the template appends its own query-string values to a URL, they are wrapped in {{#urlEncode}}...{{/urlEncode}}; appending no query-string values also satisfies this.",
+            "met": true,
+            "evidence": "Template uses {{url}} without appending any query-string values, which satisfies the assertion"
+          },
+          {
+            "assertion": "Tells the user how to verify in Preview with specific edge cases",
+            "met": true,
+            "evidence": "'**Verify in Preview:** Load a user with a cart, then edit the cart size in Preview to test the 3-item cap and the \"and more\" line.'"
+          }
+        ]
+      },
+      "baseline": {
+        "response": "I'll create an Iterable-compatible HTML product block using Handlebars syntax with proper handling for apostrophes and special characters.\n\n```html\n<!-- Product Block -->\n<table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\" style=\"max-width: 600px; margin: 0 auto;\">\n  {{#each (limit cartItems 3)}}\n  <tr>\n    <td style=\"padding: 20px 0; border-bottom: 1px solid #e0e0e0;\">\n      <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\">\n        <tr>\n          <td width=\"120\" valign=\"top\" style=\"padding-right: 16px;\">\n            <a href=\"{{url}}\" style=\"display: block;\">\n              <img src=\"{{imageUrl}}\" alt=\"{{name}}\" width=\"120\" height=\"120\" style=\"display: block; width: 120px; height: 120px; object-fit: cover; border-radius: 4px; border: 1px solid #e0e0e0;\" />\n            </a>\n          </td>\n          <td valign=\"top\">\n            <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\">\n              <tr>\n                <td style=\"padding-bottom: 8px;\">\n                  <a href=\"{{url}}\" style=\"color: #333333; text-decoration: none; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 600; line-height: 1.4;\">{{name}}</a>\n                </td>\n              </tr>\n              <tr>\n                <td style=\"padding-bottom: 4px;\">\n                  <span style=\"color: #666666; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px;\">Qty: {{quantity}}</span>\n                </td>\n              </tr>\n              <tr>\n                <td>\n                  <span style=\"color: #333333; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 600;\">${{price}}</span>\n                </td>\n              </tr>\n            </table>\n          </td>\n        </tr>\n      </table>\n    </td>\n  </tr>\n  {{/each}}\n  \n  {{#if (gt (size cartItems) 3)}}\n  <tr>\n    <td style=\"padding: 16px 0;\">\n      <p style=\"margin: 0; color: #666666; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-style: italic;\">...and {{subtract (size cartItems) 3}} more item{{#if (gt (subtract (size cartItems) 3) 1)}}s{{/if}} in your cart</p>\n    </td>\n  </tr>\n  {{/if}}\n</table>\n```\n\n**Key features:**\n- Uses `{{#each (limit cartItems 3)}}` to show max 3 items\n- Handlebars automatically escapes HTML entities including apostrophes in `{{name}}` so \"Levi's 501\" displays correctly\n- Conditional \"and X more items\" message with proper pluralization\n- Inline styles for email client compatibility\n- Responsive 120px product images\n- Assumes your cart data structure has: `cartItems` array with `imageUrl`, `url`, `name`, `quantity`, `price` fields\n\nPaste this directly into your Iterable template where you want the product block to appear.",
+        "verdicts": [
+          {
+            "assertion": "Uses only helpers that actually exist in Iterable (no subtract/multiply/toFixed/#with/JS-style lookup)",
+            "met": false,
+            "evidence": "Uses {{subtract (size cartItems) 3}} which includes the subtract helper"
+          },
+          {
+            "assertion": "Keeps the product URL and image URL in double braces rather than recommending triple braces for them",
+            "met": true,
+            "evidence": "Uses {{url}} and {{imageUrl}} in double braces"
+          },
+          {
+            "assertion": "Keeps the product name in double braces and states that escaped output displays the apostrophe in \"Levi's 501\" correctly",
+            "met": true,
+            "evidence": "Uses {{name}} and states 'Handlebars automatically escapes HTML entities including apostrophes in {{name}} so \"Levi's 501\" displays correctly'"
+          },
+          {
+            "assertion": "Does not claim that double braces break UTM ampersands or apostrophes in an HTML email body",
+            "met": true,
+            "evidence": "Makes no such claim anywhere in the response"
+          },
+          {
+            "assertion": "Limits the loop to 3 items with an @index comparison inside #each",
+            "met": false,
+            "evidence": "Uses {{#each (limit cartItems 3)}} instead of an @index comparison inside the loop"
+          },
+          {
+            "assertion": "Addresses which cart field path applies to a delayed updateCart trigger",
+            "met": false,
+            "evidence": "No mention of delayed updateCart trigger or cart field paths"
+          },
+          {
+            "assertion": "Formats price with numberFormat \"currency\" rather than raw output",
+            "met": false,
+            "evidence": "Uses ${{price}} which is raw output with a dollar sign prefix"
+          },
+          {
+            "assertion": "If the template appends its own query-string values to a URL, they are wrapped in {{#urlEncode}}...{{/urlEncode}}; appending no query-string values also satisfies this.",
+            "met": true,
+            "evidence": "Does not append any query-string values to URLs, uses {{url}} directly"
+          },
+          {
+            "assertion": "Tells the user how to verify in Preview with specific edge cases",
+            "met": false,
+            "evidence": "No mention of verification, Preview, or edge cases to test"
+          }
+        ]
+      }
+    },
+    {
+      "case": "send-skip-debug",
+      "with_skill": {
+        "response": "Two problems here, both in that block:\n\n## Why 11k people didn't get it\n\n`#ifGte` on a null or missing field **stops the send** entirely for that user. Around 11k people in your list probably don't have `daysSinceLastOrder` populated — new signups, accounts without order history synced, or records where the field calculation failed.\n\nIterable logs this as `HandlebarsExecutionError`. Check a skipped user's **Event History** tab and you'll see it.\n\n## Why the link is broken\n\n`returnUrl` is missing or empty for some recipients. When it's empty, your link renders as:\n\n```html\n<a href=\"?utm_source=iterable&utm_campaign=winback\">Shop now</a>\n```\n\nThat's a relative link with just query params — it navigates to `?utm_source=...` on whatever domain the email client thinks is current, which is nowhere useful.\n\n---\n\n## The fix\n\n```handlebars\n{{#if daysSinceLastOrder}}\n  {{#ifGte daysSinceLastOrder 90}}\n    <p>It's been a while, {{defaultIfEmpty firstName \"there\"}}! Here's 20% off.</p>\n    <a href=\"{{defaultIfEmpty returnUrl 'https://yourstore.com/shop'}}?utm_source=iterable&utm_campaign=winback\">Shop now</a>\n  {{else}}\n    <p>Thanks for being a regular, {{defaultIfEmpty firstName \"there\"}}.</p>\n  {{/ifGte}}\n{{else}}\n  <p>Welcome back, {{defaultIfEmpty firstName \"there\"}}! Here's 20% off.</p>\n  <a href=\"{{defaultIfEmpty returnUrl 'https://yourstore.com/shop'}}?utm_source=iterable&utm_campaign=winback\">Shop now</a>\n{{/if}}\n```\n\n**Changes:**\n1. Outer `{{#if daysSinceLastOrder}}` guard — now users without the field get the `else` branch instead of a send skip\n2. `defaultIfEmpty` on `returnUrl` — fallback to your homepage or a generic shop link\n3. `defaultIfEmpty` on `firstName` while we're at it\n\nTest it in **Preview with data** against:\n- A user with `daysSinceLastOrder` >= 90\n- A user with `daysSinceLastOrder` < 90  \n- A user with no `daysSinceLastOrder` field at all\n- A user with an empty `returnUrl`\n\nThe 11k who were skipped should get the welcome-back message on the next send.",
+        "verdicts": [
+          {
+            "assertion": "Identifies the unguarded comparison helper on a null field as the send-skip cause",
+            "met": true,
+            "evidence": "`#ifGte` on a null or missing field **stops the send** entirely for that user"
+          },
+          {
+            "assertion": "Points the user at the Event History skip reason to confirm the diagnosis",
+            "met": true,
+            "evidence": "Check a skipped user's **Event History** tab and you'll see it"
+          },
+          {
+            "assertion": "Does not attribute the broken link to double-brace HTML escaping",
+            "met": true,
+            "evidence": "Attributes broken link to `returnUrl` is missing or empty, no mention of HTML escaping"
+          },
+          {
+            "assertion": "Identifies an actual link cause: returnUrl empty/missing, or already containing a query string so the appended '?' malforms the URL",
+            "met": true,
+            "evidence": "`returnUrl` is missing or empty for some recipients"
+          },
+          {
+            "assertion": "Corrected code keeps returnUrl in double braces rather than switching it to triple braces",
+            "met": true,
+            "evidence": "Uses {{defaultIfEmpty returnUrl 'https://yourstore.com/shop'}} with double braces"
+          },
+          {
+            "assertion": "Corrected code applies the null guard on the comparison AND a fallback or validation for returnUrl",
+            "met": true,
+            "evidence": "Outer {{#if daysSinceLastOrder}} guard plus defaultIfEmpty on returnUrl"
+          },
+          {
+            "assertion": "Warns that 0 is falsy, so a bare #if guard mis-branches a same-day buyer",
+            "met": false,
+            "evidence": "Uses {{#if daysSinceLastOrder}} without warning that 0 would fire the else branch"
+          },
+          {
+            "assertion": "Uses only helpers that actually exist in Iterable",
+            "met": true,
+            "evidence": "Uses #if, #ifGte, defaultIfEmpty, else - standard Iterable/Handlebars helpers"
+          }
+        ]
+      },
+      "baseline": {
+        "response": "Looking at your template, I can see two issues:\n\n**Why 11k emails were skipped:**\n- The `daysSinceLastOrder` field is likely `null` or undefined for those users (maybe they've never ordered, or the field isn't populated)\n- When `ifGte` gets a null value, Iterable can't evaluate the condition and skips the send entirely\n\n**Why the links are broken:**\n- `{{returnUrl}}` is probably `null` or empty for some users\n- This creates malformed URLs like `?utm_source=iterable&utm_campaign=winback` (no domain)\n\nHere's a fixed version with defensive checks:\n\n```handlebars\n{{#if daysSinceLastOrder}}\n  {{#ifGte daysSinceLastOrder 90}}\n    <p>It's been a while, {{firstName}}! Here's 20% off.</p>\n    {{#if returnUrl}}\n      <a href=\"{{returnUrl}}?utm_source=iterable&utm_campaign=winback\">Shop now</a>\n    {{else}}\n      <a href=\"https://yoursite.com?utm_source=iterable&utm_campaign=winback\">Shop now</a>\n    {{/if}}\n  {{else}}\n    <p>Thanks for being a regular, {{firstName}}.</p>\n  {{/ifGte}}\n{{else}}\n  <p>Welcome back! Here's 20% off your first order.</p>\n  {{#if returnUrl}}\n    <a href=\"{{returnUrl}}?utm_source=iterable&utm_campaign=winback\">Shop now</a>\n  {{else}}\n    <a href=\"https://yoursite.com?utm_source=iterable&utm_campaign=winback\">Shop now</a>\n  {{/if}}\n{{/if}}\n```\n\nTo verify, check your Iterable user data:\n1. Export a sample of the skipped users\n2. Look for missing/null `daysSinceLastOrder` or `returnUrl` values\n\nThat'll confirm whether those fields are the problem.",
+        "verdicts": [
+          {
+            "assertion": "Identifies the unguarded comparison helper on a null field as the send-skip cause",
+            "met": true,
+            "evidence": "When `ifGte` gets a null value, Iterable can't evaluate the condition and skips the send entirely"
+          },
+          {
+            "assertion": "Points the user at the Event History skip reason to confirm the diagnosis",
+            "met": false,
+            "evidence": "Response suggests exporting user data and checking field values, not checking Event History skip reasons"
+          },
+          {
+            "assertion": "Does not attribute the broken link to double-brace HTML escaping",
+            "met": true,
+            "evidence": "No mention of HTML escaping; attributes issue to null/empty returnUrl"
+          },
+          {
+            "assertion": "Identifies an actual link cause: returnUrl empty/missing, or already containing a query string so the appended '?' malforms the URL",
+            "met": true,
+            "evidence": "{{returnUrl}} is probably null or empty for some users. This creates malformed URLs"
+          },
+          {
+            "assertion": "Corrected code keeps returnUrl in double braces rather than switching it to triple braces",
+            "met": true,
+            "evidence": "Uses {{returnUrl}} in corrected code, not {{{returnUrl}}}"
+          },
+          {
+            "assertion": "Corrected code applies the null guard on the comparison AND a fallback or validation for returnUrl",
+            "met": true,
+            "evidence": "Wraps ifGte in {{#if daysSinceLastOrder}} check and uses {{#if returnUrl}} with fallback URL"
+          },
+          {
+            "assertion": "Warns that 0 is falsy, so a bare #if guard mis-branches a same-day buyer",
+            "met": false,
+            "evidence": "No warning about 0 being falsy; uses bare {{#if daysSinceLastOrder}} without addressing same-day buyer edge case"
+          },
+          {
+            "assertion": "Uses only helpers that actually exist in Iterable",
+            "met": true,
+            "evidence": "Uses only if, ifGte, and else - all valid Iterable helpers"
+          }
+        ]
+      }
+    },
+    {
+      "case": "expiring-offer-conditional",
+      "with_skill": {
+        "response": "Here's the Handlebars for your subject line and body block:\n\n**Subject line:**\n\n```handlebars\n{{defaultIfEmpty firstName \"Friend\"}}, {{#if offerExpiresAt}}{{#ifGte (dateFormat offerExpiresAt format=\"yyyyMMddHHmmss\" tz=\"UTC\") (dateMath \"now\" \"+0h\" format=\"yyyyMMddHHmmss\" tz=\"UTC\")}}your offer expires soon{{else}}new offers inside{{/ifGte}}{{else}}special offers inside{{/if}}\n```\n\n**Body block:**\n\n```handlebars\n{{#if offerExpiresAt}}\n  {{#ifGte (dateFormat offerExpiresAt format=\"yyyyMMddHHmmss\" tz=\"UTC\") (dateMath \"now\" \"+0h\" format=\"yyyyMMddHHmmss\" tz=\"UTC\")}}\n    <p>Your special offer expires on {{dateFormat offerExpiresAt format=\"EEEE, MMMM d 'at' h:mm a\" tz=(defaultIfEmpty tz \"UTC\")}}. Don't miss out!</p>\n  {{else}}\n    <p>Your offer has expired, but we have new deals just for you.</p>\n  {{/ifGte}}\n{{else}}\n  <p>Check out our latest offers!</p>\n{{/if}}\n```\n\n**Key points:**\n\n1. **`defaultIfEmpty firstName \"Friend\"`** handles your empty firstName case — catches null, undefined, and empty string\n2. **The outer `{{#if offerExpiresAt}}`** is critical: without it, the comparison helper would **skip the send** for any user missing that field\n3. **Date comparison** uses `yyyyMMddHHmmss` format with both sides pinned to UTC — any hyphen, slash, or space in the format breaks the comparison silently\n4. **Friendly display** uses the user's `tz` field with a UTC fallback, in a natural format like \"Friday, August 21 at 3:30 PM\"\n\n**Test in Preview:**\n- A user with `offerExpiresAt` in the future\n- A user with `offerExpiresAt` in the past  \n- A user with no `offerExpiresAt` at all\n- A user with no `firstName` and no `tz` (to verify both fallbacks)",
+        "verdicts": [
+          {
+            "assertion": "Uses a numeric-only date format (no hyphens/slashes/spaces) for the comparison",
+            "met": true,
+            "evidence": "format=\"yyyyMMddHHmmss\" - numeric-only format with no separators"
+          },
+          {
+            "assertion": "Pins the same timezone on both sides of the date comparison",
+            "met": true,
+            "evidence": "Both sides use tz=\"UTC\" in dateFormat and dateMath"
+          },
+          {
+            "assertion": "Uses the correct dateFormat timezone argument name (tz=, not timeZone=)",
+            "met": true,
+            "evidence": "tz=\"UTC\" used throughout, not timeZone="
+          },
+          {
+            "assertion": "Guards the date comparison so a missing offerExpiresAt cannot skip the send",
+            "met": true,
+            "evidence": "{{#if offerExpiresAt}}...{{else}}special offers inside{{/if}} wraps comparison with fallback"
+          },
+          {
+            "assertion": "Provides a firstName fallback that reads cleanly when the field is empty",
+            "met": true,
+            "evidence": "{{defaultIfEmpty firstName \"Friend\"}} - reads as 'Friend, your offer expires soon'"
+          },
+          {
+            "assertion": "Solves the comparison in-template rather than punting to a precomputed boolean",
+            "met": true,
+            "evidence": "{{#ifGte (dateFormat offerExpiresAt...) (dateMath \"now\"...)}} performs comparison directly"
+          },
+          {
+            "assertion": "Uses only helpers that actually exist in Iterable",
+            "met": true,
+            "evidence": "Uses defaultIfEmpty, ifGte, dateFormat, and dateMath - all documented Iterable helpers"
+          }
+        ]
+      },
+      "baseline": {
+        "response": "Based on the Iterable Handlebars helpers, here's how to handle your conditional promo template:\n\n## Subject Line\n\n```handlebars\n{{#ifGt (now format=\"yyyyMMddHHmmss\" tz=\"UTC\") (dateFormat offerExpiresAt format=\"yyyyMMddHHmmss\" tz=\"UTC\")~}}\nLast chance{{~else~}}\n{{defaultIfEmpty firstName \"Hey\"}}, your exclusive offer is waiting{{~/ifGt}}\n```\n\n**What this does:**\n- Compares current time vs `offerExpiresAt` using numeric date format (required for comparisons)\n- If expired: subject is just \"Last chance\" \n- If not expired: personalizes with first name, falling back to \"Hey\" for empty values\n- `{{~tag~}}` strips whitespace so the subject doesn't have unwanted spaces\n\n## Body Block\n\n```handlebars\n{{#ifGt (now format=\"yyyyMMddHHmmss\" tz=\"UTC\") (dateFormat offerExpiresAt format=\"yyyyMMddHHmmss\" tz=\"UTC\")}}\n  <!-- EXPIRED -->\n  <p>Your offer has expired, but we've got new deals for you!</p>\n  \n{{else}}\n  <!-- NOT EXPIRED -->\n  <p>Hurry! Your exclusive offer expires {{dateFormat offerExpiresAt format=\"EEEE, MMMM d\" tz=tz}} at {{dateFormat offerExpiresAt format=\"h:mm a\" tz=tz}}.</p>\n  \n{{/ifGt}}\n```\n\n**What this does:**\n- Same date comparison to check if expired\n- **Expired branch:** shows fallback message\n- **Active branch:** displays expiry in friendly format like \"Friday, August 22 at 3:00 PM\" using the user's `tz` field\n\n## Important Notes\n\n1. **Date comparison must use numeric format** (`yyyyMMddHHmmss`) and the same timezone (UTC in this example) on both sides, or the comparison breaks silently.\n\n2. **The `tz=tz` syntax works** — `dateFormat` accepts either a literal timezone string like `\"America/New_York\"` or a field name holding one.\n\n3. **Guard against missing offerExpiresAt:** If some profiles might not have `offerExpiresAt` set, wrap the comparison in `{{#if offerExpiresAt}}` to prevent send failures:\n\n```handlebars\n{{#if offerExpiresAt}}\n  {{#ifGt (now format=\"yyyyMMddHHmmss\" tz=\"UTC\") (dateFormat offerExpiresAt format=\"yyyyMMddHHmmss\" tz=\"UTC\")}}\n    <!-- expired -->\n  {{else}}\n    <!-- active -->\n  {{/ifGt}}\n{{else}}\n  <!-- no offer date set — handle this case -->\n{{/if}}\n```\n\n4. **Test in Preview** with:\n   - A user with an expired `offerExpiresAt`\n   - A user with a future `offerExpiresAt`\n   - A user with empty `firstName`\n   - Different `tz` values to verify the date renders correctly in their timezone\n\nLet me know if you need the comparison adjusted (e.g., show \"expires today\" differently) or want to customize the date formats!",
+        "verdicts": [
+          {
+            "assertion": "Uses a numeric-only date format (no hyphens/slashes/spaces) for the comparison",
+            "met": true,
+            "evidence": "Uses format=\"yyyyMMddHHmmss\" on both sides of the comparison"
+          },
+          {
+            "assertion": "Pins the same timezone on both sides of the date comparison",
+            "met": true,
+            "evidence": "Both now and dateFormat use tz=\"UTC\""
+          },
+          {
+            "assertion": "Uses the correct dateFormat timezone argument name (tz=, not timeZone=)",
+            "met": true,
+            "evidence": "Consistently uses tz= throughout (tz=\"UTC\" and tz=tz)"
+          },
+          {
+            "assertion": "Guards the date comparison so a missing offerExpiresAt cannot skip the send",
+            "met": false,
+            "evidence": "The main subject line and body block examples do not wrap the comparison in {{#if offerExpiresAt}}. While note #3 mentions this guard, the actual template code provided lacks it."
+          },
+          {
+            "assertion": "Provides a firstName fallback that reads cleanly when the field is empty",
+            "met": true,
+            "evidence": "Uses {{defaultIfEmpty firstName \"Hey\"}} which provides clean fallback"
+          },
+          {
+            "assertion": "Solves the comparison in-template rather than punting to a precomputed boolean",
+            "met": true,
+            "evidence": "Performs comparison directly in template: {{#ifGt (now format=...) (dateFormat offerExpiresAt format=...)}}"
+          },
+          {
+            "assertion": "Uses only helpers that actually exist in Iterable",
+            "met": true,
+            "evidence": "Uses ifGt, now, dateFormat, defaultIfEmpty, and if - all standard Iterable helpers"
+          }
+        ]
+      }
+    },
+    {
+      "case": "apostrophe-renders-escaped",
+      "with_skill": {
+        "response": "Your colleague's advice is backwards for HTML email. Use **`{{product.name}}`** with double braces — the apostrophe displays correctly as `'` in every mail client.\n\nWhat's happening: Iterable escapes it to `&#x27;` in the HTML source, but that's the *correct* HTML spelling of an apostrophe. Mail clients decode it before rendering, so \"Levi's 501\" is exactly what the recipient sees. If you inspect the source you'll see `Levi&#x27;s 501`, but that's a non-problem.\n\n**Triple braces are wrong here.** Catalog data should stay escaped — `{{{ }}}` is only for markup you authored (snippets, your own HTML fields). A catalog record is data, and raw output on it would inject whatever arrived straight into the message.\n\nThe confusion comes from one real edge case: **SMS, push, and plain-text surfaces** have no HTML parser, so `&#x27;` is what the recipient literally sees there. In those channels raw output is defensible. But in an HTML email body, escaping is correct and the display is fine.\n\nStick with `{{product.name}}` and test it in Preview — you'll see the apostrophe renders as expected.",
+        "verdicts": [
+          {
+            "assertion": "States that {{product.name}} with double braces is correct and requires no change for an HTML email body",
+            "met": true,
+            "evidence": "Use **`{{product.name}}`** with double braces — the apostrophe displays correctly as `'` in every mail client."
+          },
+          {
+            "assertion": "Explains that the escaped output (&#x27; or &apos;) is displayed as an apostrophe by the mail client",
+            "met": true,
+            "evidence": "Iterable escapes it to `&#x27;` in the HTML source, but that's the *correct* HTML spelling of an apostrophe. Mail clients decode it before rendering, so \"Levi's 501\" is exactly what the recipient sees."
+          },
+          {
+            "assertion": "Explicitly corrects the colleague: does not recommend triple braces for this catalog value",
+            "met": true,
+            "evidence": "Your colleague's advice is backwards for HTML email. ... **Triple braces are wrong here.**"
+          },
+          {
+            "assertion": "Gives a reason not to use triple braces here — the value comes from the catalog and raw output would inject whatever the catalog contains",
+            "met": true,
+            "evidence": "Catalog data should stay escaped — `{{{ }}}` is only for markup you authored (snippets, your own HTML fields). A catalog record is data, and raw output on it would inject whatever arrived straight into the message."
+          },
+          {
+            "assertion": "Scopes the visible-entity problem to non-HTML surfaces (SMS body, push title/body, or plain-text part) rather than the HTML body",
+            "met": true,
+            "evidence": "The confusion comes from one real edge case: **SMS, push, and plain-text surfaces** have no HTML parser, so `&#x27;` is what the recipient literally sees there. In those channels raw output is defensible. But in an HTML email body, escaping is correct and the display is fine."
+          },
+          {
+            "assertion": "Tells the user how to confirm in Preview with data",
+            "met": true,
+            "evidence": "Stick with `{{product.name}}` and test it in Preview — you'll see the apostrophe renders as expected."
+          }
+        ]
+      },
+      "baseline": {
+        "response": "Your colleague is mixing up when this matters. In an **HTML email body**, double braces `{{product.name}}` is fine — the apostrophe gets HTML-encoded to `&#x27;`, but email clients render that back as `'` automatically. Customers will see \"Levi's 501\" correctly.\n\nTriple braces `{{{product.name}}}` outputs raw/unescaped HTML. You'd only need that if:\n- The product name field contains intentional HTML markup you want to preserve\n- You're putting it in a **subject line or preheader** where HTML entities would show literally as `&#x27;`\n\nFor standard product names in the HTML body, stick with `{{product.name}}` — it's safer (prevents accidental HTML injection) and renders correctly.",
+        "verdicts": [
+          {
+            "assertion": "States that {{product.name}} with double braces is correct and requires no change for an HTML email body",
+            "met": true,
+            "evidence": "In an **HTML email body**, double braces `{{product.name}}` is fine"
+          },
+          {
+            "assertion": "Explains that the escaped output (&#x27; or &apos;) is displayed as an apostrophe by the mail client",
+            "met": true,
+            "evidence": "the apostrophe gets HTML-encoded to `&#x27;`, but email clients render that back as `'` automatically"
+          },
+          {
+            "assertion": "Explicitly corrects the colleague: does not recommend triple braces for this catalog value",
+            "met": true,
+            "evidence": "For standard product names in the HTML body, stick with `{{product.name}}`"
+          },
+          {
+            "assertion": "Gives a reason not to use triple braces here — the value comes from the catalog and raw output would inject whatever the catalog contains",
+            "met": true,
+            "evidence": "it's safer (prevents accidental HTML injection)"
+          },
+          {
+            "assertion": "Scopes the visible-entity problem to non-HTML surfaces (SMS body, push title/body, or plain-text part) rather than the HTML body",
+            "met": true,
+            "evidence": "you're putting it in a **subject line or preheader** where HTML entities would show literally as `&#x27;`"
+          },
+          {
+            "assertion": "Tells the user how to confirm in Preview with data",
+            "met": false,
+            "evidence": "No mention of Preview or testing/confirmation steps"
+          }
+        ]
+      }
+    },
+    {
+      "case": "catalog-value-injection-stays-inert",
+      "with_skill": {
+        "response": "**Good news: the emails that already went out are safe.** Your template uses `{{item.name}}` (double braces) everywhere, which HTML-escapes the output. Here's what actually rendered:\n\n```html\n<!-- First payload -->\n<a href=\"...\" title=\"&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;\">\n<img alt=\"&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;\">\n<p>&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;</p>\n\n<!-- Second payload -->\n<a title=\"&#x27; onmouseover=&#x27;alert(1)\">\n<img alt=\"&#x27; onmouseover=&#x27;alert(1)\">\n<p>&#x27; onmouseover=&#x27;alert(1)</p>\n```\n\nThe escaped entities display as literal text in every mail client — ugly, but not executable. The scripts never ran.\n\n**However, you have one remaining risk:** `{{item.url}}` in the `href`. If the bad import also corrupted URLs, that's still a vector. Validate catalog URLs before using them:\n\n```handlebars\n{{#ifContainsStr (defaultIfEmpty item.url \"\") \"https://yourshop.com/\"}}\n  <a href=\"{{item.url}}\" title=\"{{item.name}}\">\n    <img src=\"{{item.imageUrl}}\" alt=\"{{item.name}}\">\n  </a>\n  <p>{{item.name}}</p>\n{{else}}\n  <!-- Fallback or skip corrupted items -->\n{{/ifContainsStr}}\n```\n\nOr build the link from parts you control:\n\n```handlebars\n<a href=\"https://yourshop.com/p/{{#urlEncode}}{{item.id}}{{/urlEncode}}\" title=\"{{item.name}}\">\n```\n\n**What to do now:**\n\n1. Clean the catalog — those items will show garbled text to recipients\n2. Audit the partner feed import process to reject invalid data before it reaches Iterable\n3. Keep `{{ }}` on all catalog/feed/profile values — it's already correct\n4. Add URL validation if you haven't already\n\nThe template is defensively written. This is exactly why catalog data takes `{{ }}`, never `{{{ }}}`.",
+        "verdicts": [
+          {
+            "assertion": "Does not recommend triple braces for item.name, item.url, or item.imageUrl",
+            "met": true,
+            "evidence": "Says 'Keep {{ }} on all catalog/feed/profile values' and 'This is exactly why catalog data takes {{ }}, never {{{ }}}'"
+          },
+          {
+            "assertion": "States that the output remains escaped and the payload renders as inert literal text",
+            "met": true,
+            "evidence": "The escaped entities display as literal text in every mail client — ugly, but not executable. The scripts never ran."
+          },
+          {
+            "assertion": "Explains that escaping the quote character is what stops the ' onmouseover= payload from breaking out of the title/alt attribute",
+            "met": false,
+            "evidence": "Shows the escaped output &#x27; but does not explain that escaping the quote is the mechanism that prevents breakout"
+          },
+          {
+            "assertion": "Explains that escaping < and > is what stops the \"><script> payload from opening a tag",
+            "met": false,
+            "evidence": "Shows &lt;script&gt; but does not explain that escaping angle brackets is what prevents tag opening"
+          },
+          {
+            "assertion": "Warns explicitly that switching these to triple braces would make the injected markup live",
+            "met": false,
+            "evidence": "Says 'never {{{ }}}' but does not explicitly state that triple braces would make the markup executable/live"
+          },
+          {
+            "assertion": "Flags item.url as attacker-influenced and recommends allowlisting or validating it to an expected HTTPS destination",
+            "met": true,
+            "evidence": "However, you have one remaining risk: {{item.url}} in the href. If the bad import also corrupted URLs, that's still a vector. Validate catalog URLs... and shows validation to https://yourshop.com/"
+          },
+          {
+            "assertion": "Recommends fixing the bad data in the catalog or partner feed rather than only patching the template",
+            "met": true,
+            "evidence": "Clean the catalog — those items will show garbled text to recipients. Audit the partner feed import process to reject invalid data before it reaches Iterable"
+          },
+          {
+            "assertion": "Uses only helpers that actually exist in Iterable",
+            "met": false,
+            "evidence": "Uses ifContainsStr which is not a standard Iterable helper"
+          }
+        ]
+      },
+      "baseline": {
+        "response": "Looking at this issue, I can address both concerns:\n\n## Emails Already Sent: Low Risk\n\nThe emails that already went out are **likely safe** because:\n\n- **Email clients don't execute JavaScript** - Modern email clients (Gmail, Outlook, Apple Mail, etc.) strip `<script>` tags entirely and block event handlers like `onmouseover`\n- The malicious payloads would be rendered as text or stripped, not executed\n- Email HTML is heavily sandboxed specifically to prevent XSS attacks\n\nHowever, the malformed HTML could cause **rendering issues** (broken layouts, visible markup text).\n\n## Template Fix: Use HTML Escaping\n\nThe current template is vulnerable to attribute injection and tag injection. Here's how Iterable handles this:\n\n**If Iterable uses standard Handlebars syntax:**\n- `{{variable}}` **automatically HTML-escapes** (safe) \n- `{{{variable}}}` outputs raw HTML (unsafe)\n\nYour current template `{{item.name}}` should already be escaping. **Verify this** by checking if the emails show the literal text `\"><script>alert(1)</script>` instead of breaking the HTML.\n\n**If escaping isn't happening automatically, you need:**\n\n```handlebars\n<a href=\"{{item.url}}\" title=\"{{htmlEncode item.name}}\">\n  <img src=\"{{item.imageUrl}}\" alt=\"{{htmlEncode item.name}}\">\n</a>\n<p>{{htmlEncode item.name}}</p>\n```\n\n**Best practices:**\n1. **Clean the catalog data** - Remove those malicious entries immediately\n2. **Validate on import** - Reject/sanitize product names with HTML characters\n3. **Test escaping** - Send a test email with `<b>test</b>` as a product name. If you see \"**test**\" (bold), escaping is broken. If you see \"`<b>test</b>`\" (literal), escaping is working.\n4. **For URLs**: Ensure `{{item.url}}` is also validated/escaped to prevent `javascript:` protocol injection\n\nDo you want me to help check Iterable's documentation to confirm their specific escaping syntax?",
+        "verdicts": [
+          {
+            "assertion": "Does not recommend triple braces for item.name, item.url, or item.imageUrl",
+            "met": true,
+            "evidence": "Says '{{{variable}}}' outputs raw HTML (unsafe) and recommends '{{variable}}' or '{{htmlEncode item.name}}' instead"
+          },
+          {
+            "assertion": "States that the output remains escaped and the payload renders as inert literal text",
+            "met": true,
+            "evidence": "Says 'if the emails show the literal text \"><script>alert(1)</script>\" instead of breaking the HTML' and 'If you see \"<b>test</b>\" (literal), escaping is working'"
+          },
+          {
+            "assertion": "Explains that escaping the quote character is what stops the ' onmouseover= payload from breaking out of the title/alt attribute",
+            "met": false,
+            "evidence": "Mentions 'attribute injection' vulnerability but doesn't explicitly explain that quote escaping prevents attribute breakout"
+          },
+          {
+            "assertion": "Explains that escaping < and > is what stops the \"><script> payload from opening a tag",
+            "met": false,
+            "evidence": "Mentions 'tag injection' but doesn't explicitly explain that escaping angle brackets prevents tag opening"
+          },
+          {
+            "assertion": "Warns explicitly that switching these to triple braces would make the injected markup live",
+            "met": false,
+            "evidence": "Says '{{{variable}}}' outputs raw HTML (unsafe) but doesn't explicitly connect this to making injected markup execute/live"
+          },
+          {
+            "assertion": "Flags item.url as attacker-influenced and recommends allowlisting or validating it to an expected HTTPS destination",
+            "met": false,
+            "evidence": "Says 'Ensure {{item.url}} is also validated/escaped to prevent javascript: protocol injection' but doesn't recommend allowlisting or validating to HTTPS destinations"
+          },
+          {
+            "assertion": "Recommends fixing the bad data in the catalog or partner feed rather than only patching the template",
+            "met": true,
+            "evidence": "Says 'Clean the catalog data - Remove those malicious entries immediately' and 'Validate on import - Reject/sanitize product names with HTML characters'"
+          },
+          {
+            "assertion": "Uses only helpers that actually exist in Iterable",
+            "met": false,
+            "evidence": "Recommends '{{htmlEncode item.name}}' but then asks 'Do you want me to help check Iterable's documentation to confirm their specific escaping syntax?' - uncertain if htmlEncode exists"
+          }
+        ]
+      }
+    }
+  ]
+}

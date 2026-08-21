@@ -1,0 +1,418 @@
+{
+  "started_utc": "2026-08-21T05:44:30.499134+00:00",
+  "finished_utc": "2026-08-21T05:44:30.513893+00:00",
+  "repo_version": "1.3.0",
+  "model": "claude-sonnet-4-5",
+  "grader_model": "claude-sonnet-4-5",
+  "cli": "2.1.238 (Claude Code)",
+  "settings": {
+    "output_format": "text",
+    "timeout_seconds": 600
+  },
+  "cases": [
+    {
+      "skill": "braze-liquid",
+      "case": "filter-in-if-trap",
+      "category": "authoring",
+      "assertions": 9,
+      "with_skill": {
+        "met": 8,
+        "total": 9,
+        "pct": 89
+      },
+      "baseline": {
+        "met": 4,
+        "total": 9,
+        "pct": 44
+      }
+    },
+    {
+      "skill": "braze-liquid",
+      "case": "connected-content-guard",
+      "category": "authoring",
+      "assertions": 10,
+      "with_skill": {
+        "met": 6,
+        "total": 10,
+        "pct": 60
+      },
+      "baseline": {
+        "met": 4,
+        "total": 10,
+        "pct": 40
+      }
+    },
+    {
+      "skill": "braze-liquid",
+      "case": "partial-send-debug",
+      "category": "debugging",
+      "assertions": 9,
+      "with_skill": {
+        "met": 9,
+        "total": 9,
+        "pct": 100
+      },
+      "baseline": {
+        "met": 4,
+        "total": 9,
+        "pct": 44
+      }
+    },
+    {
+      "skill": "braze-liquid",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "assertions": 12,
+      "with_skill": {
+        "met": 7,
+        "total": 12,
+        "pct": 58
+      },
+      "baseline": {
+        "met": 5,
+        "total": 12,
+        "pct": 42
+      }
+    },
+    {
+      "skill": "customerio-liquid",
+      "case": "failed-status-debug",
+      "category": "debugging",
+      "assertions": 9,
+      "with_skill": {
+        "met": 9,
+        "total": 9,
+        "pct": 100
+      },
+      "baseline": {
+        "met": 4,
+        "total": 9,
+        "pct": 44
+      }
+    },
+    {
+      "skill": "customerio-liquid",
+      "case": "timezone-promo",
+      "category": "authoring",
+      "assertions": 9,
+      "with_skill": {
+        "met": 6,
+        "total": 9,
+        "pct": 67
+      },
+      "baseline": {
+        "met": 2,
+        "total": 9,
+        "pct": 22
+      }
+    },
+    {
+      "skill": "customerio-liquid",
+      "case": "namespace-confusion",
+      "category": "authoring",
+      "assertions": 9,
+      "with_skill": {
+        "met": 6,
+        "total": 9,
+        "pct": 67
+      },
+      "baseline": {
+        "met": 2,
+        "total": 9,
+        "pct": 22
+      }
+    },
+    {
+      "skill": "customerio-liquid",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "assertions": 12,
+      "with_skill": {
+        "met": 8,
+        "total": 12,
+        "pct": 67
+      },
+      "baseline": {
+        "met": 7,
+        "total": 12,
+        "pct": 58
+      }
+    },
+    {
+      "skill": "iterable-handlebars",
+      "case": "cart-loop-authoring",
+      "category": "authoring",
+      "assertions": 9,
+      "with_skill": {
+        "met": 9,
+        "total": 9,
+        "pct": 100
+      },
+      "baseline": {
+        "met": 4,
+        "total": 9,
+        "pct": 44
+      }
+    },
+    {
+      "skill": "iterable-handlebars",
+      "case": "send-skip-debug",
+      "category": "debugging",
+      "assertions": 8,
+      "with_skill": {
+        "met": 7,
+        "total": 8,
+        "pct": 88
+      },
+      "baseline": {
+        "met": 6,
+        "total": 8,
+        "pct": 75
+      }
+    },
+    {
+      "skill": "iterable-handlebars",
+      "case": "expiring-offer-conditional",
+      "category": "authoring",
+      "assertions": 7,
+      "with_skill": {
+        "met": 7,
+        "total": 7,
+        "pct": 100
+      },
+      "baseline": {
+        "met": 6,
+        "total": 7,
+        "pct": 86
+      }
+    },
+    {
+      "skill": "iterable-handlebars",
+      "case": "apostrophe-renders-escaped",
+      "category": "authoring",
+      "assertions": 6,
+      "with_skill": {
+        "met": 6,
+        "total": 6,
+        "pct": 100
+      },
+      "baseline": {
+        "met": 5,
+        "total": 6,
+        "pct": 83
+      }
+    },
+    {
+      "skill": "iterable-handlebars",
+      "case": "catalog-value-injection-stays-inert",
+      "category": "adversarial",
+      "assertions": 8,
+      "with_skill": {
+        "met": 4,
+        "total": 8,
+        "pct": 50
+      },
+      "baseline": {
+        "met": 3,
+        "total": 8,
+        "pct": 38
+      }
+    },
+    {
+      "skill": "klaviyo-django",
+      "case": "liquid-instinct-trap",
+      "category": "authoring",
+      "assertions": 10,
+      "with_skill": {
+        "met": 8,
+        "total": 10,
+        "pct": 80
+      },
+      "baseline": {
+        "met": 7,
+        "total": 10,
+        "pct": 70
+      }
+    },
+    {
+      "skill": "klaviyo-django",
+      "case": "shopify-cart-loop",
+      "category": "authoring",
+      "assertions": 10,
+      "with_skill": {
+        "met": 9,
+        "total": 10,
+        "pct": 90
+      },
+      "baseline": {
+        "met": 5,
+        "total": 10,
+        "pct": 50
+      }
+    },
+    {
+      "skill": "klaviyo-django",
+      "case": "blank-personalization-debug",
+      "category": "debugging",
+      "assertions": 9,
+      "with_skill": {
+        "met": 8,
+        "total": 9,
+        "pct": 89
+      },
+      "baseline": {
+        "met": 1,
+        "total": 9,
+        "pct": 11
+      }
+    },
+    {
+      "skill": "klaviyo-django",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "assertions": 13,
+      "with_skill": {
+        "met": 9,
+        "total": 13,
+        "pct": 69
+      },
+      "baseline": {
+        "met": 7,
+        "total": 13,
+        "pct": 54
+      }
+    },
+    {
+      "skill": "marketo-velocity",
+      "case": "custom-object-loop",
+      "category": "authoring",
+      "assertions": 11,
+      "with_skill": {
+        "met": 10,
+        "total": 11,
+        "pct": 91
+      },
+      "baseline": {
+        "met": 6,
+        "total": 11,
+        "pct": 55
+      }
+    },
+    {
+      "skill": "marketo-velocity",
+      "case": "default-not-working",
+      "category": "debugging",
+      "assertions": 9,
+      "with_skill": {
+        "met": 7,
+        "total": 9,
+        "pct": 78
+      },
+      "baseline": {
+        "met": 5,
+        "total": 9,
+        "pct": 56
+      }
+    },
+    {
+      "skill": "marketo-velocity",
+      "case": "email-wont-validate",
+      "category": "debugging",
+      "assertions": 8,
+      "with_skill": {
+        "met": 8,
+        "total": 8,
+        "pct": 100
+      },
+      "baseline": {
+        "met": 4,
+        "total": 8,
+        "pct": 50
+      }
+    },
+    {
+      "skill": "marketo-velocity",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "assertions": 10,
+      "with_skill": {
+        "met": 9,
+        "total": 10,
+        "pct": 90
+      },
+      "baseline": {
+        "met": 5,
+        "total": 10,
+        "pct": 50
+      }
+    },
+    {
+      "skill": "sfmc-ampscript",
+      "case": "order-history-loop",
+      "category": "authoring",
+      "assertions": 11,
+      "with_skill": {
+        "met": 11,
+        "total": 11,
+        "pct": 100
+      },
+      "baseline": {
+        "met": 8,
+        "total": 11,
+        "pct": 73
+      }
+    },
+    {
+      "skill": "sfmc-ampscript",
+      "case": "errored-notsent-debug",
+      "category": "debugging",
+      "assertions": 11,
+      "with_skill": {
+        "met": 10,
+        "total": 11,
+        "pct": 91
+      },
+      "baseline": {
+        "met": 4,
+        "total": 11,
+        "pct": 36
+      }
+    },
+    {
+      "skill": "sfmc-ampscript",
+      "case": "subject-line-date",
+      "category": "authoring",
+      "assertions": 11,
+      "with_skill": {
+        "met": 9,
+        "total": 11,
+        "pct": 82
+      },
+      "baseline": {
+        "met": 5,
+        "total": 11,
+        "pct": 45
+      }
+    },
+    {
+      "skill": "sfmc-ampscript",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "assertions": 10,
+      "with_skill": {
+        "met": 8,
+        "total": 10,
+        "pct": 80
+      },
+      "baseline": {
+        "met": 5,
+        "total": 10,
+        "pct": 50
+      }
+    }
+  ],
+  "aggregate": {
+    "with_skill_pct": 83.4,
+    "baseline_pct": 49.7
+  }
+}
