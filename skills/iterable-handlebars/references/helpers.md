@@ -22,8 +22,8 @@ Iterable runs **handlebars.java (jknack)**. The helpers below are the ones Itera
 
 | Element | Purpose |
 |---|---|
-| `{{ }}` | Merge tag, HTML-escaped |
-| `{{{ }}}` | Merge tag, raw — required for URLs, HTML, apostrophes, ampersands |
+| `{{ }}` | Merge tag, HTML-escaped — **the default for every value that came from data**, URLs and product names included |
+| `{{{ }}}` | Merge tag, raw — for markup you authored (snippets, your own HTML fields). Never for profile, event, catalog, feed, or webhook values. See `troubleshooting.md` §4 |
 | `[ ]` | Field names with spaces/periods/leading digits; array indices |
 | `[[ ]]` | Data feed values (when feed and user contexts are NOT merged) |
 | `#` / `/` | Open / close a block helper |
@@ -327,11 +327,14 @@ There is no `limit` argument. Nest a comparison on `@index`:
 {{#sha1}}{{userName}}@{{host}}{{/sha1}}     <!-- block form concatenates before hashing -->
 ```
 
-`urlEncode` is what you want around an email address in a preference-centre link:
+`urlEncode` applies standard URL formatting — spaces become `+`, special characters become their ASCII escapes. Wrap **every dynamic value that lands in a query string**; escaping alone does not URL-encode.
 
 ```handlebars
 https://example.com/preferences?email={{#urlEncode}}{{email}}{{/urlEncode}}&campaignId={{campaignId}}
+https://example.com/search?q={{#urlEncode}}{{lastSearchTerm}}{{/urlEncode}}
 ```
+
+Because spaces become `+`, it is right for a query value and wrong for a path segment, where `+` stays a literal plus. `toJson` is the encoding for a value inside `<script>` or a JSON body — HTML escaping does not make a value JSON-safe, and neither does turning it off. `toUrlEncodedJson` is the URL-safe variant. Check any encoded value in Preview: a helper stacked on already-escaped output can double-encode, and Preview shows it straight away.
 
 ---
 

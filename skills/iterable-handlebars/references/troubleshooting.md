@@ -40,13 +40,17 @@ Symptom → cause → fix, plus the send-skip reason codes and how to reproduce 
 | A merge tag accidentally wrapped in an HTML comment by the WYSIWYG editor | See §7 — never comment out value-producing tags |
 | Typo in a helper name | Iterable renders unknown helpers unpredictably — verify against `helpers.md` |
 
-### `&#x27;`, `&amp;`, or a broken link in the output
+### `&#x27;` or `&amp;` visible in the output
 
-Double braces HTML-escape. Any value containing an apostrophe, ampersand, or HTML needs `{{{triple braces}}}`. This is the single most common cosmetic bug — see §4.
+Check the surface before you change anything. In an HTML body those entities *display* as `'` and `&` — that is correct output, not a bug, and it is not a reason to turn escaping off. They show literally only where nothing parses HTML: an SMS body, a push title or body, a deep-link or Open URL field, the plain-text part of an email. See §4.
+
+### A broken or mangled link
+
+Rarely escaping. In HTML, `href="…?a=1&amp;b=2"` navigates to `a=1&b=2` — the parser decodes it. Look instead at whitespace inside the `href` (§5), a dynamic query value that was never URL-encoded (§4), or a URL that was already broken in the feed or catalog record.
 
 ### Raw HTML tags showing as text
 
-The inverse: a snippet or HTML field rendered with `{{ }}`. Switch to `{{{ }}}`.
+Author-controlled markup rendered with `{{ }}` — a snippet, or an HTML field your team populates. Those take `{{{ }}}`. A *data* value showing its tags is escaping working as intended.
 
 ### Message never arrived for some recipients
 
@@ -118,22 +122,65 @@ Most Handlebars mistakes degrade to blank output. These do not — they fail the
 
 ## 4. Escaping and character issues
 
-Iterable HTML-encodes certain characters in `{{ }}` output. Apostrophes become `&#x27;`. Ampersands in URLs become `&amp;`, which breaks query strings.
+`{{ }}` HTML-escapes; `{{{ }}}` does not ([Handlebars Overview](https://support.iterable.com/hc/en-us/articles/35601631606036); [handlebarsjs.com](https://handlebarsjs.com/guide/expressions.html)). Iterable escapes apostrophes as `&#x27;` and ampersands as `&amp;` ([Troubleshooting Handlebars Code](https://support.iterable.com/hc/en-us/articles/36530857619348)).
 
-**Always use `{{{ triple braces }}}` for:**
+**`{{ }}` is the default for every value that came from data.** Profile fields, event properties, catalog fields, data-feed values, webhook payloads, product names, subject copy. Any of those can be influenced by an attacker or a bad import, and raw output on them injects whatever arrived straight into the message.
 
-- URLs of any kind — product links, image sources, deep links
-- Values that legitimately contain HTML
-- Snippets you want rendered as HTML: `{{{ snippet "name" }}}`
-- Product names, subject-line values, or any copy that may contain `'` or `&`
+### Escaping does not damage the copy
+
+In an HTML body, `&#x27;` is *displayed* as `'` and `&amp;` as `&`. `{{productName}}` on `Levi's 501` puts `Levi&#x27;s 501` in the source and `Levi's 501` in the reading pane, in every mail client. In an `href`, `?a=1&amp;b=2` is the correct HTML spelling of `?a=1&b=2` and the parser decodes it before navigating — the link works. So "double braces break apostrophes and URLs" is wrong for HTML, and turning escaping off to tidy up View Source trades a cosmetic non-problem for an injection.
+
+**The narrow real case.** Iterable's troubleshooting article documents the `&#x27;` output and offers `{{{ }}}` as the fix, without saying which surfaces it applies to. It matters only where the output is never parsed as HTML: an SMS body, a push title or body, a deep-link / Open URL field, the plain-text part of an email. There the entity is what the recipient sees. Raw output is an acceptable fix *there* — a plain-text channel has no HTML parser to attack — but if the same field also lands in an HTML surface, keep `{{ }}` in that surface. Sanitising the value at the source beats branching the template.
+
+### Escape by context
+
+HTML escaping is one encoding, not all of them, and one is not a substitute for another.
+
+| Where the value lands | What it needs |
+|---|---|
+| HTML text | `{{value}}` — escaped, the default |
+| HTML attribute (`href`, `src`, `alt`, `style`) | `{{value}}`, and the attribute must stay quoted |
+| URL path or query component | `{{#urlEncode}}{{value}}{{/urlEncode}}` **on top of** escaping |
+| Inside `<script>` or a JSON body | `{{toJson value}}` — **HTML escaping is not JSON encoding** |
+
+`urlEncode` is block form only and applies standard URL formatting: spaces become `+`, special characters become their ASCII escapes ([Encoding and Hashing Helpers](https://support.iterable.com/hc/en-us/articles/209732326)). That makes it right for a query *value* and wrong for a path segment, where a literal `+` is a plus and not a space. `toUrlEncodedJson` is the URL-safe variant of `toJson`. Preview any encoded value before shipping — a helper stacked on escaped output can double-encode, and Preview shows it immediately.
 
 ```handlebars
-<!-- broken: & becomes &amp;, apostrophe becomes &#x27; -->
+<!-- product name and image from a catalog: escaped, and it renders correctly -->
+<a href="{{productUrl}}"><img src="{{imageUrl}}" alt="{{productName}}" width="120"></a>
 <a href="{{productUrl}}">{{productName}}</a>
 
-<!-- correct -->
-<a href="{{{productUrl}}}">{{{productName}}}</a>
+<!-- a dynamic value in a query string needs URL-encoding as well -->
+<a href="https://example.com/search?q={{#urlEncode}}{{lastSearchTerm}}{{/urlEncode}}">Your search</a>
 ```
+
+### Links that come from data
+
+A URL out of a feed, catalog, profile, or webhook is attacker-influenceable in exactly the same way as any other field. Before interpolating it, confirm it resolves to an expected HTTPS destination. Prefer building the link from parts you control and letting the data supply only an identifier:
+
+```handlebars
+<!-- safer: your host and path, their id -->
+<a href="https://shop.example.com/p/{{#urlEncode}}{{productId}}{{/urlEncode}}">{{productName}}</a>
+
+<!-- if you must use the feed's URL, allowlist the destination first -->
+{{#ifContainsStr productUrl "https://shop.example.com/"}}
+  <a href="{{productUrl}}">{{productName}}</a>
+{{else}}
+  <a href="https://shop.example.com/sale">{{productName}}</a>
+{{/ifContainsStr}}
+```
+
+Two caveats. `#ifContainsStr` fails the template on an empty or missing field, so guard it with `defaultIfEmpty` per §3. And it is a **substring** test, not a prefix test — Iterable ships no `startsWith` — so `https://evil.example/?next=https://shop.example.com/` passes it. That makes it a floor, not a sanitiser. The strong version is validating the URL before it reaches Iterable, or storing only the identifier and building the link in the template.
+
+### Where raw output is legitimate
+
+Only for markup you authored and control:
+
+- Snippets you wrote, rendered as HTML: `{{{ snippet "name" }}}` — the snippet body is template code your team maintains, not recipient data
+- An HTML field your own systems populate with markup you generate
+- RSS `content:encoded`, which is publisher-authored article HTML by definition — and only when the feed is your own publication, not an arbitrary third party
+
+Never `{{{ }}}` on a value because it *looked* wrong in Preview. Raw output on a stored string also evaluates that string as template code, so a catalog record can rewrite the message or break the send.
 
 **Quote nesting.** Inside a double-quoted HTML attribute or JSON value, string literals in the expression must be single-quoted:
 
@@ -181,6 +228,8 @@ Rule of thumb: any conditional or loop that spans lines **inside an attribute va
 |---|---|
 | Disabled (default) | `[[fieldName]]`, `[[#each items]]…[[/each]]`, raw HTML `[[{field}]]` |
 | Enabled | `{{fieldName}}`, `{{#each items}}…{{/each}}`, raw HTML `{{{field}}}` |
+
+The raw-output column is the *syntax*, not a recommendation — feed values are data, so they take the escaped form unless the field is markup you publish yourself (§4).
 
 The setting applies to **all** feeds in the template — it can't be toggled per feed. A template that mixes `[[ ]]` and `{{ }}` for feed data will only half-render.
 
@@ -262,8 +311,11 @@ Run this over any Iterable template before it ships.
 
 **Renders correctly**
 
-- [ ] Every URL and image src uses `{{{ }}}`
-- [ ] Every value that might contain `'` or `&` uses `{{{ }}}`
+- [ ] Every value from a profile, event, catalog, feed, or webhook uses `{{ }}` — including URLs, image srcs, and product names
+- [ ] `{{{ }}}` appears only on markup you authored (snippets, your own HTML fields, your own RSS `content:encoded`)
+- [ ] Every dynamic query-string value goes through `{{#urlEncode}}…{{/urlEncode}}`
+- [ ] Every value inside `<script>` or a JSON body goes through `{{toJson}}`, not raw output
+- [ ] Every `href` built from feed, catalog, or profile data is allowlisted or validated to an expected HTTPS destination
 - [ ] Snippets use `{{{ snippet "name" }}}` where HTML should render
 - [ ] String literals inside double-quoted attributes are single-quoted
 - [ ] Conditionals inside URLs use `{{~ ~}}` whitespace control
@@ -289,4 +341,4 @@ Run this over any Iterable template before it ships.
 
 ## Sources
 
-Iterable Support: [Troubleshooting Handlebars Code](https://support.iterable.com/hc/en-us/articles/36530857619348) · [Reasons for Send Skip Events](https://support.iterable.com/hc/en-us/articles/360021169631) · [Troubleshooting Campaigns](https://support.iterable.com/hc/en-us/articles/360023927232) · [Previewing Templates with Data](https://support.iterable.com/hc/en-us/articles/115002807783) · [Sending Proofs](https://support.iterable.com/hc/en-us/articles/360044426191) · [Conditional Logic Helpers](https://support.iterable.com/hc/en-us/articles/115003884806) · [Using Data Feeds in Templates](https://support.iterable.com/hc/en-us/articles/39206002278932)
+Iterable Support: [Handlebars Overview](https://support.iterable.com/hc/en-us/articles/35601631606036) · [Encoding and Hashing Helpers](https://support.iterable.com/hc/en-us/articles/209732326) · [Troubleshooting Handlebars Code](https://support.iterable.com/hc/en-us/articles/36530857619348) · [Reasons for Send Skip Events](https://support.iterable.com/hc/en-us/articles/360021169631) · [Troubleshooting Campaigns](https://support.iterable.com/hc/en-us/articles/360023927232) · [Previewing Templates with Data](https://support.iterable.com/hc/en-us/articles/115002807783) · [Sending Proofs](https://support.iterable.com/hc/en-us/articles/360044426191) · [Conditional Logic Helpers](https://support.iterable.com/hc/en-us/articles/115003884806) · [Using Data Feeds in Templates](https://support.iterable.com/hc/en-us/articles/39206002278932)

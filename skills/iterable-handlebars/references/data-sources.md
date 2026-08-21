@@ -158,10 +158,10 @@ eventType ("purchase")  shoppingCartItems  total  campaignId  templateId  create
   {{#each shoppingCartItems}}
   <tr>
     <td width="120" valign="top">
-      <img src="{{{imageUrl}}}" alt="{{name}}" width="120" style="display:block;">
+      <img src="{{imageUrl}}" alt="{{name}}" width="120" style="display:block;">
     </td>
     <td valign="top" style="padding-left:16px;">
-      <a href="{{{url}}}" style="font-weight:bold; text-decoration:none;">{{name}}</a><br>
+      <a href="{{url}}" style="font-weight:bold; text-decoration:none;">{{name}}</a><br>
       Qty {{quantity}} &middot; {{numberFormat price "currency"}}
     </td>
   </tr>
@@ -172,7 +172,7 @@ eventType ("purchase")  shoppingCartItems  total  campaignId  templateId  create
 {{/if}}
 ```
 
-Note `{{{imageUrl}}}` and `{{{url}}}` — triple braces. Product URLs carry query strings and double braces will escape the `&`.
+Note the double braces on `imageUrl`, `url`, and `name`. Cart items are data — the recipient's own cart, populated from your catalog — so they stay escaped. A query-string `&` escaped to `&amp;` inside an `href` is the correct HTML spelling and the mail client decodes it before navigating; an apostrophe escaped to `&#x27;` displays as `'`. Neither breaks. Raw output here would put whatever a catalog import wrote straight into the message. If you need to *add* a parameter whose value is dynamic, URL-encode that value: `{{url}}?ref={{#urlEncode}}{{campaignName}}{{/urlEncode}}`. See `troubleshooting.md` §4.
 
 Index and count:
 
@@ -264,11 +264,13 @@ Index access: `[[items.[0].name]]`
 
 ### Namespaced fields (RSS/XML)
 
+`content:encoded` is one of the few feed fields that legitimately takes raw output — it is publisher-authored article markup, and escaping it would show the tags as text. That holds when the feed is your own publication. Every other feed field is data and takes `{{ }}`; a third-party feed's `content:encoded` is not markup you control, and rendering it raw hands that publisher the message.
+
 ```handlebars
 [[item.[0].["content:encoded"]]]        <!-- brackets + quotes for a colon in the name -->
 {{rssFeed.item.[0].["media:thumbnail"]}}
 [[{item.[0].["content:encoded"]}]]      <!-- raw HTML, unmerged feed -->
-{{{rssFeed.item.[0].["content:encoded"]}}}
+{{{rssFeed.item.[0].["content:encoded"]}}}  <!-- raw is correct only for your own publication's article HTML -->
 ```
 
 Note the raw-output form for unmerged feeds is `[[{ … }]]`, not `[[[ … ]]]`.
@@ -308,6 +310,8 @@ Reusable blocks of HTML/CSS/Handlebars inserted at send time.
 {{{ snippet "snippet_name" }}}    <!-- renders HTML as HTML — usually what you want -->
 {{  snippet "snippet_name" }}     <!-- HTML-escaped, renders as visible text -->
 ```
+
+Raw output is right here because a snippet body is markup your team wrote and maintains in Content → Snippets — the one case that meets the "markup you authored" bar. That does **not** extend to the values you pass into it: a profile field passed as a parameter is still data, and inside the snippet body it renders with `{{ }}` like anything else.
 
 **Positional parameters:**
 
