@@ -1,0 +1,23 @@
+{
+  "skill_name": "marketo-velocity",
+  "evals": [
+    {
+      "id": 0,
+      "name": "custom-object-loop",
+      "prompt": "In Marketo I need to list a person's registered events in an email. The events are in a custom object called Event Registration with fields Event Name, Event Date and Event City. I want the 3 most recent, newest first, with the date formatted nicely, and a friendly fallback if they have none. Also greet them by first name without it breaking for people who don't have one.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "default-not-working",
+      "prompt": "Marketo. I built an email script token to show a customer's account manager name and I set a default value on it like this: {{my.accountManagerScript:default=our team}}. The default never shows - people with no account manager just get a blank. I also tried ${display.alt($lead.AccountManagerName,\"our team\")} inside the script and that doesn't work either. What am I doing wrong?",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "email-wont-validate",
+      "prompt": "Our Marketo email won't save - we keep getting a validation error. There's no scripting in it at all, it's a plain HTML template with a couple of {{lead.First Name}} tokens. The only recent change was adding a link to our updated privacy policy at https://example.com/legal/#end-user-agreement and a line of copy that says \"we've thought this through from the beginning right through to the #end\". Any ideas?",
+      "files": []
+    }
+  ]
+}
