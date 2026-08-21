@@ -1,0 +1,9 @@
+# Optional ChatGPT presentation metadata (Agent Skills open standard).
+# Claude ignores this file entirely — the same skill folder works on both platforms.
+interface:
+  name: SFMC AMPscript
+  description: Write and debug AMPscript personalization in Salesforce Marketing Cloud.
+  brand_color: "#FF4D6D"  # TODO: swap for the Email Love brand hex
+  default_prompt: Check this AMPscript for anything that would put subscribers in Errored/NotSent.
+policy:
+  allow_implicit_invocation: true
