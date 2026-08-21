@@ -183,7 +183,7 @@ Operators: `==` `!=` `>` `<` `>=` `<=` `&&` `||` `!`
 #end
 
 ## WORKS — use #define
-#define( $formatLink )<a href="http://${url}">Click to get your document!</a>#end
+#define( $formatLink )<a href="https://${url}">Click to get your document!</a>#end
 ```
 
 ### Comments
@@ -400,15 +400,15 @@ Adobe's rule, verbatim: *"To ensure correct URL parsing, set the complete path a
 ```html
 <!-- Correct -->
 #set($url = "www.example.com/${object.id}")
-<a href="http://${url}">Link Text</a>
+<a href="https://${url}">Link Text</a>
 
 <!-- Correct -->
-<a href="http://www.example.com/${object.id}">Link Text</a>
+<a href="https://www.example.com/${object.id}">Link Text</a>
 
 <!-- Incorrect -->
 <a href="${url}">Link Text</a>
 <a href="{{my.link}}">Link Text</a>
-<a href="http://{{my.link}}">Link Text</a>
+<a href="https://{{my.link}}">Link Text</a>
 ```
 
 **An Email Script token inside a tracked link will not compile.** The tracked-link rewrite happens *before* Velocity compiles, so the recipient sees raw script in the address bar. Two fixes:
