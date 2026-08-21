@@ -1,0 +1,9 @@
+# Optional ChatGPT presentation metadata (Agent Skills open standard).
+# Claude ignores this file entirely — the same skill folder works on both platforms.
+interface:
+  name: Iterable Handlebars
+  description: Write and debug Handlebars personalization in Iterable templates.
+  brand_color: "#FF4D6D"  # TODO: swap for the Email Love brand hex
+  default_prompt: Check this Iterable template for anything that would render wrong or skip the send.
+policy:
+  allow_implicit_invocation: true
