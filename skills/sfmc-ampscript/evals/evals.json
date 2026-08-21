@@ -1,0 +1,23 @@
+{
+  "skill_name": "sfmc-ampscript",
+  "evals": [
+    {
+      "id": 0,
+      "name": "order-history-loop",
+      "prompt": "In SFMC I need a block in our order confirmation email that pulls the customer's last 3 orders from a non-sendable Data Extension called OrderHistory (keyed on SubscriberKey) and shows product name, order date and total in a table. If they have no order history show a generic bestsellers line instead. Paste-ready please.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "errored-notsent-debug",
+      "prompt": "We sent an SFMC campaign to 90k and about 7k came back as Errored. Not bounced - Errored, and they show as NotSent. Deliverability is fine. The only new thing in the email is this block:\n\n%%[\nVAR @rows, @row\nSET @rows = LookupRows(\"LoyaltyTier\",\"SubscriberKey\",_subscriberkey)\nIF NOT Empty(@rows) THEN\n  SET @row = Row(@rows,1)\n]%%\n<p>Hi %%FirstName%%, you're a %%=Field(@row,\"TierName\")=%% member with %%=Add(PointsBalance, BonusPoints)=%% points.</p>\n%%[ ENDIF ]%%\n\nWhat's going on and how do I find out for sure?",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "subject-line-date",
+      "prompt": "In Salesforce Marketing Cloud I want the subject line to include the customer's first name properly capitalised, and the body to say how many days are left until their renewal date (a date field called RenewalDate on the sending Data Extension). If the renewal is in the past the copy should change. How do I do this?",
+      "files": []
+    }
+  ]
+}
