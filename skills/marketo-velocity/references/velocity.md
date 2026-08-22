@@ -81,8 +81,8 @@ You still have to select the object's fields in the editing pane.
 
 ```html
 <ul>
-<li>Product Ordered: $!{TriggerObject.ProductName}</li>
-<li>Order Total: $!{TriggerObject.Amount}</li>
+<li>Product Ordered: $!{esc.html($TriggerObject.ProductName)}</li>
+<li>Order Total: $!{esc.html($TriggerObject.Amount)}</li>
 </ul>
 <p><a href="$!{TriggerObject.OrderURL}">View Your Order Online</a></p>
 ```
@@ -200,7 +200,7 @@ The `##`-at-end-of-line idiom suppresses the trailing newline, and it's load-bea
 #if( $lead.FirstName.isEmpty() )
 Friend,##
 #else
-$lead.FirstName,##
+$esc.html($lead.FirstName),##
 #end
 ```
 
@@ -277,7 +277,7 @@ Dear ##
 #if( $lead.FirstName.isEmpty() )
 Friend,##
 #else
-$lead.FirstName,##
+$esc.html($lead.FirstName),##
 #end
 ```
 

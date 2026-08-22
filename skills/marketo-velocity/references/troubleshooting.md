@@ -240,7 +240,7 @@ Email Actions → **Send Sample**, from the asset list or within Edit Draft. Req
 
 **Verified**
 
-- [ ] Send Sample with a real person selected (and the Trigger field set, if using `$TriggerObject`)
+- [ ] Send Sample with a seed or test person selected — not a production customer (and the Trigger field set, if using `$TriggerObject`)
 - [ ] Preview → View As: Lead Detail, checked for script exceptions
 - [ ] Previewed against a person **with** the key field and one **without**
 - [ ] Aware the sample's newline handling differs from a trigger send
