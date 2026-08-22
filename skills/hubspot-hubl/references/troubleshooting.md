@@ -250,7 +250,7 @@ Stated plainly because guessing here is how bad advice gets shipped.
 - **`{% capture %}`, `{% with %}`, `{% filter %}` blocks, `{% set %}` block form, `namespace()`.** Jinja or Django constructs absent from HubSpot's reference. Absent from the docs is not the same as absent from Jinjava — but an email send is the wrong place to find out.
 - **Template rendering as a send-failure reason.** It is not on the contact-timeline "not sent" list at all.
 
-When one of these comes up, the honest answer is that HubSpot does not say, followed by the test that would settle it: a preview against a real contact, or a seed send.
+When one of these comes up, the honest answer is that HubSpot does not say, followed by the test that would settle it: a preview as a seed or test contact, or a seed send.
 
 ---
 

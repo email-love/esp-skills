@@ -58,7 +58,7 @@ Three places a fallback can live, and only one of them is code:
 
 ### Empty, missing, and unknown
 
-HubSpot does not document the difference between a contact whose property is an empty string, a contact who has no value for the property at all, and a recipient HubSpot cannot resolve to a contact. All three are commonly reported as rendering the same blank. Treat them as one case, set a fallback, and verify with a preview against a real contact in each state rather than reasoning about it.
+HubSpot does not document the difference between a contact whose property is an empty string, a contact who has no value for the property at all, and a recipient HubSpot cannot resolve to a contact. All three are commonly reported as rendering the same blank. Treat them as one case, set a fallback, and verify with a preview as a seed or test contact in each state rather than reasoning about it.
 
 ---
 
