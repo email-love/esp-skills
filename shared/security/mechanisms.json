@@ -1,7 +1,7 @@
 {
   "braze-liquid": "Braze's `:rerender` modifier executes a stored string as template code.",
   "customerio-liquid": "Customer.io's `{% render_liquid %}` tag executes a stored string as template code.",
-  "hubspot-hubl": "HubL has no documented construct that executes a stored string as template code, but `|safe` and unescaped module or property fields put a stored string into the message as markup.",
+  "hubspot-hubl": "HubL's `|render` filter evaluates a string containing HubL and returns the result.",
   "iterable-handlebars": "Triple-brace output puts a stored string into the message as markup rather than escaped text.",
   "klaviyo-django": "Django's `|safe` filter and `{% autoescape off %}` put a stored string into the message as markup rather than escaped text.",
   "marketo-velocity": "Velocity's `#evaluate($string)` executes a stored string as template code.",

@@ -1,0 +1,12 @@
+{
+  "braze-liquid": "Braze Liquid output is **not** HTML-escaped by default \u2014 Liquid prints values raw. Pipe untrusted values through `| escape` for HTML text.",
+  "customerio-liquid": "Customer.io Liquid output is **not** HTML-escaped by default \u2014 Liquid prints values raw. Pipe untrusted values through `| escape` for HTML text.",
+  "hubspot-hubl": "HubSpot does not clearly document whether HubL email output is HTML-escaped by default. Treat it as unknown: escape untrusted values explicitly with `|escape` rather than relying on a default.",
+  "iterable-handlebars": "Iterable's double-brace `{{ }}` output **is** HTML-escaped; triple-brace `{{{ }}}` output is raw. The default is safe for HTML text \u2014 the danger is switching to triple braces.",
+  "klaviyo-django": "Klaviyo runs Django templates with autoescape on, so `{{ }}` output **is** HTML-escaped by default. The danger is turning that off with `|safe` or `{% autoescape off %}`.",
+  "marketo-velocity": "Marketo Velocity output is explicitly **unencoded** \u2014 nothing is escaped for you. Wrap dynamic HTML text in `$esc.html(...)` unless the value is deliberately trusted markup.",
+  "moengage-jinja": "MoEngage runs Jinja with autoescape **off** \u2014 nothing is escaped for you. Pipe untrusted values through `|e` for HTML text.",
+  "sailthru-zephyr": "Zephyr output is **not** escaped unless you call `h()` \u2014 nothing is escaped for you by default.",
+  "sfmc-ampscript": "AMPscript output is **not** HTML-escaped, and AMPscript has no built-in HTML-escape function. Validate or sanitise values upstream, or constrain them to known-safe character sets, before printing them into HTML.",
+  "zeta-zml": "Zeta does not document whether ZML output is HTML-escaped by default. Treat it as unknown: pipe untrusted values through `|escape` rather than relying on a default."
+}
