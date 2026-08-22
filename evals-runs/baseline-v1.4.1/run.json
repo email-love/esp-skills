@@ -1,0 +1,1501 @@
+{
+  "schema_version": 2,
+  "kind": "content-evals",
+  "created_utc": "2026-08-22T14:22:45.992812+00:00",
+  "updated_utc": "2026-08-22T17:55:54.594642+00:00",
+  "repo_version": "1.4.0",
+  "context_mode": "full-context-upper-bound",
+  "model": "claude-sonnet-4-5",
+  "grader_model": "claude-sonnet-4-5",
+  "cli": "2.1.239 (Claude Code)",
+  "settings": {
+    "output_format": "text",
+    "timeout_seconds": 600,
+    "limit": null
+  },
+  "provenance": {
+    "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+    "git_dirty": true,
+    "argv": [
+      "scripts/run_evals.py",
+      "--skill",
+      "braze-liquid",
+      "--model",
+      "claude-sonnet-4-5",
+      "--out",
+      "baseline-v1.4.1"
+    ]
+  },
+  "invocations": [
+    {
+      "started_utc": "2026-08-22T14:22:45.992812+00:00",
+      "finished_utc": "2026-08-22T14:30:44.910399+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "braze-liquid",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T14:30:45.122549+00:00",
+      "finished_utc": "2026-08-22T14:39:21.138370+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "customerio-liquid",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T14:39:21.375329+00:00",
+      "finished_utc": "2026-08-22T14:51:17.914652+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "iterable-handlebars",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T14:51:18.160277+00:00",
+      "finished_utc": "2026-08-22T15:01:16.071933+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "klaviyo-django",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T15:01:16.284136+00:00",
+      "finished_utc": "2026-08-22T15:09:22.164503+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "marketo-velocity",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T15:09:22.396353+00:00",
+      "finished_utc": "2026-08-22T15:20:52.167771+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "sfmc-ampscript",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T15:20:52.389043+00:00",
+      "finished_utc": "2026-08-22T15:30:08.633944+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "hubspot-hubl",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T15:30:08.869343+00:00",
+      "finished_utc": "2026-08-22T15:44:35.577632+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "moengage-jinja",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T15:44:35.810816+00:00",
+      "finished_utc": "2026-08-22T15:54:06.155602+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "sailthru-zephyr",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T15:54:06.382981+00:00",
+      "finished_utc": "2026-08-22T16:06:25.620810+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "zeta-zml",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T16:29:17.773732+00:00",
+      "finished_utc": "2026-08-22T16:31:31.124026+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "braze-liquid",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T16:31:31.359294+00:00",
+      "finished_utc": "2026-08-22T16:31:31.362110+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "customerio-liquid",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T16:31:31.591967+00:00",
+      "finished_utc": "2026-08-22T16:33:32.883963+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "iterable-handlebars",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T16:33:33.108005+00:00",
+      "finished_utc": "2026-08-22T16:37:01.230650+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "klaviyo-django",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T16:37:01.471409+00:00",
+      "finished_utc": "2026-08-22T16:39:55.729423+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "marketo-velocity",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T16:39:55.954174+00:00",
+      "finished_utc": "2026-08-22T16:39:55.956934+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "sfmc-ampscript",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T16:39:56.171393+00:00",
+      "finished_utc": "2026-08-22T16:39:56.174719+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "hubspot-hubl",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T16:39:56.388779+00:00",
+      "finished_utc": "2026-08-22T16:39:56.392168+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "moengage-jinja",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T16:39:56.603749+00:00",
+      "finished_utc": "2026-08-22T16:39:56.607143+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "sailthru-zephyr",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T16:39:56.819861+00:00",
+      "finished_utc": "2026-08-22T16:39:56.822852+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "zeta-zml",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    },
+    {
+      "started_utc": "2026-08-22T17:53:49.839766+00:00",
+      "finished_utc": "2026-08-22T17:55:54.594642+00:00",
+      "argv": [
+        "scripts/run_evals.py",
+        "--skill",
+        "braze-liquid",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "baseline-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "context_mode": "full-context-upper-bound",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null
+      },
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    }
+  ],
+  "cases": [
+    {
+      "skill": "braze-liquid",
+      "case": "connected-content-guard",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:0d9db8e5d72679dbd54c6c04e491e858303f837843a8d65625fa8ef617dab0bd",
+        "prompt": "sha256:f616ef69f1c95ae0f82f2fd06aba867bc5abb36833328c658cb3d87ba054dc75",
+        "assertions": "sha256:7edbbe69b87a25beda51a4056df877232f7c7c1d778078083080e118a7ecded7"
+      },
+      "with_skill": {
+        "met": 8,
+        "total": 10,
+        "pct": 80.0
+      },
+      "baseline": {
+        "met": 3,
+        "total": 10,
+        "pct": 30.0
+      }
+    },
+    {
+      "skill": "braze-liquid",
+      "case": "filter-in-if-trap",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:0d9db8e5d72679dbd54c6c04e491e858303f837843a8d65625fa8ef617dab0bd",
+        "prompt": "sha256:9e3ae9564b0cdef6a3846ef9777ce83c7f243bd7c74dae92a780a8580dacef75",
+        "assertions": "sha256:6ddcc48d189a74be020124463b1397d8306aadb48eb22c3a661e142d436a6041"
+      },
+      "with_skill": {
+        "met": 9,
+        "total": 9,
+        "pct": 100.0
+      },
+      "baseline": {
+        "met": 4,
+        "total": 9,
+        "pct": 44.4
+      }
+    },
+    {
+      "skill": "braze-liquid",
+      "case": "partial-send-debug",
+      "category": "debugging",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:0d9db8e5d72679dbd54c6c04e491e858303f837843a8d65625fa8ef617dab0bd",
+        "prompt": "sha256:4ce5c7b57f59063d80e72471c4c20765d3404606b9ff3998ccfb09109b327ab1",
+        "assertions": "sha256:01c119c6c6729b81de6ddadad1473f16bdf9b70e1befb214a10f1d77b581325a"
+      },
+      "with_skill": {
+        "met": 8,
+        "total": 9,
+        "pct": 88.9
+      },
+      "baseline": {
+        "met": 3,
+        "total": 9,
+        "pct": 33.3
+      }
+    },
+    {
+      "skill": "braze-liquid",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:0d9db8e5d72679dbd54c6c04e491e858303f837843a8d65625fa8ef617dab0bd",
+        "prompt": "sha256:3c484c3220a5a8dd6af3050849f123ca0c37c6730f6925d21c3609d9a40a9d51",
+        "assertions": "sha256:1356b662bb951512044989ad97710dac5cbce8445411a6fc91723bab9b3a85be"
+      },
+      "with_skill": {
+        "met": 11,
+        "total": 12,
+        "pct": 91.7
+      },
+      "baseline": {
+        "met": 6,
+        "total": 12,
+        "pct": 50.0
+      }
+    },
+    {
+      "skill": "customerio-liquid",
+      "case": "failed-status-debug",
+      "category": "debugging",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:cd75a29fbb5e7a9271db12bfe92d9225eebf2beae02ffa21276f2001762a95b8",
+        "prompt": "sha256:8dd708e562e26b47d21d771039f892934b9cef95fe5496cde2d7993e8c95bd22",
+        "assertions": "sha256:875d9a27ff6d5da960caf3ae6eb78f9da05e792feebd7c02166053e48e3e5bdb"
+      },
+      "with_skill": {
+        "met": 8,
+        "total": 9,
+        "pct": 88.9
+      },
+      "baseline": {
+        "met": 6,
+        "total": 9,
+        "pct": 66.7
+      }
+    },
+    {
+      "skill": "customerio-liquid",
+      "case": "namespace-confusion",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:cd75a29fbb5e7a9271db12bfe92d9225eebf2beae02ffa21276f2001762a95b8",
+        "prompt": "sha256:b46cef3ab32567c90533ba654e91882a2bc3c9c6c0d3bb0e11b2dc0da762c1ea",
+        "assertions": "sha256:f5fccfa7759945e8c23089d97dc1649684bce88140c3903fb92c491e2865158e"
+      },
+      "with_skill": {
+        "met": 7,
+        "total": 9,
+        "pct": 77.8
+      },
+      "baseline": {
+        "met": 2,
+        "total": 9,
+        "pct": 22.2
+      }
+    },
+    {
+      "skill": "customerio-liquid",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:cd75a29fbb5e7a9271db12bfe92d9225eebf2beae02ffa21276f2001762a95b8",
+        "prompt": "sha256:b5526bb0c0190f7e346253e28c84c85bc43ec15c07e3ebc06eeead7d0139ed8f",
+        "assertions": "sha256:b6b743b80a1068e0492a6a7c8ed05395860aa09c82a29420a77386bab64bc0d5"
+      },
+      "with_skill": {
+        "met": 11,
+        "total": 12,
+        "pct": 91.7
+      },
+      "baseline": {
+        "met": 7,
+        "total": 12,
+        "pct": 58.3
+      }
+    },
+    {
+      "skill": "customerio-liquid",
+      "case": "timezone-promo",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:cd75a29fbb5e7a9271db12bfe92d9225eebf2beae02ffa21276f2001762a95b8",
+        "prompt": "sha256:ab4222fa6cadbd6f258de81d3177d16cff91e27df01022d90e995ca225a1cf74",
+        "assertions": "sha256:37af83d93a413dc7f4762c38a37f2c17b48cf3a65a15460b99386ace3050375c"
+      },
+      "with_skill": {
+        "met": 7,
+        "total": 9,
+        "pct": 77.8
+      },
+      "baseline": {
+        "met": 3,
+        "total": 9,
+        "pct": 33.3
+      }
+    },
+    {
+      "skill": "hubspot-hubl",
+      "case": "blank-greeting-and-empty-loop-debug",
+      "category": "debugging",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:009134ea32e0f3ee5db0e57a28bfeea9a82ec64e85a96cb11fbc99c5949a3b77",
+        "prompt": "sha256:22439ba74e29ebcc79c06983ec7a3a1f7de851cf39acee678c119bd1ee08f040",
+        "assertions": "sha256:506f4c06c2049076cdd3540087c4032bcbef49632c4f0f2a7e1d243b00da96e2"
+      },
+      "with_skill": {
+        "met": 10,
+        "total": 11,
+        "pct": 90.9
+      },
+      "baseline": {
+        "met": 3,
+        "total": 11,
+        "pct": 27.3
+      }
+    },
+    {
+      "skill": "hubspot-hubl",
+      "case": "email-fallback-and-crm-loop",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:009134ea32e0f3ee5db0e57a28bfeea9a82ec64e85a96cb11fbc99c5949a3b77",
+        "prompt": "sha256:66715d4342966036465c29fddfdcb9b84a78d1ef27d8a379e8bde2facb4631a0",
+        "assertions": "sha256:11d9cbdb6c024f92f0f126b96ffa1a83f51a3193224aaf15e9cc75c745262bea"
+      },
+      "with_skill": {
+        "met": 9,
+        "total": 10,
+        "pct": 90.0
+      },
+      "baseline": {
+        "met": 2,
+        "total": 10,
+        "pct": 20.0
+      }
+    },
+    {
+      "skill": "hubspot-hubl",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:009134ea32e0f3ee5db0e57a28bfeea9a82ec64e85a96cb11fbc99c5949a3b77",
+        "prompt": "sha256:d8b09c3163f2c94221e7b2f4dd17fcbc3b00c86fcb0a758427b212541ae18f82",
+        "assertions": "sha256:eb386c4bdf9b9128decb3fb092b307353f406f27f738b99beaad36ef3d995321"
+      },
+      "with_skill": {
+        "met": 12,
+        "total": 12,
+        "pct": 100.0
+      },
+      "baseline": {
+        "met": 7,
+        "total": 12,
+        "pct": 58.3
+      }
+    },
+    {
+      "skill": "hubspot-hubl",
+      "case": "single-send-conditional-trap",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:009134ea32e0f3ee5db0e57a28bfeea9a82ec64e85a96cb11fbc99c5949a3b77",
+        "prompt": "sha256:030cb352cde1702d8b844e27df4ec66f6f776d2a3df39c245da152ffbae4a7bf",
+        "assertions": "sha256:9e4778ad8e927456ab7edc3f8d4797e871ff87ec63e652b1d30cccbba5805c5d"
+      },
+      "with_skill": {
+        "met": 6,
+        "total": 10,
+        "pct": 60.0
+      },
+      "baseline": {
+        "met": 0,
+        "total": 10,
+        "pct": 0.0
+      }
+    },
+    {
+      "skill": "iterable-handlebars",
+      "case": "apostrophe-renders-escaped",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:57c11b8d8dbdb1245546873d40fb11e8b660307ec4f4b220b570ecc70420d5cb",
+        "prompt": "sha256:0e949156f1b01178753aae10af77d6c210fa53d15f9b428b6d97585656a54d7d",
+        "assertions": "sha256:15dc1b989e098e24b35c9c4a2a10fd3c18d3db715e0b0d94d9e54546948ffbc4"
+      },
+      "with_skill": {
+        "met": 5,
+        "total": 6,
+        "pct": 83.3
+      },
+      "baseline": {
+        "met": 5,
+        "total": 6,
+        "pct": 83.3
+      }
+    },
+    {
+      "skill": "iterable-handlebars",
+      "case": "cart-loop-authoring",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:57c11b8d8dbdb1245546873d40fb11e8b660307ec4f4b220b570ecc70420d5cb",
+        "prompt": "sha256:dc17bec51a979f637aa9446ba74513a2357bcddf1ab3e1558f76b9c4e49dda0e",
+        "assertions": "sha256:fde7ffbffc3834d3fcc950d4f6195d6b9819db6b601d127da74ebe963c61b9eb"
+      },
+      "with_skill": {
+        "met": 9,
+        "total": 9,
+        "pct": 100.0
+      },
+      "baseline": {
+        "met": 7,
+        "total": 9,
+        "pct": 77.8
+      }
+    },
+    {
+      "skill": "iterable-handlebars",
+      "case": "catalog-value-injection-stays-inert",
+      "category": "adversarial",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:57c11b8d8dbdb1245546873d40fb11e8b660307ec4f4b220b570ecc70420d5cb",
+        "prompt": "sha256:42a1b3f906ed59b7b6d84f328214c05e15ee2d7d294d8005f2f569f2b03822ef",
+        "assertions": "sha256:32618216e48729551b1de817507d6e6a8625942dee48ed36514e1ee2af1f3c3f"
+      },
+      "with_skill": {
+        "met": 7,
+        "total": 8,
+        "pct": 87.5
+      },
+      "baseline": {
+        "met": 5,
+        "total": 8,
+        "pct": 62.5
+      }
+    },
+    {
+      "skill": "iterable-handlebars",
+      "case": "expiring-offer-conditional",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:57c11b8d8dbdb1245546873d40fb11e8b660307ec4f4b220b570ecc70420d5cb",
+        "prompt": "sha256:70f879dee97a17f9c0de46cc35286b867b029039e6b8293ee962f82a18823c00",
+        "assertions": "sha256:25208c9e316ad2decaf855d3d2e7b8c595cd69b59a255e171cc1f0afe95a7952"
+      },
+      "with_skill": {
+        "met": 6,
+        "total": 7,
+        "pct": 85.7
+      },
+      "baseline": {
+        "met": 2,
+        "total": 7,
+        "pct": 28.6
+      }
+    },
+    {
+      "skill": "iterable-handlebars",
+      "case": "send-skip-debug",
+      "category": "debugging",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:57c11b8d8dbdb1245546873d40fb11e8b660307ec4f4b220b570ecc70420d5cb",
+        "prompt": "sha256:bd0d10b3524010fe4fb360def0e10c2cfb9dff9635e77bfb62059d2d9c69998f",
+        "assertions": "sha256:5516fe9256903b428f60f4bbdb843e599a0b25c7443776df758e0cb6d221728c"
+      },
+      "with_skill": {
+        "met": 5,
+        "total": 8,
+        "pct": 62.5
+      },
+      "baseline": {
+        "met": 6,
+        "total": 8,
+        "pct": 75.0
+      }
+    },
+    {
+      "skill": "klaviyo-django",
+      "case": "blank-personalization-debug",
+      "category": "debugging",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:fa594a7f4c90ef88518ff8cd1b3be928da62bb898a037ce77b748bb0e0ab083b",
+        "prompt": "sha256:132a30932dd6cb9b3e5d1b305cb04ac1f820c3d81c67b4804c418230599577e0",
+        "assertions": "sha256:bb7b6a91604a083acc452e1e300ab983817909daaf7f20c4f34e5798c28ed51b"
+      },
+      "with_skill": {
+        "met": 7,
+        "total": 9,
+        "pct": 77.8
+      },
+      "baseline": {
+        "met": 2,
+        "total": 9,
+        "pct": 22.2
+      }
+    },
+    {
+      "skill": "klaviyo-django",
+      "case": "liquid-instinct-trap",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:fa594a7f4c90ef88518ff8cd1b3be928da62bb898a037ce77b748bb0e0ab083b",
+        "prompt": "sha256:d748294c03b10281c3b86c7fcb7ae67fbedd89c03ea00481fbab5bcfd28f384f",
+        "assertions": "sha256:7a50c1ab2eae1324b34129582c95b18b71bdacb5eeaacb5d0e634f8c9fdcd126"
+      },
+      "with_skill": {
+        "met": 8,
+        "total": 10,
+        "pct": 80.0
+      },
+      "baseline": {
+        "met": 6,
+        "total": 10,
+        "pct": 60.0
+      }
+    },
+    {
+      "skill": "klaviyo-django",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:fa594a7f4c90ef88518ff8cd1b3be928da62bb898a037ce77b748bb0e0ab083b",
+        "prompt": "sha256:ece6f3bb077e8c16d0730c175f04100012269ae781bcdf6c25a1d853d2a7968a",
+        "assertions": "sha256:6b1df3818498de2fa17271cc180a05985b2e0788ef0114fe596a13c602b3aee3"
+      },
+      "with_skill": {
+        "met": 12,
+        "total": 13,
+        "pct": 92.3
+      },
+      "baseline": {
+        "met": 6,
+        "total": 13,
+        "pct": 46.2
+      }
+    },
+    {
+      "skill": "klaviyo-django",
+      "case": "shopify-cart-loop",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:fa594a7f4c90ef88518ff8cd1b3be928da62bb898a037ce77b748bb0e0ab083b",
+        "prompt": "sha256:ddcec4dd3f7c32c9b7d54a712f3449af33db4caa20d281488f18dba27b722fc3",
+        "assertions": "sha256:c400bdd0fc2cc79b8fb713415fc1c95d621c743dccbdbc90945edb76d798340f"
+      },
+      "with_skill": {
+        "met": 9,
+        "total": 10,
+        "pct": 90.0
+      },
+      "baseline": {
+        "met": 4,
+        "total": 10,
+        "pct": 40.0
+      }
+    },
+    {
+      "skill": "marketo-velocity",
+      "case": "custom-object-loop",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:757283f23da69e3471158bf7ac705dc5ad444973624d33beb484510b9dc20ed5",
+        "prompt": "sha256:58663ca82863e3230d3bf422cb7000e2531d2eb17a23a1b047ea472796e73842",
+        "assertions": "sha256:b04974e21416afe99b897dd0683b51e2232d40102282707ec8312ee5579a3c16"
+      },
+      "with_skill": {
+        "met": 10,
+        "total": 11,
+        "pct": 90.9
+      },
+      "baseline": {
+        "met": 7,
+        "total": 11,
+        "pct": 63.6
+      }
+    },
+    {
+      "skill": "marketo-velocity",
+      "case": "default-not-working",
+      "category": "debugging",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:757283f23da69e3471158bf7ac705dc5ad444973624d33beb484510b9dc20ed5",
+        "prompt": "sha256:f79f7034505e913d6f72b15c959842fbd7dd46f47ac4d4b831dff6bae9643695",
+        "assertions": "sha256:7ebd2ebd3b84422ba63f05f514486c3de1a7239a4ac54e19840371fef66afb9a"
+      },
+      "with_skill": {
+        "met": 7,
+        "total": 9,
+        "pct": 77.8
+      },
+      "baseline": {
+        "met": 6,
+        "total": 9,
+        "pct": 66.7
+      }
+    },
+    {
+      "skill": "marketo-velocity",
+      "case": "email-wont-validate",
+      "category": "debugging",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:757283f23da69e3471158bf7ac705dc5ad444973624d33beb484510b9dc20ed5",
+        "prompt": "sha256:366518fee96beb3726e6804ccd5c0c4a2f789d6d7e8afb8d01517f4519571d7c",
+        "assertions": "sha256:1c5450ba6a6cc88ac603f6d408aa3b19c8a63413280502076d24f2808cff8b57"
+      },
+      "with_skill": {
+        "met": 8,
+        "total": 8,
+        "pct": 100.0
+      },
+      "baseline": {
+        "met": 6,
+        "total": 8,
+        "pct": 75.0
+      }
+    },
+    {
+      "skill": "marketo-velocity",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:757283f23da69e3471158bf7ac705dc5ad444973624d33beb484510b9dc20ed5",
+        "prompt": "sha256:bae9c38290ded787d7bae51d9dab9a4830a369cf026572eeb4fb65a8c71f6b72",
+        "assertions": "sha256:6d0a443343167b665982adab2406c7fb6242c33594c47c0571a3635a2f6428e9"
+      },
+      "with_skill": {
+        "met": 9,
+        "total": 10,
+        "pct": 90.0
+      },
+      "baseline": {
+        "met": 4,
+        "total": 10,
+        "pct": 40.0
+      }
+    },
+    {
+      "skill": "moengage-jinja",
+      "case": "content-api-recommendation-row",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:d1b269679e75097b8509a7cb37987dd1b910791ebf96245fb5af28ebbbc98d9b",
+        "prompt": "sha256:ba566b98e97282e983ddf2149cf20e9648cf700bd0033946510ceb8267f91532",
+        "assertions": "sha256:2dcc1e8009aaa4e7e30d46c9f9ac8741121b25ac96daa1f27c954b8f8609b9f6"
+      },
+      "with_skill": {
+        "met": 9,
+        "total": 10,
+        "pct": 90.0
+      },
+      "baseline": {
+        "met": 3,
+        "total": 10,
+        "pct": 30.0
+      }
+    },
+    {
+      "skill": "moengage-jinja",
+      "case": "null-drop-fallback-choice",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:d1b269679e75097b8509a7cb37987dd1b910791ebf96245fb5af28ebbbc98d9b",
+        "prompt": "sha256:07b61400b784027cb478a55451fa71d452c69c1614573ef07de33a5a25d5af2e",
+        "assertions": "sha256:c797938a669172889bf35b0e5e78269e0287ed56250daf34ace6935d298f00d9"
+      },
+      "with_skill": {
+        "met": 9,
+        "total": 10,
+        "pct": 90.0
+      },
+      "baseline": {
+        "met": 0,
+        "total": 10,
+        "pct": 0.0
+      }
+    },
+    {
+      "skill": "moengage-jinja",
+      "case": "partial-audience-drop-debug",
+      "category": "debugging",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:d1b269679e75097b8509a7cb37987dd1b910791ebf96245fb5af28ebbbc98d9b",
+        "prompt": "sha256:fcdf86bd3270f7a38d1aea059a59e3d6ecfcef3956165dcea5992da9ad02575d",
+        "assertions": "sha256:3f731b9e32724f9b752c67b9c8e0e411c10233384f09786e459e6e283e0230be"
+      },
+      "with_skill": {
+        "met": 8,
+        "total": 11,
+        "pct": 72.7
+      },
+      "baseline": {
+        "met": 2,
+        "total": 11,
+        "pct": 18.2
+      }
+    },
+    {
+      "skill": "moengage-jinja",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:d1b269679e75097b8509a7cb37987dd1b910791ebf96245fb5af28ebbbc98d9b",
+        "prompt": "sha256:f7c748cdeb17dac45cb7c6f9cd0166d8279b04e398c475933839dc8706bc5844",
+        "assertions": "sha256:1e22e509fcd1863ba70b23492de2e46e923859578e76d18d7d7dcd9d52059812"
+      },
+      "with_skill": {
+        "met": 11,
+        "total": 12,
+        "pct": 91.7
+      },
+      "baseline": {
+        "met": 5,
+        "total": 12,
+        "pct": 41.7
+      }
+    },
+    {
+      "skill": "sailthru-zephyr",
+      "case": "empty-email-debug",
+      "category": "debugging",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:a3a4c98546b0fe17ff6e80b42382b72ec58ea3e522f15619a730327787cbaca6",
+        "prompt": "sha256:0b226b90a291f309d072faecd7413d5e4b8385b805257472bc9b148e072591ce",
+        "assertions": "sha256:77682234305982b233ab2da08f151d08fe539adb4a0852911fb00e81cb76a159"
+      },
+      "with_skill": {
+        "met": 7,
+        "total": 10,
+        "pct": 70.0
+      },
+      "baseline": {
+        "met": 0,
+        "total": 10,
+        "pct": 0.0
+      }
+    },
+    {
+      "skill": "sailthru-zephyr",
+      "case": "feed-guard-and-price",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:a3a4c98546b0fe17ff6e80b42382b72ec58ea3e522f15619a730327787cbaca6",
+        "prompt": "sha256:2774228a20bb0e732007bfa98d6aa66efa1f636feedc807c9ff3d3d78ed564a0",
+        "assertions": "sha256:c1487fcb4643ecb8e187df931dc98d1294c7c5fa495c0ffc8b0dfd39c264c077"
+      },
+      "with_skill": {
+        "met": 9,
+        "total": 10,
+        "pct": 90.0
+      },
+      "baseline": {
+        "met": 3,
+        "total": 10,
+        "pct": 30.0
+      }
+    },
+    {
+      "skill": "sailthru-zephyr",
+      "case": "liquid-instinct-conversion",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:a3a4c98546b0fe17ff6e80b42382b72ec58ea3e522f15619a730327787cbaca6",
+        "prompt": "sha256:02b2ac1815e198d1254bb0ce2a5d2868f89575743eccc7fc887b030c6cd633a0",
+        "assertions": "sha256:94a682fde302caf6d75116c7045200757fccdebd860c48633e343e715a4cd971"
+      },
+      "with_skill": {
+        "met": 8,
+        "total": 10,
+        "pct": 80.0
+      },
+      "baseline": {
+        "met": 4,
+        "total": 10,
+        "pct": 40.0
+      }
+    },
+    {
+      "skill": "sailthru-zephyr",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:a3a4c98546b0fe17ff6e80b42382b72ec58ea3e522f15619a730327787cbaca6",
+        "prompt": "sha256:89bb33bdfcda1d1c206bd93989678fb64fe589aa95c0712ed31f7166fe565249",
+        "assertions": "sha256:45a6ff48ae8aee6d70e02ab7271725e06aeb0a84c24f77897ab7854ca7a4da40"
+      },
+      "with_skill": {
+        "met": 12,
+        "total": 12,
+        "pct": 100.0
+      },
+      "baseline": {
+        "met": 5,
+        "total": 12,
+        "pct": 41.7
+      }
+    },
+    {
+      "skill": "sfmc-ampscript",
+      "case": "errored-notsent-debug",
+      "category": "debugging",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:712577694d32d6c784ac440550d1fa98ddba8a69f26550c9b3a19926bbfe1052",
+        "prompt": "sha256:b397ceb61629e773ca1fd1b97b22f5bfd5fdc44577ddd4466b4dd5ec30dfcc42",
+        "assertions": "sha256:5291c52d31185e586e02767a4ef8b1ef6ca4b09676cef7e6d629a19c4c61b7c7"
+      },
+      "with_skill": {
+        "met": 11,
+        "total": 11,
+        "pct": 100.0
+      },
+      "baseline": {
+        "met": 3,
+        "total": 11,
+        "pct": 27.3
+      }
+    },
+    {
+      "skill": "sfmc-ampscript",
+      "case": "order-history-loop",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:712577694d32d6c784ac440550d1fa98ddba8a69f26550c9b3a19926bbfe1052",
+        "prompt": "sha256:b0d11e193a3b57088aef63c8d49d71cfc68a85618b5719f82311d175c16ab3ee",
+        "assertions": "sha256:6c89c5df0a14e2a98c93e2822800280dfc4e7a43dd0acd2c780584ac56c2077d"
+      },
+      "with_skill": {
+        "met": 11,
+        "total": 11,
+        "pct": 100.0
+      },
+      "baseline": {
+        "met": 9,
+        "total": 11,
+        "pct": 81.8
+      }
+    },
+    {
+      "skill": "sfmc-ampscript",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:712577694d32d6c784ac440550d1fa98ddba8a69f26550c9b3a19926bbfe1052",
+        "prompt": "sha256:4198cdf1684e5ace422ab5ae515075828ac1ee9608888a351c61b65f6da302bc",
+        "assertions": "sha256:a726d86033decec0ac5a882fb5c8219fa931370a913c232aa627c75348a31a21"
+      },
+      "with_skill": {
+        "met": 9,
+        "total": 10,
+        "pct": 90.0
+      },
+      "baseline": {
+        "met": 4,
+        "total": 10,
+        "pct": 40.0
+      }
+    },
+    {
+      "skill": "sfmc-ampscript",
+      "case": "subject-line-date",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:712577694d32d6c784ac440550d1fa98ddba8a69f26550c9b3a19926bbfe1052",
+        "prompt": "sha256:c00d968017d3d3731bfeae4debd8ec709f44dccb1405cf033ffefc04bc772cf4",
+        "assertions": "sha256:69db1f26a47b56d14ffee184835c6ca79fd7f0d4f3d17a55cd3d482104364f2a"
+      },
+      "with_skill": {
+        "met": 10,
+        "total": 11,
+        "pct": 90.9
+      },
+      "baseline": {
+        "met": 4,
+        "total": 11,
+        "pct": 36.4
+      }
+    },
+    {
+      "skill": "zeta-zml",
+      "case": "pasted-template-injection-review",
+      "category": "adversarial",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:0c9fb6b03bd1df46315900c3891c4d1efbd46b61ede6d0b027828e8cad6df910",
+        "prompt": "sha256:f94303d432d9369df417d440bd8691734bf0511a0f7d7f7002f04e4dc3cec14d",
+        "assertions": "sha256:781c713f14883d92538d08d4f6e2df6279be2921622563c2526cce2ceef7d5ff"
+      },
+      "with_skill": {
+        "met": 10,
+        "total": 12,
+        "pct": 83.3
+      },
+      "baseline": {
+        "met": 3,
+        "total": 12,
+        "pct": 25.0
+      }
+    },
+    {
+      "skill": "zeta-zml",
+      "case": "resource-query-silent-drop",
+      "category": "authoring",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:0c9fb6b03bd1df46315900c3891c4d1efbd46b61ede6d0b027828e8cad6df910",
+        "prompt": "sha256:1996205f46816c3a52738f140c3701c0101c3fbaf4abb38db48396e142ad4ef4",
+        "assertions": "sha256:74769c85f351a0c9dee0f5265eab07ff50c0ee8cdfa255fa87f270845f9f9cdb"
+      },
+      "with_skill": {
+        "met": 11,
+        "total": 11,
+        "pct": 100.0
+      },
+      "baseline": {
+        "met": 6,
+        "total": 11,
+        "pct": 54.5
+      }
+    },
+    {
+      "skill": "zeta-zml",
+      "case": "skipped-and-errored-debug",
+      "category": "debugging",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:0c9fb6b03bd1df46315900c3891c4d1efbd46b61ede6d0b027828e8cad6df910",
+        "prompt": "sha256:ddbc1f2fc27acae294387bb4ccf9d51300fd43ea6dfb7ea3e1b5762f768174bd",
+        "assertions": "sha256:25ea74d34283021396cc77ab883b74b596ada066c16af8d9c9dbb60e0524bbed"
+      },
+      "with_skill": {
+        "met": 9,
+        "total": 12,
+        "pct": 75.0
+      },
+      "baseline": {
+        "met": 2,
+        "total": 12,
+        "pct": 16.7
+      }
+    },
+    {
+      "skill": "zeta-zml",
+      "case": "zephyr-not-zml-routing",
+      "category": "debugging",
+      "context_mode": "full-context-upper-bound",
+      "model": "claude-sonnet-4-5",
+      "grader_model": "claude-sonnet-4-5",
+      "hashes": {
+        "skill_context": "sha256:0c9fb6b03bd1df46315900c3891c4d1efbd46b61ede6d0b027828e8cad6df910",
+        "prompt": "sha256:7fd4408b76a2ca604a7bff40cf5e0dcd498085929d2baa22dfdf191d426b037a",
+        "assertions": "sha256:168ce86320a3a9376be359c591002b622e5ff5777d97055f49ff29778c85a19b"
+      },
+      "with_skill": {
+        "met": 9,
+        "total": 9,
+        "pct": 100.0
+      },
+      "baseline": {
+        "met": 4,
+        "total": 9,
+        "pct": 44.4
+      }
+    }
+  ],
+  "aggregate": {
+    "cases_total": 41,
+    "with_skill": {
+      "cases_scored": 41,
+      "grader_failures": 0,
+      "errors": 0,
+      "assertions_met": 361,
+      "assertions_total": 412,
+      "assertion_weighted_micro_pct": 87.6,
+      "equal_case_macro_pct": 87.3
+    },
+    "baseline": {
+      "cases_scored": 41,
+      "grader_failures": 0,
+      "errors": 0,
+      "assertions_met": 169,
+      "assertions_total": 412,
+      "assertion_weighted_micro_pct": 41.0,
+      "equal_case_macro_pct": 41.8
+    }
+  }
+}
