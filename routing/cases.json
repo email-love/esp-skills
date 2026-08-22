@@ -1,0 +1,451 @@
+{
+  "schema_version": 1,
+  "suite": "routing-v1",
+  "description": "Routing cases for the ten ESP personalization skills. Each case gives the model the ten name+description pairs and one user message, and asks which skill it would load. Descriptions are read live from skills/*/SKILL.md by scripts/run_routing_evals.py; nothing about them is duplicated here.",
+  "categories": {
+    "named": "The platform is named outright. The easy baseline.",
+    "symptom": "The platform is named but the question is a symptom with no language jargon.",
+    "code-only": "A pasted snippet, platform never named, syntax alone identifies it.",
+    "confusable": "Built to provoke cross-firing between lookalike platforms or same-vendor pairs.",
+    "out-of-scope": "Nothing should fire. Catches over-triggering."
+  },
+  "fields": {
+    "id": "kebab-case, unique in the suite",
+    "prompt": "what the user types, verbatim, warts included",
+    "expect": "the slug that should fire, or null when nothing should",
+    "accept": "optional extra slugs that are defensible and are not counted as mis-fires",
+    "expect_clarify": "optional; true when asking which platform is a full pass",
+    "category": "one of the five categories above",
+    "why": "one line on what the case probes"
+  },
+  "cases": [
+    {
+      "id": "named-braze-abort",
+      "category": "named",
+      "prompt": "in braze whats the right way to stop the whole message sending if someone has no first name, dont want to email them a blank greeting",
+      "expect": "braze-liquid",
+      "why": "Platform named and abort_message is called out in the Braze description."
+    },
+    {
+      "id": "named-customerio-snippet",
+      "category": "named",
+      "prompt": "customer.io question - i put a snippet in the email and it renders as nothing, the snippet itself looks fine when i open it",
+      "expect": "customerio-liquid",
+      "why": "Platform named plus snippets, both in the Customer.io description."
+    },
+    {
+      "id": "named-hubspot-default-filter",
+      "category": "named",
+      "prompt": "hubspot marketing email, i added a default filter to the first name token and it still comes out empty",
+      "expect": "hubspot-hubl",
+      "why": "Platform named and the filters-in-email inversion is the HubL skill's headline case."
+    },
+    {
+      "id": "named-iterable-cart-loop",
+      "category": "named",
+      "prompt": "need to build an abandoned cart email in iterable that loops the cart items and shows the image and price",
+      "expect": "iterable-handlebars",
+      "why": "Platform named plus shoppingCartItems loops, named in the description."
+    },
+    {
+      "id": "named-klaviyo-conditional",
+      "category": "named",
+      "prompt": "klaviyo flow email - how do i only show a block when the profile actually has a discount code on it",
+      "expect": "klaviyo-django",
+      "why": "Platform named plus conditional show/hide, named in the description."
+    },
+    {
+      "id": "named-marketo-script-token",
+      "category": "named",
+      "prompt": "marketo email script token isnt outputting anything, the my. token just doesnt appear in the preview",
+      "expect": "marketo-velocity",
+      "why": "Platform named plus Email Script token, named in the description."
+    },
+    {
+      "id": "named-moengage-fallback",
+      "category": "named",
+      "prompt": "in moengage how do i give a user attribute a fallback so the email still goes out",
+      "expect": "moengage-jinja",
+      "why": "Platform named plus fallback choice, the core of the MoEngage description."
+    },
+    {
+      "id": "named-sailthru-feed-loop",
+      "category": "named",
+      "prompt": "sailthru template, im looping our data feed and only want the first three items in the email",
+      "expect": "sailthru-zephyr",
+      "why": "Platform named plus data feed looping, named in the Zephyr description."
+    },
+    {
+      "id": "named-sfmc-lookup",
+      "category": "named",
+      "prompt": "salesforce marketing cloud email needs to pull the loyalty tier out of a data extension per subscriber",
+      "expect": "sfmc-ampscript",
+      "why": "Platform named plus Data Extension lookup, named in the description."
+    },
+    {
+      "id": "named-zeta-zmp-recommendation",
+      "category": "named",
+      "prompt": "zeta marketing platform campaign, trying to drop a recommendation block into the email body",
+      "expect": "zeta-zml",
+      "why": "ZMP named outright plus the recommendation tag, which the ZML description lists."
+    },
+    {
+      "id": "symptom-braze-partial-blank",
+      "category": "symptom",
+      "prompt": "we sent a braze campaign this morning and some people got the email with a big empty gap where the product name should be, most were fine",
+      "expect": "braze-liquid",
+      "why": "Braze named, symptom only, no Liquid jargon - tests the non-jargon half of the description."
+    },
+    {
+      "id": "symptom-braze-canvas-aborts",
+      "category": "symptom",
+      "prompt": "braze canvas step went out to way fewer people than entered it and support said check the activity log, im not sure what im looking for",
+      "expect": "braze-liquid",
+      "why": "Message Activity Log and abort behaviour without naming Liquid or a tag."
+    },
+    {
+      "id": "symptom-cio-failed-deliveries",
+      "category": "symptom",
+      "prompt": "a chunk of our customer.io broadcast is sitting in failed and i cant tell what these people have in common",
+      "expect": "customerio-liquid",
+      "why": "The Failed delivery state is called out in the Customer.io description."
+    },
+    {
+      "id": "symptom-cio-design-studio-drift",
+      "category": "symptom",
+      "prompt": "we rebuilt an old customer.io campaign in design studio, same copy pasted across, and it renders differently to the original. nobody changed anything",
+      "expect": "customerio-liquid",
+      "why": "Per-message engine version is Customer.io specific and shows up only as a symptom here."
+    },
+    {
+      "id": "symptom-hubspot-wont-publish",
+      "category": "symptom",
+      "prompt": "hubspot wont let me publish the email, theres a red error bar at the top but the preview looked completely fine yesterday",
+      "expect": "hubspot-hubl",
+      "why": "Template will not publish, named in the HubL description, with no language named."
+    },
+    {
+      "id": "symptom-hubspot-company-blank",
+      "category": "symptom",
+      "prompt": "our hubspot email shows nothing at all where the company name goes for anyone who isnt attached to a company record",
+      "expect": "hubspot-hubl",
+      "why": "Blank token symptom on an association, no HubL or Jinja mentioned."
+    },
+    {
+      "id": "symptom-iterable-raw-braces",
+      "category": "symptom",
+      "prompt": "an iterable send went out with the actual curly brackets visible in the subject line, customers screenshotted it",
+      "expect": "iterable-handlebars",
+      "why": "Raw braces in a sent message is verbatim in the Iterable description."
+    },
+    {
+      "id": "symptom-klaviyo-wont-preview",
+      "category": "symptom",
+      "prompt": "klaviyo wont preview my template at all, it just errors, and this campaign is supposed to go out in an hour",
+      "expect": "klaviyo-django",
+      "why": "Preview failure, named in the Klaviyo description, phrased as panic not syntax."
+    },
+    {
+      "id": "symptom-marketo-token-literal",
+      "category": "symptom",
+      "prompt": "marketo email went out and the greeting printed the token text itself instead of the persons name, about 900 people saw it",
+      "expect": "marketo-velocity",
+      "why": "Token rendering literally is named in the Marketo description."
+    },
+    {
+      "id": "symptom-moengage-audience-drop",
+      "category": "symptom",
+      "prompt": "my moengage campaign reached way fewer people than the segment said it would, like a third fewer, delivery report doesnt show them anywhere",
+      "expect": "moengage-jinja",
+      "why": "The canonical MoEngage null-removal symptom with no Jinja jargon at all."
+    },
+    {
+      "id": "symptom-sailthru-empty-send",
+      "category": "symptom",
+      "prompt": "sailthru sent the campaign but the body was completely blank, went to about 12k people and i have to explain it",
+      "expect": "sailthru-zephyr",
+      "why": "Empty email sent is verbatim in the Zephyr description."
+    },
+    {
+      "id": "symptom-sfmc-errored-subscribers",
+      "category": "symptom",
+      "prompt": "few thousand subscribers in marketing cloud came back as errored on the last send and they never got anything, not even a bounce",
+      "expect": "sfmc-ampscript",
+      "why": "Errored/NotSent is the SFMC description's headline symptom."
+    },
+    {
+      "id": "symptom-zeta-skipped-messages",
+      "category": "symptom",
+      "prompt": "zeta marketing platform is telling me messages got skipped on yesterdays campaign and i cant find a reason anywhere in the ui",
+      "expect": "zeta-zml",
+      "why": "Skipped messages on ZMP, named in the ZML description, with the platform disambiguated."
+    },
+    {
+      "id": "code-moengage-not-send",
+      "category": "code-only",
+      "prompt": "whats this doing exactly, inherited this template\n\n{% if UserAttribute['first_name'] %}Hi {{UserAttribute['first_name']}}{% else %}{% MOE_NOT_SEND(\"no first name\") %}{% endif %}",
+      "expect": "moengage-jinja",
+      "why": "MOE_NOT_SEND appears in no other platform and is named in the description."
+    },
+    {
+      "id": "code-sfmc-treatascontent",
+      "category": "code-only",
+      "prompt": "is this line safe to keep\n\n%%[ SET @x = Lookup(\"Content\",\"Body\",\"Key\",@key) ]%%\n%%=TreatAsContent(@x)=%%",
+      "expect": "sfmc-ampscript",
+      "why": "AMPscript delimiters and TreatAsContent identify SFMC with the platform never named."
+    },
+    {
+      "id": "code-zephyr-foreach",
+      "category": "code-only",
+      "prompt": "this loop prints nothing, no errors either\n\n{foreach content as c}\n  <p>{c.title}</p>\n{/foreach}",
+      "expect": "sailthru-zephyr",
+      "why": "Single-brace foreach over content is Zephyr and nothing else."
+    },
+    {
+      "id": "code-braze-dollar-braces",
+      "category": "code-only",
+      "prompt": "why does this render blank for half the list\n\n{% if {{${first_name}}} != blank %}Hey {{${first_name}}}{% endif %}",
+      "expect": "braze-liquid",
+      "why": "The ${} inside braces syntax exists only in Braze."
+    },
+    {
+      "id": "code-iterable-urlencode",
+      "category": "code-only",
+      "prompt": "does this url helper actually escape the email address\n\n<a href=\"https://example.com/unsub?e={{#urlEncode}}{{email}}{{/urlEncode}}\">unsubscribe</a>",
+      "expect": "iterable-handlebars",
+      "why": "A block helper in Handlebars form; urlEncode is Iterable's helper set."
+    },
+    {
+      "id": "code-klaviyo-parse-remainder",
+      "category": "code-only",
+      "prompt": "getting Could not parse the remainder on this and i dont see whats wrong\n\n{% if person|lookup:'VIP' == true %}...{% elsif person.orders > 3 %}...{% endif %}",
+      "expect": "klaviyo-django",
+      "why": "The Django parse error plus lookup filter syntax points at Klaviyo, not the Liquid skills."
+    },
+    {
+      "id": "code-marketo-velocity-foreach",
+      "category": "code-only",
+      "prompt": "this compiles but prints nothing for most people\n\n#foreach( $opp in $OpportunityList )\n  $opp.Name - $lead.FirstName\n#end",
+      "expect": "marketo-velocity",
+      "why": "Velocity directives and $lead are Marketo Email Script and nothing else here."
+    },
+    {
+      "id": "code-hubspot-crm-objects",
+      "category": "code-only",
+      "prompt": "inherited this email module, does the v3 flag actually matter\n\n{% crm_objects \"product\" filter_dict=filters limit=3 %}\n  {{ crm_objects.results[0].name }}\n{% end_crm_objects %}",
+      "expect": "hubspot-hubl",
+      "why": "crm_objects is HubSpot only and is named in the HubL description."
+    },
+    {
+      "id": "code-cio-unidentified-method",
+      "category": "code-only",
+      "prompt": "composer throws Unidentified method on save\n\n{{ customer.first_name | default: 'there' | capitalise }}",
+      "expect": "customerio-liquid",
+      "why": "Unidentified method plus customer. namespace is the Customer.io description verbatim."
+    },
+    {
+      "id": "code-zml-skip-message",
+      "category": "code-only",
+      "prompt": "picked this up from another team, what happens to people with no city\n\n{% if not city %}{% skip_message %}{% endif %}\n{{ first_name | default: 'there' }}",
+      "expect": "zeta-zml",
+      "why": "skip_message with percent tags is ZML; the trap is routing it to Sailthru because it says Zeta nowhere."
+    },
+    {
+      "id": "code-zephyr-function-not-filter",
+      "category": "code-only",
+      "prompt": "this line ships as literal text in the email, the rest of the template is fine\n\n{ upper(profile.vars.first_name) }",
+      "expect": "sailthru-zephyr",
+      "why": "Single brace, function call not filter, and the fatal leading space - all Zephyr."
+    },
+    {
+      "id": "code-braze-connected-content",
+      "category": "code-only",
+      "prompt": "does this fail the send if the api is down\n\n{% connected_content https://api.example.com/quote?u={{${user_id}}} :save q %}\n{{q.text}}",
+      "expect": "braze-liquid",
+      "why": "Connected Content is Braze only and named in the description."
+    },
+    {
+      "id": "code-iterable-each-cart",
+      "category": "code-only",
+      "prompt": "loop renders once then stops\n\n{{#each shoppingCartItems}}\n  {{this.name}} {{this.price}}\n{{/each}}",
+      "expect": "iterable-handlebars",
+      "why": "Handlebars each over shoppingCartItems is Iterable's documented cart shape."
+    },
+    {
+      "id": "confusable-zeta-single-brace",
+      "category": "confusable",
+      "prompt": "we're on zeta and this bit of the template isnt firing for anyone\n\n{if profile.vars.plan == \"pro\"}show the upgrade block{/if}",
+      "expect": "sailthru-zephyr",
+      "why": "Says Zeta but the code is single-brace Zephyr; routing to zeta-zml would rewrite a working template."
+    },
+    {
+      "id": "confusable-zeta-unnamed-product",
+      "category": "confusable",
+      "prompt": "we use zeta for our email, how do i personalise the subject line with the first name and a fallback",
+      "expect": null,
+      "accept": [
+        "zeta-zml",
+        "sailthru-zephyr"
+      ],
+      "expect_clarify": true,
+      "why": "Zeta alone identifies neither platform; the honest answer is to ask which one before loading."
+    },
+    {
+      "id": "confusable-zeta-engage-named",
+      "category": "confusable",
+      "prompt": "zeta engage, i need to loop the content library into a three column block in the template",
+      "expect": "sailthru-zephyr",
+      "why": "Zeta Engage is the Sailthru product; content library is named in the Zephyr description."
+    },
+    {
+      "id": "confusable-generic-liquid-if",
+      "category": "confusable",
+      "prompt": "quick liquid question, whats the right way to write an if with two conditions in it, keep getting errors",
+      "expect": null,
+      "accept": [
+        "braze-liquid",
+        "customerio-liquid",
+        "zeta-zml"
+      ],
+      "expect_clarify": true,
+      "why": "Liquid with no platform could be Braze, Customer.io, ZML or Shopify; guessing picks a syntax at random."
+    },
+    {
+      "id": "confusable-jinja-no-platform",
+      "category": "confusable",
+      "prompt": "whats the correct jinja fallback so a missing attribute doesnt wreck the email",
+      "expect": null,
+      "accept": [
+        "hubspot-hubl",
+        "moengage-jinja"
+      ],
+      "expect_clarify": true,
+      "why": "Jinja alone splits between HubSpot Jinjava and MoEngage, whose null behaviour is opposite."
+    },
+    {
+      "id": "confusable-hubspot-in-jinja-terms",
+      "category": "confusable",
+      "prompt": "im writing jinja for our hubspot marketing emails, whats the syntax for a default on a contact property",
+      "expect": "hubspot-hubl",
+      "why": "Jinja wording with HubSpot named; moengage-jinja is the trap."
+    },
+    {
+      "id": "confusable-moengage-vs-hubspot",
+      "category": "confusable",
+      "prompt": "our moengage jinja template looks basically identical to the hubspot one we copied it from but people are going missing off the send",
+      "expect": "moengage-jinja",
+      "why": "Both platforms named; the platform that owns the problem is MoEngage."
+    },
+    {
+      "id": "confusable-braze-vs-shopify-liquid",
+      "category": "confusable",
+      "prompt": "does {% assign %} behave the same in braze as it does in shopify liquid, we reuse snippets between the store and the esp",
+      "expect": "braze-liquid",
+      "why": "Shopify is named but only as a comparison; the answerable half is Braze."
+    },
+    {
+      "id": "confusable-klaviyo-called-liquid",
+      "category": "confusable",
+      "prompt": "in klaviyo whats the liquid filter for capitalising the first name, mine isnt working",
+      "expect": "klaviyo-django",
+      "why": "User calls it Liquid but Klaviyo is Django; the Liquid skills must not take this."
+    },
+    {
+      "id": "confusable-braze-to-cio-migration",
+      "category": "confusable",
+      "prompt": "were moving our welcome series off braze onto customer.io, do the liquid tags just carry across or do i need to rewrite them",
+      "expect": "customerio-liquid",
+      "accept": [
+        "braze-liquid"
+      ],
+      "why": "Genuinely spans two in-scope platforms; loading either or both is defensible."
+    },
+    {
+      "id": "confusable-marketo-and-sfmc",
+      "category": "confusable",
+      "prompt": "we run both marketo and salesforce marketing cloud. in the marketo one, how do i loop over custom objects in the email",
+      "expect": "marketo-velocity",
+      "why": "Both named, only one asked about; SFMC firing here is a real mis-route."
+    },
+    {
+      "id": "confusable-handlebars-in-klaviyo",
+      "category": "confusable",
+      "prompt": "does klaviyo use handlebars the same way iterable does, trying to reuse a cart block between them",
+      "expect": "klaviyo-django",
+      "accept": [
+        "iterable-handlebars"
+      ],
+      "why": "The premise is wrong; the Klaviyo skill has to fire to correct it. Iterable is defensible too."
+    },
+    {
+      "id": "oos-mailchimp-merge-tag",
+      "category": "out-of-scope",
+      "prompt": "mailchimp *|FNAME|* is coming out blank for a load of subscribers, whats the fallback syntax",
+      "expect": null,
+      "why": "Mailchimp is deliberately out of scope; merge tag phrasing must not pull in a personalization skill."
+    },
+    {
+      "id": "oos-shopify-liquid-notification",
+      "category": "out-of-scope",
+      "prompt": "shopify order confirmation notification, i need to show line item properties in the table",
+      "expect": null,
+      "why": "Shopify Liquid is the closest lookalike to three in-scope skills and is explicitly excluded by all three."
+    },
+    {
+      "id": "oos-outlook-image-gap",
+      "category": "out-of-scope",
+      "prompt": "outlook is putting a gap under my images even though ive set display block and border 0, drives me mad",
+      "expect": null,
+      "why": "A pure HTML/CSS rendering question with no templating language involved."
+    },
+    {
+      "id": "oos-deliverability-domain",
+      "category": "out-of-scope",
+      "prompt": "open rates fell off a cliff after we moved to a new sending subdomain, dmarc is set up i think but im not certain",
+      "expect": null,
+      "why": "Deliverability, not personalization; nothing in the set covers it."
+    },
+    {
+      "id": "oos-subject-line-copy",
+      "category": "out-of-scope",
+      "prompt": "write me five subject lines for a black friday sale on running shoes, playful but not cringe",
+      "expect": null,
+      "why": "Plain copywriting. Firing anything here is pure over-triggering."
+    },
+    {
+      "id": "oos-activecampaign-conditional",
+      "category": "out-of-scope",
+      "prompt": "activecampaign conditional content block, how do i set a fallback on %FIRSTNAME%",
+      "expect": null,
+      "why": "Another ESP with its own tag syntax, out of scope for all ten."
+    },
+    {
+      "id": "oos-sendgrid-handlebars",
+      "category": "out-of-scope",
+      "prompt": "sendgrid dynamic template, how do i loop over an array of items with handlebars",
+      "expect": null,
+      "why": "Handlebars is named but the platform is SendGrid; iterable-handlebars says Iterable only."
+    },
+    {
+      "id": "oos-brevo-contact-token",
+      "category": "out-of-scope",
+      "prompt": "brevo template isnt filling in {{ contact.FIRSTNAME }}, just prints nothing for everyone",
+      "expect": null,
+      "why": "Double-brace token on an out-of-scope ESP; the Liquid skills must not claim it."
+    },
+    {
+      "id": "oos-mailjet-mjml",
+      "category": "out-of-scope",
+      "prompt": "mailjet mjml template, is there a way to make a whole mj-section conditional",
+      "expect": null,
+      "why": "MJML plus an out-of-scope ESP; the Figma/Email Love clause must not drag a skill in."
+    },
+    {
+      "id": "oos-welcome-series-strategy",
+      "category": "out-of-scope",
+      "prompt": "how many emails should a welcome series be for a dtc skincare brand and how far apart",
+      "expect": null,
+      "why": "Lifecycle strategy with no platform and no code. Nothing in the set is about cadence."
+    }
+  ]
+}
