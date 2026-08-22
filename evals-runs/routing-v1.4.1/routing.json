@@ -1,0 +1,1712 @@
+{
+  "schema_version": 2,
+  "suite": "routing-v1",
+  "cases": [
+    {
+      "case": "named-braze-abort",
+      "category": "named",
+      "expect": "braze-liquid",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Platform named and abort_message is called out in the Braze description.",
+      "hashes": {
+        "prompt": "sha256:bf50abdf14f68b0156471a11c3428bfaaf8b56825c63a4b10343724e0b9649a4",
+        "expectation": "sha256:cf4753fa2beadf45398f40e1ca9528e601374db7e01be69a2f4a2731bb91c9ef"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:06:41.893189+00:00",
+      "raw": "{\"load\": [\"braze-liquid\"], \"clarify\": false, \"why\": \"User is asking about Braze abort logic to prevent sending when a required attribute (first name) is missing.\"}",
+      "answer": {
+        "load": [
+          "braze-liquid"
+        ],
+        "clarify": false,
+        "why": "User is asking about Braze abort logic to prevent sending when a required attribute (first name) is missing."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "named-customerio-snippet",
+      "category": "named",
+      "expect": "customerio-liquid",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Platform named plus snippets, both in the Customer.io description.",
+      "hashes": {
+        "prompt": "sha256:de08645ed1d5a3d3577570e975410e253f662b7dfa854eafb95f9884847377fb",
+        "expectation": "sha256:fd3c4ce7c47918d44395db579ffd03af5ac7a87fe2d7ec66dc9b86d00803dca9"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:06:59.949855+00:00",
+      "raw": "```json\n{\"load\": [\"customerio-liquid\"], \"clarify\": false, \"why\": \"Customer.io snippet rendering issue - the skill covers debugging snippets and template rendering in Customer.io emails\"}\n```",
+      "answer": {
+        "load": [
+          "customerio-liquid"
+        ],
+        "clarify": false,
+        "why": "Customer.io snippet rendering issue - the skill covers debugging snippets and template rendering in Customer.io emails"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "customerio-liquid"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "named-hubspot-default-filter",
+      "category": "named",
+      "expect": "hubspot-hubl",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Platform named and the filters-in-email inversion is the HubL skill's headline case.",
+      "hashes": {
+        "prompt": "sha256:9ec07379aa9b9d3d7d97bc9197424bea94d6744a585495fe37e17ddc78f53335",
+        "expectation": "sha256:19e093061725405d1cb3d80dba02530c924cff7764dd9188b273af647759b755"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:07:15.285113+00:00",
+      "raw": "```json\n{\"load\": [\"hubspot-hubl\"], \"clarify\": false, \"why\": \"User is troubleshooting a HubSpot first name token with a default filter that isn't working in marketing email.\"}\n```",
+      "answer": {
+        "load": [
+          "hubspot-hubl"
+        ],
+        "clarify": false,
+        "why": "User is troubleshooting a HubSpot first name token with a default filter that isn't working in marketing email."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "hubspot-hubl"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "named-iterable-cart-loop",
+      "category": "named",
+      "expect": "iterable-handlebars",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Platform named plus shoppingCartItems loops, named in the description.",
+      "hashes": {
+        "prompt": "sha256:79986a1ff6abfaa5141e36a24e1f65cdd772022daf8d981d1892565c8a71196b",
+        "expectation": "sha256:040287a6e0114baa5437dac24d439bce02f3cf1a1d74d20e3728d1f5ad5b3d9a"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:07:31.080242+00:00",
+      "raw": "{\"load\": [\"iterable-handlebars\"], \"clarify\": false, \"why\": \"User explicitly mentioned Iterable and needs to build abandoned cart loops over cart items with images and prices.\"}",
+      "answer": {
+        "load": [
+          "iterable-handlebars"
+        ],
+        "clarify": false,
+        "why": "User explicitly mentioned Iterable and needs to build abandoned cart loops over cart items with images and prices."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "iterable-handlebars"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "named-klaviyo-conditional",
+      "category": "named",
+      "expect": "klaviyo-django",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Platform named plus conditional show/hide, named in the description.",
+      "hashes": {
+        "prompt": "sha256:fc20bf6b8751ebeb1bb83130ae915fd84af6d30f783c854611aed615e88386c3",
+        "expectation": "sha256:0f9ad8dfb4488c28072f6b89d8521250814b114e0979d418f9b4008bf83338f5"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:07:46.109434+00:00",
+      "raw": "{\"load\": [\"klaviyo-django\"], \"clarify\": false, \"why\": \"User explicitly mentioned Klaviyo flow email and needs conditional show/hide logic based on profile data.\"}",
+      "answer": {
+        "load": [
+          "klaviyo-django"
+        ],
+        "clarify": false,
+        "why": "User explicitly mentioned Klaviyo flow email and needs conditional show/hide logic based on profile data."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "klaviyo-django"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "named-marketo-script-token",
+      "category": "named",
+      "expect": "marketo-velocity",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Platform named plus Email Script token, named in the description.",
+      "hashes": {
+        "prompt": "sha256:9ab7cc091e69b754e602de03e2fb3c457f1683f51a810b17fdff9987b88a1d8b",
+        "expectation": "sha256:0a5353a1b75362041a68a6e8f5dd7de0f680431fb20c0d6798e54b098b3b29fb"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:08:01.736315+00:00",
+      "raw": "```json\n{\"load\": [\"marketo-velocity\"], \"clarify\": false, \"why\": \"User is troubleshooting a Marketo Email Script token and My Token that isn't rendering in preview, which the marketo-velocity skill explicitly covers.\"}\n```",
+      "answer": {
+        "load": [
+          "marketo-velocity"
+        ],
+        "clarify": false,
+        "why": "User is troubleshooting a Marketo Email Script token and My Token that isn't rendering in preview, which the marketo-velocity skill explicitly covers."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "marketo-velocity"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "named-moengage-fallback",
+      "category": "named",
+      "expect": "moengage-jinja",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Platform named plus fallback choice, the core of the MoEngage description.",
+      "hashes": {
+        "prompt": "sha256:a28f92cbda2beb76f2c414c687096261d0dbd6ebdd5b5b8ee5581891e25b66d6",
+        "expectation": "sha256:857c1053f5e5c5f5ac104ea0aa3f50aca018c0a26ddaf6cdf49053c61aa3e2c8"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:08:19.064514+00:00",
+      "raw": "```json\n{\"load\": [\"moengage-jinja\"], \"clarify\": false, \"why\": \"User is asking about MoEngage user attribute fallbacks, which the moengage-jinja skill explicitly covers.\"}\n```",
+      "answer": {
+        "load": [
+          "moengage-jinja"
+        ],
+        "clarify": false,
+        "why": "User is asking about MoEngage user attribute fallbacks, which the moengage-jinja skill explicitly covers."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "moengage-jinja"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "named-sailthru-feed-loop",
+      "category": "named",
+      "expect": "sailthru-zephyr",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Platform named plus data feed looping, named in the Zephyr description.",
+      "hashes": {
+        "prompt": "sha256:a97da936301162bf043487c13a4316750a6398a1a0c70d12c0bf1de9e8d13a37",
+        "expectation": "sha256:2bc93376a613fdf0b50ba33d685845591d29b6034379e82f6c5318bac8adec36"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:08:33.358455+00:00",
+      "raw": "```json\n{\"load\": [\"sailthru-zephyr\"], \"clarify\": false, \"why\": \"User explicitly mentioned Sailthru template and looping a data feed, which the sailthru-zephyr skill covers.\"}\n```",
+      "answer": {
+        "load": [
+          "sailthru-zephyr"
+        ],
+        "clarify": false,
+        "why": "User explicitly mentioned Sailthru template and looping a data feed, which the sailthru-zephyr skill covers."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "sailthru-zephyr"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "named-sfmc-lookup",
+      "category": "named",
+      "expect": "sfmc-ampscript",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Platform named plus Data Extension lookup, named in the description.",
+      "hashes": {
+        "prompt": "sha256:25573e506389d1f7c802449b621d68bdae37584e145d6c4094359ae9f1d17821",
+        "expectation": "sha256:f13b3325101c41a32f48815eb47ca129e56e3f5c570bf62389c948459f19ab5e"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:08:46.693237+00:00",
+      "raw": "{\"load\": [\"sfmc-ampscript\"], \"clarify\": false, \"why\": \"User is asking about Data Extension lookup in Salesforce Marketing Cloud email, which requires AMPscript\"}",
+      "answer": {
+        "load": [
+          "sfmc-ampscript"
+        ],
+        "clarify": false,
+        "why": "User is asking about Data Extension lookup in Salesforce Marketing Cloud email, which requires AMPscript"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "sfmc-ampscript"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "named-zeta-zmp-recommendation",
+      "category": "named",
+      "expect": "zeta-zml",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "ZMP named outright plus the recommendation tag, which the ZML description lists.",
+      "hashes": {
+        "prompt": "sha256:075dde9bb97524b312a6e3299096b331a9ff5ec09974c1969c55d47334eeb0a8",
+        "expectation": "sha256:b49195bfc57ddc3c03e75eee76c3ca5b28a5d63d7c6b8528d6d902a0648ba49d"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:09:00.948770+00:00",
+      "raw": "```json\n{\"load\": [\"zeta-zml\"], \"clarify\": false, \"why\": \"User is working with Zeta Marketing Platform and recommendation blocks, which the zeta-zml skill explicitly covers.\"}\n```",
+      "answer": {
+        "load": [
+          "zeta-zml"
+        ],
+        "clarify": false,
+        "why": "User is working with Zeta Marketing Platform and recommendation blocks, which the zeta-zml skill explicitly covers."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "zeta-zml"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "symptom-braze-partial-blank",
+      "category": "symptom",
+      "expect": "braze-liquid",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Braze named, symptom only, no Liquid jargon - tests the non-jargon half of the description.",
+      "hashes": {
+        "prompt": "sha256:627b00dbc37ec6bf06a7717c8055046ff98f5c067ab0dc98885ecbe759e2a343",
+        "expectation": "sha256:5b0a1037859dcd11201c9f34d711f453b88f48b6abadd3d417f8ba249b9bb827"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:09:17.299904+00:00",
+      "raw": "```json\n{\"load\": [\"braze-liquid\"], \"clarify\": false, \"why\": \"User is debugging a Braze campaign where personalization rendered blank for some recipients.\"}\n```",
+      "answer": {
+        "load": [
+          "braze-liquid"
+        ],
+        "clarify": false,
+        "why": "User is debugging a Braze campaign where personalization rendered blank for some recipients."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "symptom-braze-canvas-aborts",
+      "category": "symptom",
+      "expect": "braze-liquid",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Message Activity Log and abort behaviour without naming Liquid or a tag.",
+      "hashes": {
+        "prompt": "sha256:e18fca4f83a8638efb0bf2a0377801fd144061991db10d9dd07de65bad720908",
+        "expectation": "sha256:5b0a1037859dcd11201c9f34d711f453b88f48b6abadd3d417f8ba249b9bb827"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:09:32.496369+00:00",
+      "raw": "```json\n{\"load\": [\"braze-liquid\"], \"clarify\": false, \"why\": \"Braze Canvas delivery issue where messages were aborted or not sent, requires Message Activity Log interpretation\"}\n```",
+      "answer": {
+        "load": [
+          "braze-liquid"
+        ],
+        "clarify": false,
+        "why": "Braze Canvas delivery issue where messages were aborted or not sent, requires Message Activity Log interpretation"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "symptom-cio-failed-deliveries",
+      "category": "symptom",
+      "expect": "customerio-liquid",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "The Failed delivery state is called out in the Customer.io description.",
+      "hashes": {
+        "prompt": "sha256:d5a066d45425279a3b0dd996f04e4e3edbe5337f14a8eb04afe14bac793cf4b2",
+        "expectation": "sha256:74f3fcf16e863c6a0666bbad59d1c19ea45c40450b455168f52a5e84964fde42"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:09:49.746759+00:00",
+      "raw": "```json\n{\"load\": [\"customerio-liquid\"], \"clarify\": false, \"why\": \"Customer.io broadcast failures are explicitly covered by the customerio-liquid skill\"}\n```",
+      "answer": {
+        "load": [
+          "customerio-liquid"
+        ],
+        "clarify": false,
+        "why": "Customer.io broadcast failures are explicitly covered by the customerio-liquid skill"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "customerio-liquid"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "symptom-cio-design-studio-drift",
+      "category": "symptom",
+      "expect": "customerio-liquid",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Per-message engine version is Customer.io specific and shows up only as a symptom here.",
+      "hashes": {
+        "prompt": "sha256:dd3eb7467d72167e80dd496bf9b06ae8d813c4294cc8ed1f306c82bf575816dc",
+        "expectation": "sha256:74f3fcf16e863c6a0666bbad59d1c19ea45c40450b455168f52a5e84964fde42"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:10:03.134199+00:00",
+      "raw": "```json\n{\"load\": [\"customerio-liquid\"], \"clarify\": false, \"why\": \"Customer.io campaign rendering issue between old campaign and Design Studio rebuild, likely involving template or personalization differences.\"}\n```",
+      "answer": {
+        "load": [
+          "customerio-liquid"
+        ],
+        "clarify": false,
+        "why": "Customer.io campaign rendering issue between old campaign and Design Studio rebuild, likely involving template or personalization differences."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "customerio-liquid"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "symptom-hubspot-wont-publish",
+      "category": "symptom",
+      "expect": "hubspot-hubl",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Template will not publish, named in the HubL description, with no language named.",
+      "hashes": {
+        "prompt": "sha256:dba5ffc7ef5c9b58dba1cf33604b06ebe79e049c60c1e774e02951c394005167",
+        "expectation": "sha256:1daecab0d9dd457500915bdf3a40b3b554c6ee844331629cbe0b8e576133cdac"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:10:22.590111+00:00",
+      "raw": "```json\n{\"load\": [\"hubspot-hubl\"], \"clarify\": false, \"why\": \"The skill explicitly covers why a HubSpot email template will not publish\"}\n```",
+      "answer": {
+        "load": [
+          "hubspot-hubl"
+        ],
+        "clarify": false,
+        "why": "The skill explicitly covers why a HubSpot email template will not publish"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "hubspot-hubl"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "symptom-hubspot-company-blank",
+      "category": "symptom",
+      "expect": "hubspot-hubl",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Blank token symptom on an association, no HubL or Jinja mentioned.",
+      "hashes": {
+        "prompt": "sha256:947ace6f20d4fab1bc6dae3e0c99117aec16bbc075fe8a952af94df500c2f270",
+        "expectation": "sha256:1daecab0d9dd457500915bdf3a40b3b554c6ee844331629cbe0b8e576133cdac"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:10:39.021210+00:00",
+      "raw": "```json\n{\"load\": [\"hubspot-hubl\"], \"clarify\": false, \"why\": \"HubSpot email with blank token for contacts without company association\"}\n```",
+      "answer": {
+        "load": [
+          "hubspot-hubl"
+        ],
+        "clarify": false,
+        "why": "HubSpot email with blank token for contacts without company association"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "hubspot-hubl"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "symptom-iterable-raw-braces",
+      "category": "symptom",
+      "expect": "iterable-handlebars",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Raw braces in a sent message is verbatim in the Iterable description.",
+      "hashes": {
+        "prompt": "sha256:15853a1a0d7a5e97818aac74c3865f3031dfa13e6b89bcda0d8ed8c1dec860a1",
+        "expectation": "sha256:46e8b831e1914276fdd704ec16065063cb99147dd9eb280d9ea114ea5587b755"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:10:57.978720+00:00",
+      "raw": "```json\n{\"load\": [\"iterable-handlebars\"], \"clarify\": false, \"why\": \"User reports raw Handlebars curly brackets rendering literally in an Iterable subject line instead of being replaced with personalized content.\"}\n```",
+      "answer": {
+        "load": [
+          "iterable-handlebars"
+        ],
+        "clarify": false,
+        "why": "User reports raw Handlebars curly brackets rendering literally in an Iterable subject line instead of being replaced with personalized content."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "iterable-handlebars"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "symptom-klaviyo-wont-preview",
+      "category": "symptom",
+      "expect": "klaviyo-django",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Preview failure, named in the Klaviyo description, phrased as panic not syntax.",
+      "hashes": {
+        "prompt": "sha256:b38d71ba513b03a25adb554612391e38f4eb0d0323149876b0e6dace98fbc15c",
+        "expectation": "sha256:90b1b942d2c0f9108f41db62061c423ffda68b20b13284e48edf89333adf4369"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:11:13.813834+00:00",
+      "raw": "{\"load\": [\"klaviyo-django\"], \"clarify\": false, \"why\": \"Klaviyo template preview errors are explicitly covered by the klaviyo-django skill\"}",
+      "answer": {
+        "load": [
+          "klaviyo-django"
+        ],
+        "clarify": false,
+        "why": "Klaviyo template preview errors are explicitly covered by the klaviyo-django skill"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "klaviyo-django"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "symptom-marketo-token-literal",
+      "category": "symptom",
+      "expect": "marketo-velocity",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Token rendering literally is named in the Marketo description.",
+      "hashes": {
+        "prompt": "sha256:21593a289cf4e6150cc44a8b20290d260e10768dc9644f3eb1c69fd360bd6f86",
+        "expectation": "sha256:cc14207313d34b8caf3e18646426a50ee8736f48b76bb738e25c81f28dfdcdf4"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:11:28.782734+00:00",
+      "raw": "```json\n{\"load\": [\"marketo-velocity\"], \"clarify\": false, \"why\": \"Marketo token rendered literally instead of resolving to the person's name, which marketo-velocity explicitly covers.\"}\n```",
+      "answer": {
+        "load": [
+          "marketo-velocity"
+        ],
+        "clarify": false,
+        "why": "Marketo token rendered literally instead of resolving to the person's name, which marketo-velocity explicitly covers."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "marketo-velocity"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "symptom-moengage-audience-drop",
+      "category": "symptom",
+      "expect": "moengage-jinja",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "The canonical MoEngage null-removal symptom with no Jinja jargon at all.",
+      "hashes": {
+        "prompt": "sha256:171a34a4666fef7babac647922a99d0140d4382fa86fb90592057ccd191c9108",
+        "expectation": "sha256:c6aaacb4b2863bc0574eebb097bfa851d13092edbb33de3d7ebd282f2f74cabd"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:11:43.395233+00:00",
+      "raw": "```json\n{\"load\": [\"moengage-jinja\"], \"clarify\": false, \"why\": \"User reports MoEngage campaign reached far fewer users than segment size, which matches the skill's explicit trigger for campaign drop-off and personalization removal issues.\"}\n```",
+      "answer": {
+        "load": [
+          "moengage-jinja"
+        ],
+        "clarify": false,
+        "why": "User reports MoEngage campaign reached far fewer users than segment size, which matches the skill's explicit trigger for campaign drop-off and personalization removal issues."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "moengage-jinja"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "symptom-sailthru-empty-send",
+      "category": "symptom",
+      "expect": "sailthru-zephyr",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Empty email sent is verbatim in the Zephyr description.",
+      "hashes": {
+        "prompt": "sha256:fc235c1f12bf7c7a9d690c41be6f431ac4218402e471749ca8ff1133835e1da8",
+        "expectation": "sha256:21781017a4e00c377e1d5c9f1b80a6c2df9c478c9ad93917aec450ebfb0b3d00"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:12:03.134956+00:00",
+      "raw": "```json\n{\"load\": [\"sailthru-zephyr\"], \"clarify\": false, \"why\": \"User reports a Sailthru campaign sent with blank body to 12k recipients, which the sailthru-zephyr skill explicitly covers\"}\n```",
+      "answer": {
+        "load": [
+          "sailthru-zephyr"
+        ],
+        "clarify": false,
+        "why": "User reports a Sailthru campaign sent with blank body to 12k recipients, which the sailthru-zephyr skill explicitly covers"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "sailthru-zephyr"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "symptom-sfmc-errored-subscribers",
+      "category": "symptom",
+      "expect": "sfmc-ampscript",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Errored/NotSent is the SFMC description's headline symptom.",
+      "hashes": {
+        "prompt": "sha256:ff50cac876198654168544dabaecab6edfc15df2ffdfc6755fe61e10e6524ec6",
+        "expectation": "sha256:4bbde709c0b7094bfbb9b94dca4cb11048bbddf83eeea01835b93caf6c813cb8"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:12:19.692665+00:00",
+      "raw": "```json\n{\"load\": [\"sfmc-ampscript\"], \"clarify\": false, \"why\": \"User is troubleshooting errored subscribers in Salesforce Marketing Cloud, which the sfmc-ampscript skill explicitly covers.\"}\n```",
+      "answer": {
+        "load": [
+          "sfmc-ampscript"
+        ],
+        "clarify": false,
+        "why": "User is troubleshooting errored subscribers in Salesforce Marketing Cloud, which the sfmc-ampscript skill explicitly covers."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "sfmc-ampscript"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "symptom-zeta-skipped-messages",
+      "category": "symptom",
+      "expect": "zeta-zml",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Skipped messages on ZMP, named in the ZML description, with the platform disambiguated.",
+      "hashes": {
+        "prompt": "sha256:779aa25d1e1cce97076c44d684a8bc745e7e601b249fe352c55701553446104e",
+        "expectation": "sha256:da67b8cfacdf8bf9a00c0e00d265c232dc58df54a0de5960b038f88896a7bdfe"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:12:33.093186+00:00",
+      "raw": "```json\n{\"load\": [\"zeta-zml\"], \"clarify\": false, \"why\": \"User is troubleshooting skipped messages in Zeta Marketing Platform, which the zeta-zml skill explicitly covers.\"}\n```",
+      "answer": {
+        "load": [
+          "zeta-zml"
+        ],
+        "clarify": false,
+        "why": "User is troubleshooting skipped messages in Zeta Marketing Platform, which the zeta-zml skill explicitly covers."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "zeta-zml"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "code-moengage-not-send",
+      "category": "code-only",
+      "expect": "moengage-jinja",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "MOE_NOT_SEND appears in no other platform and is named in the description.",
+      "hashes": {
+        "prompt": "sha256:d4bd9ada24dea278e9f056cf8ebc8ccad5c5aca0b9bc5c9a16b20e145f9049c1",
+        "expectation": "sha256:613ba44647e7ff25efd4c419024d138b8cb7b535d798dfad290b17d0183e9600"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:12:48.552571+00:00",
+      "raw": "{\"load\": [\"moengage-jinja\"], \"clarify\": false, \"why\": \"The code contains UserAttribute and MOE_NOT_SEND, which are MoEngage-specific syntax\"}",
+      "answer": {
+        "load": [
+          "moengage-jinja"
+        ],
+        "clarify": false,
+        "why": "The code contains UserAttribute and MOE_NOT_SEND, which are MoEngage-specific syntax"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "moengage-jinja"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "code-sfmc-treatascontent",
+      "category": "code-only",
+      "expect": "sfmc-ampscript",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "AMPscript delimiters and TreatAsContent identify SFMC with the platform never named.",
+      "hashes": {
+        "prompt": "sha256:e4f6b768e2326b6ff096a807518522bb9e61722d1628e86d6716fd3c32364523",
+        "expectation": "sha256:ebf140d78f28d353fbf0846fb8eb98cb67ddd26de1a1f82a1a68dba01e7a7027"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:13:03.752649+00:00",
+      "raw": "```json\n{\"load\": [\"sfmc-ampscript\"], \"clarify\": false, \"why\": \"AMPscript code with TreatAsContent safety question for Salesforce Marketing Cloud\"}\n```",
+      "answer": {
+        "load": [
+          "sfmc-ampscript"
+        ],
+        "clarify": false,
+        "why": "AMPscript code with TreatAsContent safety question for Salesforce Marketing Cloud"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "sfmc-ampscript"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "code-zephyr-foreach",
+      "category": "code-only",
+      "expect": "sailthru-zephyr",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Single-brace foreach over content is Zephyr and nothing else.",
+      "hashes": {
+        "prompt": "sha256:de2e56e26c4724c7c605fdac7519bec87ab80c35d56af6fb554352f54c9dc9b3",
+        "expectation": "sha256:3e439f0adca6110e186ddf1802c6d8d97b6afd5375fa7f856a0e0699d4b2ab60"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:13:16.019992+00:00",
+      "raw": "```json\n{\"load\": [\"sailthru-zephyr\"], \"clarify\": false, \"why\": \"Single-brace {foreach} syntax is Sailthru Zephyr templating\"}\n```",
+      "answer": {
+        "load": [
+          "sailthru-zephyr"
+        ],
+        "clarify": false,
+        "why": "Single-brace {foreach} syntax is Sailthru Zephyr templating"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "sailthru-zephyr"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "code-braze-dollar-braces",
+      "category": "code-only",
+      "expect": "braze-liquid",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "The ${} inside braces syntax exists only in Braze.",
+      "hashes": {
+        "prompt": "sha256:23e49bdfad27e568468be8f835e863ed1931fa89f1785b6eae3b718cdd8ae8df",
+        "expectation": "sha256:4178f977ba6a54773ac5e3d0f5c4138454111bb3fa84bf2a5bd55820f7a03f77"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:13:33.069425+00:00",
+      "raw": "```json\n{\"load\": [\"braze-liquid\"], \"clarify\": false, \"why\": \"The {{${first_name}}} syntax with dollar-sign wrapper is Braze's personalization tag format, and the question is about blank rendering in a Braze template.\"}\n```",
+      "answer": {
+        "load": [
+          "braze-liquid"
+        ],
+        "clarify": false,
+        "why": "The {{${first_name}}} syntax with dollar-sign wrapper is Braze's personalization tag format, and the question is about blank rendering in a Braze template."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "code-iterable-urlencode",
+      "category": "code-only",
+      "expect": "iterable-handlebars",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "A block helper in Handlebars form; urlEncode is Iterable's helper set.",
+      "hashes": {
+        "prompt": "sha256:191eaba0cbd7a41d42935d0d66cd7b7ff1efb1e04fbfad80725aa8798b24eddc",
+        "expectation": "sha256:5693a404e14195d3526ee5232677067cc74897e96e21abc96ba2570402103eed"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:13:52.190785+00:00",
+      "raw": "```json\n{\"load\": [\"iterable-handlebars\"], \"clarify\": false, \"why\": \"The {{#urlEncode}} block helper syntax is Handlebars, used in Iterable templates.\"}\n```",
+      "answer": {
+        "load": [
+          "iterable-handlebars"
+        ],
+        "clarify": false,
+        "why": "The {{#urlEncode}} block helper syntax is Handlebars, used in Iterable templates."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "iterable-handlebars"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "code-klaviyo-parse-remainder",
+      "category": "code-only",
+      "expect": "klaviyo-django",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "The Django parse error plus lookup filter syntax points at Klaviyo, not the Liquid skills.",
+      "hashes": {
+        "prompt": "sha256:98963c01422a8fefb322d3e3fb653a20c3a250bf5bd70c67a6bbbcd81dca34e8",
+        "expectation": "sha256:231a80b33ea3866a338b6e793d0c2729d86153df7e6f7d843199f54af6cbc837"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:14:08.160718+00:00",
+      "raw": "```json\n{\"load\": [\"klaviyo-django\"], \"clarify\": false, \"why\": \"Could not parse the remainder is a Django template error explicitly mentioned in klaviyo-django's description, and the |lookup: filter syntax is Klaviyo-specific\"}\n```",
+      "answer": {
+        "load": [
+          "klaviyo-django"
+        ],
+        "clarify": false,
+        "why": "Could not parse the remainder is a Django template error explicitly mentioned in klaviyo-django's description, and the |lookup: filter syntax is Klaviyo-specific"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "klaviyo-django"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "code-marketo-velocity-foreach",
+      "category": "code-only",
+      "expect": "marketo-velocity",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Velocity directives and $lead are Marketo Email Script and nothing else here.",
+      "hashes": {
+        "prompt": "sha256:4c711186c1694dcf4314096ff4eb026bd4ec8e3dfaaf304d4f32b80f13c32ede",
+        "expectation": "sha256:6e395a1f1c4d6707197881cf12f79010c53bf324537e6986d257952ce7e0b79d"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:14:25.471896+00:00",
+      "raw": "```json\n{\"load\": [\"marketo-velocity\"], \"clarify\": false, \"why\": \"The #foreach syntax, $OpportunityList, and $lead.FirstName are Marketo Velocity email script patterns.\"}\n```",
+      "answer": {
+        "load": [
+          "marketo-velocity"
+        ],
+        "clarify": false,
+        "why": "The #foreach syntax, $OpportunityList, and $lead.FirstName are Marketo Velocity email script patterns."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "marketo-velocity"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "code-hubspot-crm-objects",
+      "category": "code-only",
+      "expect": "hubspot-hubl",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "crm_objects is HubSpot only and is named in the HubL description.",
+      "hashes": {
+        "prompt": "sha256:8d17e20b63dc36780e0bc1365f107fc862829abca1a3d06480eb7cfd78e96f2f",
+        "expectation": "sha256:9a81af0143216b839f7815510b1a545acc21eec66b56a04ec5250b6687c54e4a"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:14:45.581199+00:00",
+      "raw": "```json\n{\"load\": [\"hubspot-hubl\"], \"clarify\": false, \"why\": \"The crm_objects loop is HubL syntax and the v3 flag question refers to HubSpot's isEnabledForEmailV3Rendering setting which affects how HubL renders in email.\"}\n```",
+      "answer": {
+        "load": [
+          "hubspot-hubl"
+        ],
+        "clarify": false,
+        "why": "The crm_objects loop is HubL syntax and the v3 flag question refers to HubSpot's isEnabledForEmailV3Rendering setting which affects how HubL renders in email."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "hubspot-hubl"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "code-cio-unidentified-method",
+      "category": "code-only",
+      "expect": "customerio-liquid",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Unidentified method plus customer. namespace is the Customer.io description verbatim.",
+      "hashes": {
+        "prompt": "sha256:4852f8aee9b602b9c15a7c8677bca8aec9984f578ada6ba9b96ff0da656ccd14",
+        "expectation": "sha256:92799d1da1b3904e4f2bed26624d256c0163e1099b30b0431eb738f9fd393a13"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:15:05.351585+00:00",
+      "raw": "```json\n{\"load\": [\"customerio-liquid\"], \"clarify\": false, \"why\": \"Composer error 'Unidentified method' with customer.first_name namespace is specific to Customer.io Liquid\"}\n```",
+      "answer": {
+        "load": [
+          "customerio-liquid"
+        ],
+        "clarify": false,
+        "why": "Composer error 'Unidentified method' with customer.first_name namespace is specific to Customer.io Liquid"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "customerio-liquid"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "code-zml-skip-message",
+      "category": "code-only",
+      "expect": "zeta-zml",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "skip_message with percent tags is ZML; the trap is routing it to Sailthru because it says Zeta nowhere.",
+      "hashes": {
+        "prompt": "sha256:cc2d86224398e1bb4c02b620d71fbe7b8f3f05fb4c23837b352daffcf180a429",
+        "expectation": "sha256:052626197605e3adbc29dad4faa2d8e8f9f6c7a4a3cc031c9a3f8cf60db3e3df"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:15:25.860371+00:00",
+      "raw": "```json\n{\"load\": [\"zeta-zml\"], \"clarify\": false, \"why\": \"The {% skip_message %} tag is specific to Zeta Marketing Platform ZML.\"}\n```",
+      "answer": {
+        "load": [
+          "zeta-zml"
+        ],
+        "clarify": false,
+        "why": "The {% skip_message %} tag is specific to Zeta Marketing Platform ZML."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "zeta-zml"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "code-zephyr-function-not-filter",
+      "category": "code-only",
+      "expect": "sailthru-zephyr",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Single brace, function call not filter, and the fatal leading space - all Zephyr.",
+      "hashes": {
+        "prompt": "sha256:c6ec4b4629f6e6b2d5446d7b471a68c999aada49becbad4883b12d4ac34bf736",
+        "expectation": "sha256:3e439f0adca6110e186ddf1802c6d8d97b6afd5375fa7f856a0e0699d4b2ab60"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:15:44.038186+00:00",
+      "raw": "```json\n{\"load\": [\"sailthru-zephyr\"], \"clarify\": false, \"why\": \"Single braces and profile.vars.first_name match Sailthru Zephyr syntax exactly\"}\n```",
+      "answer": {
+        "load": [
+          "sailthru-zephyr"
+        ],
+        "clarify": false,
+        "why": "Single braces and profile.vars.first_name match Sailthru Zephyr syntax exactly"
+      },
+      "verdict": "correct",
+      "loaded": [
+        "sailthru-zephyr"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "code-braze-connected-content",
+      "category": "code-only",
+      "expect": "braze-liquid",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Connected Content is Braze only and named in the description.",
+      "hashes": {
+        "prompt": "sha256:72e4314bd96cc157db0de2c5fbee3cfb3a60bf71483c7a815777baa7521754bc",
+        "expectation": "sha256:4178f977ba6a54773ac5e3d0f5c4138454111bb3fa84bf2a5bd55820f7a03f77"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:16:02.372800+00:00",
+      "raw": "```json\n{\"load\": [\"braze-liquid\"], \"clarify\": false, \"why\": \"Connected Content is a Braze-specific tag and the user is asking about send failure behavior.\"}\n```",
+      "answer": {
+        "load": [
+          "braze-liquid"
+        ],
+        "clarify": false,
+        "why": "Connected Content is a Braze-specific tag and the user is asking about send failure behavior."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "code-iterable-each-cart",
+      "category": "code-only",
+      "expect": "iterable-handlebars",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Handlebars each over shoppingCartItems is Iterable's documented cart shape.",
+      "hashes": {
+        "prompt": "sha256:9efa3acf743b39fa4c56f5d3dcda2826c50ad887fdadd9ca9a6b444e2b060799",
+        "expectation": "sha256:5693a404e14195d3526ee5232677067cc74897e96e21abc96ba2570402103eed"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:16:16.898132+00:00",
+      "raw": "```json\n{\"load\": [\"iterable-handlebars\"], \"clarify\": false, \"why\": \"Handlebars {{#each}} loop over shoppingCartItems is Iterable-specific syntax and the user is debugging why it only renders once.\"}\n```",
+      "answer": {
+        "load": [
+          "iterable-handlebars"
+        ],
+        "clarify": false,
+        "why": "Handlebars {{#each}} loop over shoppingCartItems is Iterable-specific syntax and the user is debugging why it only renders once."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "iterable-handlebars"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "confusable-zeta-single-brace",
+      "category": "confusable",
+      "expect": "sailthru-zephyr",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Says Zeta but the code is single-brace Zephyr; routing to zeta-zml would rewrite a working template.",
+      "hashes": {
+        "prompt": "sha256:7849b0d1ea3c79002f761f5a1a97dc12295f63cca34a622c4fd2f9f62cf60c60",
+        "expectation": "sha256:071b1b8aad886027a40e1e6c9032ba3fb3c831de485d67aa7d26219676241352"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:16:35.153762+00:00",
+      "raw": "```json\n{\"load\": [\"sailthru-zephyr\"], \"clarify\": false, \"why\": \"The single-brace {if} syntax and profile.vars reference indicate Zeta Engage by Sailthru (Zephyr), not Zeta Marketing Platform (ZML).\"}\n```",
+      "answer": {
+        "load": [
+          "sailthru-zephyr"
+        ],
+        "clarify": false,
+        "why": "The single-brace {if} syntax and profile.vars reference indicate Zeta Engage by Sailthru (Zephyr), not Zeta Marketing Platform (ZML)."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "sailthru-zephyr"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "confusable-zeta-unnamed-product",
+      "category": "confusable",
+      "expect": null,
+      "accept": [
+        "zeta-zml",
+        "sailthru-zephyr"
+      ],
+      "expect_clarify": true,
+      "why": "Zeta alone identifies neither platform; the honest answer is to ask which one before loading.",
+      "hashes": {
+        "prompt": "sha256:930a40f5687dafe7b2efc538a7df98b1d453a0cfa696fa2c0708b0331b63f77d",
+        "expectation": "sha256:dc8b6b305a58401de802f043358098b862146ffa34d3b19625d459b7ce5b4088"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:16:59.437367+00:00",
+      "raw": "```json\n{\"load\": [], \"clarify\": true, \"why\": \"Zeta offers two platforms with different templating languages — Zeta Marketing Platform uses ZML (Liquid-like {% %} syntax) while Zeta Engage by Sailthru uses Zephyr (single-brace {if} syntax) — need to know which platform the user is on.\"}\n```",
+      "answer": {
+        "load": [],
+        "clarify": true,
+        "why": "Zeta offers two platforms with different templating languages — Zeta Marketing Platform uses ZML (Liquid-like {% %} syntax) while Zeta Engage by Sailthru uses Zephyr (single-brace {if} syntax) — need to know which platform the user is on."
+      },
+      "verdict": "correct-clarify",
+      "loaded": [],
+      "wrong_skills": [],
+      "clarify": true,
+      "should_respond": true
+    },
+    {
+      "case": "confusable-zeta-engage-named",
+      "category": "confusable",
+      "expect": "sailthru-zephyr",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Zeta Engage is the Sailthru product; content library is named in the Zephyr description.",
+      "hashes": {
+        "prompt": "sha256:49860f128e7d5e195c0d6eb6c1ad62f6cb18dfcbea6e2e90170d8f3ac301b1ce",
+        "expectation": "sha256:071b1b8aad886027a40e1e6c9032ba3fb3c831de485d67aa7d26219676241352"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:17:14.932800+00:00",
+      "raw": "```json\n{\"load\": [\"sailthru-zephyr\"], \"clarify\": false, \"why\": \"User explicitly mentioned Zeta Engage and content library looping, which uses Zephyr templating covered by sailthru-zephyr.\"}\n```",
+      "answer": {
+        "load": [
+          "sailthru-zephyr"
+        ],
+        "clarify": false,
+        "why": "User explicitly mentioned Zeta Engage and content library looping, which uses Zephyr templating covered by sailthru-zephyr."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "sailthru-zephyr"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "confusable-generic-liquid-if",
+      "category": "confusable",
+      "expect": null,
+      "accept": [
+        "braze-liquid",
+        "customerio-liquid",
+        "zeta-zml"
+      ],
+      "expect_clarify": true,
+      "why": "Liquid with no platform could be Braze, Customer.io, ZML or Shopify; guessing picks a syntax at random.",
+      "hashes": {
+        "prompt": "sha256:a072d66df9951eeccabf41fefc273cb932fcf968e88497a3355af4a2d4329275",
+        "expectation": "sha256:30c10d33c0e7b0f88b071d7336d6130c1f28b26cd256f55c9f37044e919ee1f8"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:17:29.832838+00:00",
+      "raw": "```json\n{\"load\": [], \"clarify\": true, \"why\": \"Multiple platforms use Liquid with different syntax rules - need to know if this is Braze, Customer.io, or another Liquid platform.\"}\n```",
+      "answer": {
+        "load": [],
+        "clarify": true,
+        "why": "Multiple platforms use Liquid with different syntax rules - need to know if this is Braze, Customer.io, or another Liquid platform."
+      },
+      "verdict": "correct-clarify",
+      "loaded": [],
+      "wrong_skills": [],
+      "clarify": true,
+      "should_respond": true
+    },
+    {
+      "case": "confusable-jinja-no-platform",
+      "category": "confusable",
+      "expect": null,
+      "accept": [
+        "hubspot-hubl",
+        "moengage-jinja"
+      ],
+      "expect_clarify": true,
+      "why": "Jinja alone splits between HubSpot Jinjava and MoEngage, whose null behaviour is opposite.",
+      "hashes": {
+        "prompt": "sha256:f297013a8d099e4df2b894b8177ec2b9e268b1eecb71b9e8568b9ea2c656a155",
+        "expectation": "sha256:46bb976f2a175b912ec009ba0d9bb1ad7532f184fc3e3bc736f5d7af725f4970"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:17:46.861219+00:00",
+      "raw": "```json\n{\"load\": [], \"clarify\": true, \"why\": \"Jinja is used by both HubSpot (HubL/Jinjava) and MoEngage with different fallback syntax — need to know which platform.\"}\n```",
+      "answer": {
+        "load": [],
+        "clarify": true,
+        "why": "Jinja is used by both HubSpot (HubL/Jinjava) and MoEngage with different fallback syntax — need to know which platform."
+      },
+      "verdict": "correct-clarify",
+      "loaded": [],
+      "wrong_skills": [],
+      "clarify": true,
+      "should_respond": true
+    },
+    {
+      "case": "confusable-hubspot-in-jinja-terms",
+      "category": "confusable",
+      "expect": "hubspot-hubl",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Jinja wording with HubSpot named; moengage-jinja is the trap.",
+      "hashes": {
+        "prompt": "sha256:eda9c9071b8258b68dc8593f65ff4a980f428c243dd2635e25890f2c8b076920",
+        "expectation": "sha256:a0d7455dee2276a5f1b1acdc5943d5db7d2a1bc4bf154c424f518f40521720ef"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:18:04.417954+00:00",
+      "raw": "{\"load\": [\"hubspot-hubl\"], \"clarify\": false, \"why\": \"User is asking about default syntax for contact properties in HubSpot marketing emails, which uses HubL (Jinjava).\"}",
+      "answer": {
+        "load": [
+          "hubspot-hubl"
+        ],
+        "clarify": false,
+        "why": "User is asking about default syntax for contact properties in HubSpot marketing emails, which uses HubL (Jinjava)."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "hubspot-hubl"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "confusable-moengage-vs-hubspot",
+      "category": "confusable",
+      "expect": "moengage-jinja",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Both platforms named; the platform that owns the problem is MoEngage.",
+      "hashes": {
+        "prompt": "sha256:0611bf0518d8340b82dec0071db82417f6cde8da2c1d4151e7ddedee400a79a4",
+        "expectation": "sha256:2b1767c07b2991663f07851cb6265cd32036b0a5a96cc283698af292993d60fc"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:18:21.207979+00:00",
+      "raw": "```json\n{\"load\": [\"moengage-jinja\"], \"clarify\": false, \"why\": \"MoEngage campaign dropping users due to template code copied from HubSpot that looks identical but behaves differently.\"}\n```",
+      "answer": {
+        "load": [
+          "moengage-jinja"
+        ],
+        "clarify": false,
+        "why": "MoEngage campaign dropping users due to template code copied from HubSpot that looks identical but behaves differently."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "moengage-jinja"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "confusable-braze-vs-shopify-liquid",
+      "category": "confusable",
+      "expect": "braze-liquid",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Shopify is named but only as a comparison; the answerable half is Braze.",
+      "hashes": {
+        "prompt": "sha256:48bbc43c15976e97aebef18da7ce125183e91c2cd2d1ec37c20e3ab568b4540b",
+        "expectation": "sha256:9ad7aeec76d38afd76273054851e5e07b3aea698f0d46f9d7248e0f8aec7b8d0"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:18:42.245688+00:00",
+      "raw": "{\"load\": [\"braze-liquid\"], \"clarify\": false, \"why\": \"User is asking about Braze Liquid's {% assign %} behavior compared to Shopify, which requires understanding Braze-specific Liquid differences.\"}",
+      "answer": {
+        "load": [
+          "braze-liquid"
+        ],
+        "clarify": false,
+        "why": "User is asking about Braze Liquid's {% assign %} behavior compared to Shopify, which requires understanding Braze-specific Liquid differences."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "confusable-klaviyo-called-liquid",
+      "category": "confusable",
+      "expect": "klaviyo-django",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "User calls it Liquid but Klaviyo is Django; the Liquid skills must not take this.",
+      "hashes": {
+        "prompt": "sha256:2d55a0b81f9211053c98374277ae9c7fc912d6cba994406e92c268e823054250",
+        "expectation": "sha256:c5545919c4df840b10abb0a9478cc09d74c45890134148deeb851eb8f23e6e0e"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:19:04.135595+00:00",
+      "raw": "```json\n{\"load\": [\"klaviyo-django\"], \"clarify\": false, \"why\": \"User is asking about Klaviyo personalization for capitalizing first name, which klaviyo-django covers (and will correct the Liquid misconception since Klaviyo uses Django templates).\"}\n```",
+      "answer": {
+        "load": [
+          "klaviyo-django"
+        ],
+        "clarify": false,
+        "why": "User is asking about Klaviyo personalization for capitalizing first name, which klaviyo-django covers (and will correct the Liquid misconception since Klaviyo uses Django templates)."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "klaviyo-django"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "confusable-braze-to-cio-migration",
+      "category": "confusable",
+      "expect": "customerio-liquid",
+      "accept": [
+        "braze-liquid"
+      ],
+      "expect_clarify": false,
+      "why": "Genuinely spans two in-scope platforms; loading either or both is defensible.",
+      "hashes": {
+        "prompt": "sha256:eb6aececdf1f964c961ad05d7b4a22d6b9ee515439b3319358279f040c1e3ad5",
+        "expectation": "sha256:5563c5f497b5b8b42622ef3ce9bcf7dfe1c7d78e4ee923a54ffb7345aa212c7e"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:19:22.650981+00:00",
+      "raw": "```json\n{\"load\": [\"braze-liquid\", \"customerio-liquid\"], \"clarify\": false, \"why\": \"Migrating Liquid code from Braze to Customer.io requires understanding both platforms' different tag sets, variable syntax, and behavior.\"}\n```",
+      "answer": {
+        "load": [
+          "braze-liquid",
+          "customerio-liquid"
+        ],
+        "clarify": false,
+        "why": "Migrating Liquid code from Braze to Customer.io requires understanding both platforms' different tag sets, variable syntax, and behavior."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid",
+        "customerio-liquid"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "confusable-marketo-and-sfmc",
+      "category": "confusable",
+      "expect": "marketo-velocity",
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Both named, only one asked about; SFMC firing here is a real mis-route.",
+      "hashes": {
+        "prompt": "sha256:e5f23444e9b5f32011ca18681888ea53fa08868668d35f174fdf6e7fef01ee6e",
+        "expectation": "sha256:eab43dc4f36c81e0eb0cac23ed93a2375656dd309c3a84181ec2671aa3febed3"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:19:38.815940+00:00",
+      "raw": "```json\n{\"load\": [\"marketo-velocity\"], \"clarify\": false, \"why\": \"User is asking about looping over custom objects in Marketo email, which requires Velocity email scripting.\"}\n```",
+      "answer": {
+        "load": [
+          "marketo-velocity"
+        ],
+        "clarify": false,
+        "why": "User is asking about looping over custom objects in Marketo email, which requires Velocity email scripting."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "marketo-velocity"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "confusable-handlebars-in-klaviyo",
+      "category": "confusable",
+      "expect": "klaviyo-django",
+      "accept": [
+        "iterable-handlebars"
+      ],
+      "expect_clarify": false,
+      "why": "The premise is wrong; the Klaviyo skill has to fire to correct it. Iterable is defensible too.",
+      "hashes": {
+        "prompt": "sha256:d1b1c183f238828609a8db9dd4ad01b5e9bd72228c16a1f27a7dc621b3fcc951",
+        "expectation": "sha256:97586cee4cd0d1c476c4ac2285a4680c5e8d35e0484ec0fecea645c51f00fb85"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:19:53.459325+00:00",
+      "raw": "{\"load\": [\"iterable-handlebars\", \"klaviyo-django\"], \"clarify\": false, \"why\": \"Klaviyo uses Django templates and Iterable uses Handlebars—different syntax—so both skills are needed to explain compatibility when reusing cart blocks between platforms.\"}",
+      "answer": {
+        "load": [
+          "iterable-handlebars",
+          "klaviyo-django"
+        ],
+        "clarify": false,
+        "why": "Klaviyo uses Django templates and Iterable uses Handlebars—different syntax—so both skills are needed to explain compatibility when reusing cart blocks between platforms."
+      },
+      "verdict": "correct",
+      "loaded": [
+        "iterable-handlebars",
+        "klaviyo-django"
+      ],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": true
+    },
+    {
+      "case": "oos-mailchimp-merge-tag",
+      "category": "out-of-scope",
+      "expect": null,
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Mailchimp is deliberately out of scope; merge tag phrasing must not pull in a personalization skill.",
+      "hashes": {
+        "prompt": "sha256:9d13f653ca5fb1636762d9ee610200610d1c67773af980fdaa6982da2ba9a952",
+        "expectation": "sha256:a2dd9810ab92de2f0a79ec1350d43dbaccc53b2baa7eebdf3de7738fbc3bf094"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:20:08.711342+00:00",
+      "raw": "```json\n{\"load\": [], \"clarify\": false, \"why\": \"Mailchimp is not covered by any available skill; these skills only support Braze, Customer.io, HubSpot, Iterable, Klaviyo, Marketo, MoEngage, Sailthru, SFMC, and Zeta.\"}\n```",
+      "answer": {
+        "load": [],
+        "clarify": false,
+        "why": "Mailchimp is not covered by any available skill; these skills only support Braze, Customer.io, HubSpot, Iterable, Klaviyo, Marketo, MoEngage, Sailthru, SFMC, and Zeta."
+      },
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": false
+    },
+    {
+      "case": "oos-shopify-liquid-notification",
+      "category": "out-of-scope",
+      "expect": null,
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Shopify Liquid is the closest lookalike to three in-scope skills and is explicitly excluded by all three.",
+      "hashes": {
+        "prompt": "sha256:d0b34aa4aeb55a48cb2c3c9b2e10286bd2f8d3031def2ad43d60676c6cba80e0",
+        "expectation": "sha256:a2dd9810ab92de2f0a79ec1350d43dbaccc53b2baa7eebdf3de7738fbc3bf094"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:20:23.397659+00:00",
+      "raw": "```json\n{\"load\": [], \"clarify\": false, \"why\": \"No Shopify skill available; the installed skills cover Braze, Customer.io, HubSpot, Iterable, Klaviyo, Marketo, MoEngage, Sailthru, SFMC, and Zeta but not Shopify order notifications.\"}\n```",
+      "answer": {
+        "load": [],
+        "clarify": false,
+        "why": "No Shopify skill available; the installed skills cover Braze, Customer.io, HubSpot, Iterable, Klaviyo, Marketo, MoEngage, Sailthru, SFMC, and Zeta but not Shopify order notifications."
+      },
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": false
+    },
+    {
+      "case": "oos-outlook-image-gap",
+      "category": "out-of-scope",
+      "expect": null,
+      "accept": [],
+      "expect_clarify": false,
+      "why": "A pure HTML/CSS rendering question with no templating language involved.",
+      "hashes": {
+        "prompt": "sha256:935330c61057ae06260fee793782fde8d48d23165e977dfe1558e94b0fb10595",
+        "expectation": "sha256:a2dd9810ab92de2f0a79ec1350d43dbaccc53b2baa7eebdf3de7738fbc3bf094"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:20:40.570224+00:00",
+      "raw": "{\"load\": [], \"clarify\": false, \"why\": \"This is a general HTML email coding question about Outlook rendering, not an ESP-specific personalization issue.\"}",
+      "answer": {
+        "load": [],
+        "clarify": false,
+        "why": "This is a general HTML email coding question about Outlook rendering, not an ESP-specific personalization issue."
+      },
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": false
+    },
+    {
+      "case": "oos-deliverability-domain",
+      "category": "out-of-scope",
+      "expect": null,
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Deliverability, not personalization; nothing in the set covers it.",
+      "hashes": {
+        "prompt": "sha256:0a230a62487d240b9377ae0f1f891ae26be9f296851675672d6c9aa6f898176d",
+        "expectation": "sha256:a2dd9810ab92de2f0a79ec1350d43dbaccc53b2baa7eebdf3de7738fbc3bf094"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:20:58.450385+00:00",
+      "raw": "```json\n{\"load\": [], \"clarify\": false, \"why\": \"This is about email deliverability and DMARC authentication, not template personalization code - none of the available skills cover DNS or sending infrastructure topics.\"}\n```",
+      "answer": {
+        "load": [],
+        "clarify": false,
+        "why": "This is about email deliverability and DMARC authentication, not template personalization code - none of the available skills cover DNS or sending infrastructure topics."
+      },
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": false
+    },
+    {
+      "case": "oos-subject-line-copy",
+      "category": "out-of-scope",
+      "expect": null,
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Plain copywriting. Firing anything here is pure over-triggering.",
+      "hashes": {
+        "prompt": "sha256:8bd2c8555e6cca7a5f24e4c5e21778fb932b6c1232c65dee3b22a58fa1e7a2ba",
+        "expectation": "sha256:a2dd9810ab92de2f0a79ec1350d43dbaccc53b2baa7eebdf3de7738fbc3bf094"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:21:13.030741+00:00",
+      "raw": "```json\n{\"load\": [], \"clarify\": false, \"why\": \"This is a copywriting request for subject lines, not platform-specific personalization code or templating work.\"}\n```",
+      "answer": {
+        "load": [],
+        "clarify": false,
+        "why": "This is a copywriting request for subject lines, not platform-specific personalization code or templating work."
+      },
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": false
+    },
+    {
+      "case": "oos-activecampaign-conditional",
+      "category": "out-of-scope",
+      "expect": null,
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Another ESP with its own tag syntax, out of scope for all ten.",
+      "hashes": {
+        "prompt": "sha256:65c056e12a060e78e7ee72f712e81968bd523d5558dd6cbf1a3d2e93e6e2fefd",
+        "expectation": "sha256:a2dd9810ab92de2f0a79ec1350d43dbaccc53b2baa7eebdf3de7738fbc3bf094"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:21:28.984065+00:00",
+      "raw": "```json\n{\"load\": [], \"clarify\": false, \"why\": \"ActiveCampaign is not covered by any available skill\"}\n```",
+      "answer": {
+        "load": [],
+        "clarify": false,
+        "why": "ActiveCampaign is not covered by any available skill"
+      },
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": false
+    },
+    {
+      "case": "oos-sendgrid-handlebars",
+      "category": "out-of-scope",
+      "expect": null,
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Handlebars is named but the platform is SendGrid; iterable-handlebars says Iterable only.",
+      "hashes": {
+        "prompt": "sha256:12e63854acfe99fb3d7d89510fc304c240d2ea60bada3a676722cf1f591ceae4",
+        "expectation": "sha256:a2dd9810ab92de2f0a79ec1350d43dbaccc53b2baa7eebdf3de7738fbc3bf094"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:21:42.738411+00:00",
+      "raw": "```json\n{\"load\": [], \"clarify\": false, \"why\": \"No SendGrid skill available; iterable-handlebars is explicitly Iterable-only and would give platform-specific answers that don't apply to SendGrid.\"}\n```",
+      "answer": {
+        "load": [],
+        "clarify": false,
+        "why": "No SendGrid skill available; iterable-handlebars is explicitly Iterable-only and would give platform-specific answers that don't apply to SendGrid."
+      },
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": false
+    },
+    {
+      "case": "oos-brevo-contact-token",
+      "category": "out-of-scope",
+      "expect": null,
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Double-brace token on an out-of-scope ESP; the Liquid skills must not claim it.",
+      "hashes": {
+        "prompt": "sha256:c916889993152e0ddc6e0c094aaf3a2bdaa08a798ed1806296b8580bfda9ddb8",
+        "expectation": "sha256:a2dd9810ab92de2f0a79ec1350d43dbaccc53b2baa7eebdf3de7738fbc3bf094"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:22:01.065254+00:00",
+      "raw": "```json\n{\"load\": [], \"clarify\": false, \"why\": \"Brevo is not covered by any available skill; all listed skills are for different ESP platforms.\"}\n```",
+      "answer": {
+        "load": [],
+        "clarify": false,
+        "why": "Brevo is not covered by any available skill; all listed skills are for different ESP platforms."
+      },
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": false
+    },
+    {
+      "case": "oos-mailjet-mjml",
+      "category": "out-of-scope",
+      "expect": null,
+      "accept": [],
+      "expect_clarify": false,
+      "why": "MJML plus an out-of-scope ESP; the Figma/Email Love clause must not drag a skill in.",
+      "hashes": {
+        "prompt": "sha256:5f714df3cfb4d98d913df279d5712c0df0a75be5b470fa66860e557a33ec1a4c",
+        "expectation": "sha256:a2dd9810ab92de2f0a79ec1350d43dbaccc53b2baa7eebdf3de7738fbc3bf094"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:22:16.337038+00:00",
+      "raw": "```json\n{\"load\": [], \"clarify\": false, \"why\": \"No skill covers Mailjet MJML templates; all available skills are for different ESP platforms (Braze, Customer.io, HubSpot, Iterable, Klaviyo, Marketo, MoEngage, Sailthru, SFMC, Zeta).\"}\n```",
+      "answer": {
+        "load": [],
+        "clarify": false,
+        "why": "No skill covers Mailjet MJML templates; all available skills are for different ESP platforms (Braze, Customer.io, HubSpot, Iterable, Klaviyo, Marketo, MoEngage, Sailthru, SFMC, Zeta)."
+      },
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": false
+    },
+    {
+      "case": "oos-welcome-series-strategy",
+      "category": "out-of-scope",
+      "expect": null,
+      "accept": [],
+      "expect_clarify": false,
+      "why": "Lifecycle strategy with no platform and no code. Nothing in the set is about cadence.",
+      "hashes": {
+        "prompt": "sha256:9946c0325eb2db385bc729fd8a82f00216b41671bf5791cf4372ff1e27f90fbd",
+        "expectation": "sha256:a2dd9810ab92de2f0a79ec1350d43dbaccc53b2baa7eebdf3de7738fbc3bf094"
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "model": "claude-sonnet-4-5",
+      "recorded_utc": "2026-08-22T14:22:32.606297+00:00",
+      "raw": "```json\n{\"load\": [], \"clarify\": false, \"why\": \"This is a general email marketing strategy question about welcome series design, not a technical question about writing personalization code in any specific ESP platform.\"}\n```",
+      "answer": {
+        "load": [],
+        "clarify": false,
+        "why": "This is a general email marketing strategy question about welcome series design, not a technical question about writing personalization code in any specific ESP platform."
+      },
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": [],
+      "clarify": false,
+      "should_respond": false
+    }
+  ]
+}

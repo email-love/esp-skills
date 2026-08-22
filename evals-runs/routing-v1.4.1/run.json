@@ -1,0 +1,694 @@
+{
+  "schema_version": 2,
+  "kind": "routing-evals",
+  "created_utc": "2026-08-22T14:06:41.893021+00:00",
+  "updated_utc": "2026-08-22T14:22:45.775714+00:00",
+  "repo_version": "1.4.0",
+  "suite": "routing-v1",
+  "model": "claude-sonnet-4-5",
+  "cli": "2.1.239 (Claude Code)",
+  "settings": {
+    "output_format": "text",
+    "timeout_seconds": 600,
+    "limit": null,
+    "category": null,
+    "skills_presented": [
+      "braze-liquid",
+      "customerio-liquid",
+      "hubspot-hubl",
+      "iterable-handlebars",
+      "klaviyo-django",
+      "marketo-velocity",
+      "moengage-jinja",
+      "sailthru-zephyr",
+      "sfmc-ampscript",
+      "zeta-zml"
+    ]
+  },
+  "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+  "provenance": {
+    "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+    "git_dirty": true,
+    "argv": [
+      "scripts/run_routing_evals.py",
+      "--model",
+      "claude-sonnet-4-5",
+      "--out",
+      "routing-v1.4.1"
+    ]
+  },
+  "invocations": [
+    {
+      "started_utc": "2026-08-22T14:06:41.893021+00:00",
+      "finished_utc": "2026-08-22T14:22:45.775714+00:00",
+      "argv": [
+        "scripts/run_routing_evals.py",
+        "--model",
+        "claude-sonnet-4-5",
+        "--out",
+        "routing-v1.4.1"
+      ],
+      "model": "claude-sonnet-4-5",
+      "cli": "2.1.239 (Claude Code)",
+      "settings": {
+        "output_format": "text",
+        "timeout_seconds": 600,
+        "limit": null,
+        "category": null,
+        "skills_presented": [
+          "braze-liquid",
+          "customerio-liquid",
+          "hubspot-hubl",
+          "iterable-handlebars",
+          "klaviyo-django",
+          "marketo-velocity",
+          "moengage-jinja",
+          "sailthru-zephyr",
+          "sfmc-ampscript",
+          "zeta-zml"
+        ]
+      },
+      "description_set_hash": "sha256:b8b7c0387a70afaaa080213f459133a30427a1cfea1ba3a4154fab51c46c8472",
+      "git_commit": "7c48937b2ad38149996c8268a126abff3c9125fe",
+      "git_dirty": true
+    }
+  ],
+  "cases": [
+    {
+      "case": "code-braze-connected-content",
+      "category": "code-only",
+      "expect": "braze-liquid",
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "code-braze-dollar-braces",
+      "category": "code-only",
+      "expect": "braze-liquid",
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "code-cio-unidentified-method",
+      "category": "code-only",
+      "expect": "customerio-liquid",
+      "verdict": "correct",
+      "loaded": [
+        "customerio-liquid"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "code-hubspot-crm-objects",
+      "category": "code-only",
+      "expect": "hubspot-hubl",
+      "verdict": "correct",
+      "loaded": [
+        "hubspot-hubl"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "code-iterable-each-cart",
+      "category": "code-only",
+      "expect": "iterable-handlebars",
+      "verdict": "correct",
+      "loaded": [
+        "iterable-handlebars"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "code-iterable-urlencode",
+      "category": "code-only",
+      "expect": "iterable-handlebars",
+      "verdict": "correct",
+      "loaded": [
+        "iterable-handlebars"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "code-klaviyo-parse-remainder",
+      "category": "code-only",
+      "expect": "klaviyo-django",
+      "verdict": "correct",
+      "loaded": [
+        "klaviyo-django"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "code-marketo-velocity-foreach",
+      "category": "code-only",
+      "expect": "marketo-velocity",
+      "verdict": "correct",
+      "loaded": [
+        "marketo-velocity"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "code-moengage-not-send",
+      "category": "code-only",
+      "expect": "moengage-jinja",
+      "verdict": "correct",
+      "loaded": [
+        "moengage-jinja"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "code-sfmc-treatascontent",
+      "category": "code-only",
+      "expect": "sfmc-ampscript",
+      "verdict": "correct",
+      "loaded": [
+        "sfmc-ampscript"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "code-zephyr-foreach",
+      "category": "code-only",
+      "expect": "sailthru-zephyr",
+      "verdict": "correct",
+      "loaded": [
+        "sailthru-zephyr"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "code-zephyr-function-not-filter",
+      "category": "code-only",
+      "expect": "sailthru-zephyr",
+      "verdict": "correct",
+      "loaded": [
+        "sailthru-zephyr"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "code-zml-skip-message",
+      "category": "code-only",
+      "expect": "zeta-zml",
+      "verdict": "correct",
+      "loaded": [
+        "zeta-zml"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "confusable-braze-to-cio-migration",
+      "category": "confusable",
+      "expect": "customerio-liquid",
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid",
+        "customerio-liquid"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "confusable-braze-vs-shopify-liquid",
+      "category": "confusable",
+      "expect": "braze-liquid",
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "confusable-generic-liquid-if",
+      "category": "confusable",
+      "expect": null,
+      "verdict": "correct-clarify",
+      "loaded": [],
+      "wrong_skills": []
+    },
+    {
+      "case": "confusable-handlebars-in-klaviyo",
+      "category": "confusable",
+      "expect": "klaviyo-django",
+      "verdict": "correct",
+      "loaded": [
+        "iterable-handlebars",
+        "klaviyo-django"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "confusable-hubspot-in-jinja-terms",
+      "category": "confusable",
+      "expect": "hubspot-hubl",
+      "verdict": "correct",
+      "loaded": [
+        "hubspot-hubl"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "confusable-jinja-no-platform",
+      "category": "confusable",
+      "expect": null,
+      "verdict": "correct-clarify",
+      "loaded": [],
+      "wrong_skills": []
+    },
+    {
+      "case": "confusable-klaviyo-called-liquid",
+      "category": "confusable",
+      "expect": "klaviyo-django",
+      "verdict": "correct",
+      "loaded": [
+        "klaviyo-django"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "confusable-marketo-and-sfmc",
+      "category": "confusable",
+      "expect": "marketo-velocity",
+      "verdict": "correct",
+      "loaded": [
+        "marketo-velocity"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "confusable-moengage-vs-hubspot",
+      "category": "confusable",
+      "expect": "moengage-jinja",
+      "verdict": "correct",
+      "loaded": [
+        "moengage-jinja"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "confusable-zeta-engage-named",
+      "category": "confusable",
+      "expect": "sailthru-zephyr",
+      "verdict": "correct",
+      "loaded": [
+        "sailthru-zephyr"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "confusable-zeta-single-brace",
+      "category": "confusable",
+      "expect": "sailthru-zephyr",
+      "verdict": "correct",
+      "loaded": [
+        "sailthru-zephyr"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "confusable-zeta-unnamed-product",
+      "category": "confusable",
+      "expect": null,
+      "verdict": "correct-clarify",
+      "loaded": [],
+      "wrong_skills": []
+    },
+    {
+      "case": "named-braze-abort",
+      "category": "named",
+      "expect": "braze-liquid",
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "named-customerio-snippet",
+      "category": "named",
+      "expect": "customerio-liquid",
+      "verdict": "correct",
+      "loaded": [
+        "customerio-liquid"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "named-hubspot-default-filter",
+      "category": "named",
+      "expect": "hubspot-hubl",
+      "verdict": "correct",
+      "loaded": [
+        "hubspot-hubl"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "named-iterable-cart-loop",
+      "category": "named",
+      "expect": "iterable-handlebars",
+      "verdict": "correct",
+      "loaded": [
+        "iterable-handlebars"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "named-klaviyo-conditional",
+      "category": "named",
+      "expect": "klaviyo-django",
+      "verdict": "correct",
+      "loaded": [
+        "klaviyo-django"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "named-marketo-script-token",
+      "category": "named",
+      "expect": "marketo-velocity",
+      "verdict": "correct",
+      "loaded": [
+        "marketo-velocity"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "named-moengage-fallback",
+      "category": "named",
+      "expect": "moengage-jinja",
+      "verdict": "correct",
+      "loaded": [
+        "moengage-jinja"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "named-sailthru-feed-loop",
+      "category": "named",
+      "expect": "sailthru-zephyr",
+      "verdict": "correct",
+      "loaded": [
+        "sailthru-zephyr"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "named-sfmc-lookup",
+      "category": "named",
+      "expect": "sfmc-ampscript",
+      "verdict": "correct",
+      "loaded": [
+        "sfmc-ampscript"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "named-zeta-zmp-recommendation",
+      "category": "named",
+      "expect": "zeta-zml",
+      "verdict": "correct",
+      "loaded": [
+        "zeta-zml"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "oos-activecampaign-conditional",
+      "category": "out-of-scope",
+      "expect": null,
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": []
+    },
+    {
+      "case": "oos-brevo-contact-token",
+      "category": "out-of-scope",
+      "expect": null,
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": []
+    },
+    {
+      "case": "oos-deliverability-domain",
+      "category": "out-of-scope",
+      "expect": null,
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": []
+    },
+    {
+      "case": "oos-mailchimp-merge-tag",
+      "category": "out-of-scope",
+      "expect": null,
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": []
+    },
+    {
+      "case": "oos-mailjet-mjml",
+      "category": "out-of-scope",
+      "expect": null,
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": []
+    },
+    {
+      "case": "oos-outlook-image-gap",
+      "category": "out-of-scope",
+      "expect": null,
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": []
+    },
+    {
+      "case": "oos-sendgrid-handlebars",
+      "category": "out-of-scope",
+      "expect": null,
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": []
+    },
+    {
+      "case": "oos-shopify-liquid-notification",
+      "category": "out-of-scope",
+      "expect": null,
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": []
+    },
+    {
+      "case": "oos-subject-line-copy",
+      "category": "out-of-scope",
+      "expect": null,
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": []
+    },
+    {
+      "case": "oos-welcome-series-strategy",
+      "category": "out-of-scope",
+      "expect": null,
+      "verdict": "correct-silent",
+      "loaded": [],
+      "wrong_skills": []
+    },
+    {
+      "case": "symptom-braze-canvas-aborts",
+      "category": "symptom",
+      "expect": "braze-liquid",
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "symptom-braze-partial-blank",
+      "category": "symptom",
+      "expect": "braze-liquid",
+      "verdict": "correct",
+      "loaded": [
+        "braze-liquid"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "symptom-cio-design-studio-drift",
+      "category": "symptom",
+      "expect": "customerio-liquid",
+      "verdict": "correct",
+      "loaded": [
+        "customerio-liquid"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "symptom-cio-failed-deliveries",
+      "category": "symptom",
+      "expect": "customerio-liquid",
+      "verdict": "correct",
+      "loaded": [
+        "customerio-liquid"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "symptom-hubspot-company-blank",
+      "category": "symptom",
+      "expect": "hubspot-hubl",
+      "verdict": "correct",
+      "loaded": [
+        "hubspot-hubl"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "symptom-hubspot-wont-publish",
+      "category": "symptom",
+      "expect": "hubspot-hubl",
+      "verdict": "correct",
+      "loaded": [
+        "hubspot-hubl"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "symptom-iterable-raw-braces",
+      "category": "symptom",
+      "expect": "iterable-handlebars",
+      "verdict": "correct",
+      "loaded": [
+        "iterable-handlebars"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "symptom-klaviyo-wont-preview",
+      "category": "symptom",
+      "expect": "klaviyo-django",
+      "verdict": "correct",
+      "loaded": [
+        "klaviyo-django"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "symptom-marketo-token-literal",
+      "category": "symptom",
+      "expect": "marketo-velocity",
+      "verdict": "correct",
+      "loaded": [
+        "marketo-velocity"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "symptom-moengage-audience-drop",
+      "category": "symptom",
+      "expect": "moengage-jinja",
+      "verdict": "correct",
+      "loaded": [
+        "moengage-jinja"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "symptom-sailthru-empty-send",
+      "category": "symptom",
+      "expect": "sailthru-zephyr",
+      "verdict": "correct",
+      "loaded": [
+        "sailthru-zephyr"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "symptom-sfmc-errored-subscribers",
+      "category": "symptom",
+      "expect": "sfmc-ampscript",
+      "verdict": "correct",
+      "loaded": [
+        "sfmc-ampscript"
+      ],
+      "wrong_skills": []
+    },
+    {
+      "case": "symptom-zeta-skipped-messages",
+      "category": "symptom",
+      "expect": "zeta-zml",
+      "verdict": "correct",
+      "loaded": [
+        "zeta-zml"
+      ],
+      "wrong_skills": []
+    }
+  ],
+  "aggregate": {
+    "cases_scored": 58,
+    "cases_failed": 0,
+    "micro": {
+      "correct_fire_pct": 100.0,
+      "misfire_pct": 0.0,
+      "silent_pct": 0.0,
+      "correct_silence_pct": 100.0
+    },
+    "macro_by_category": {
+      "correct_fire_pct": 100.0,
+      "misfire_pct": 0.0,
+      "silent_pct": 0.0
+    },
+    "by_category": {
+      "named": {
+        "cases": 10,
+        "correct_fire_pct": 100.0,
+        "misfire_pct": 0.0,
+        "silent_pct": 0.0,
+        "correct_silence_pct": null
+      },
+      "symptom": {
+        "cases": 13,
+        "correct_fire_pct": 100.0,
+        "misfire_pct": 0.0,
+        "silent_pct": 0.0,
+        "correct_silence_pct": null
+      },
+      "code-only": {
+        "cases": 13,
+        "correct_fire_pct": 100.0,
+        "misfire_pct": 0.0,
+        "silent_pct": 0.0,
+        "correct_silence_pct": null
+      },
+      "confusable": {
+        "cases": 12,
+        "correct_fire_pct": 100.0,
+        "misfire_pct": 0.0,
+        "silent_pct": 0.0,
+        "correct_silence_pct": null
+      },
+      "out-of-scope": {
+        "cases": 10,
+        "correct_fire_pct": null,
+        "misfire_pct": 0.0,
+        "silent_pct": null,
+        "correct_silence_pct": 100.0
+      }
+    },
+    "counts": {
+      "correct": 58,
+      "misfire": 0,
+      "silent": 0,
+      "should_fire": 48,
+      "should_stay_silent": 10
+    },
+    "misfired_cases": []
+  }
+}
