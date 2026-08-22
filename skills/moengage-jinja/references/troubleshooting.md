@@ -239,7 +239,7 @@ The **Test results** page gives a per-recipient `Status`, `Failure reason`, and 
 
 ### The standalone Jinja surface
 
-**Test & Debug → Jinja AI → Test Code** renders a snippet against a fetched real user profile outside any campaign — pick the identifier type, enter the value, click Fetch user data, read the Output. It is the fastest loop for iterating on one expression, and it does not require a campaign in draft.
+**Test & Debug → Jinja AI → Test Code** renders a snippet against a fetched user profile outside any campaign — use a seed or test user's identifier — pick the identifier type, enter the value, click Fetch user data, read the Output. It is the fastest loop for iterating on one expression, and it does not require a campaign in draft.
 
 ---
 
@@ -247,9 +247,9 @@ The **Test results** page gives a per-recipient `Status`, `Failure reason`, and 
 
 The single test everyone skips, and the one that finds the bug.
 
-**Preferred, if Update Preview is enabled for the workspace:** fetch any real user in the personalized preview, then **clear the attribute's value in the preview pane** and click Refresh. If the preview blocks with an error, your guard is working. If it renders `Hi ,`, your fallback is "No fallback". If it renders `None`, your `|default` is the one-argument form and it did not fire.
+**Preferred, if Update Preview is enabled for the workspace:** fetch a seed or test user in the personalized preview, then **clear the attribute's value in the preview pane** and click Refresh. If the preview blocks with an error, your guard is working. If it renders `Hi ,`, your fallback is "No fallback". If it renders `None`, your `|default` is the one-argument form and it did not fire.
 
-**If Update Preview is not enabled**, you need a real profile without the attribute:
+**If Update Preview is not enabled**, you need a profile without the attribute — a seed user created without it, or, failing that, a throwaway segment:
 
 1. Build a throwaway segment filtered on *attribute does not exist* for the attribute in question.
 2. Test-send via **Custom Segment** against it — MoEngage samples up to 50 users.
@@ -333,7 +333,7 @@ Stated plainly, because guessing at any of these is how a campaign loses recipie
 
 - [ ] Attribute names inserted with `@`, not typed from memory
 - [ ] `|default('x', true)` rather than `|default('x')` wherever an empty string is possible
-- [ ] Every value from an event, Content API, catalog, or aux-data file piped through `|e`, and every URL through `|urlencode`
+- [ ] Every value from an event, Content API, catalog, or aux-data file piped through `|e`; `|urlencode` only on path segments or query values, and every complete URL from data checked against an HTTPS allowlist
 - [ ] `dateTimeFormatter` given both `tzOffset` and `timeZone` so users without an offset still localise
 - [ ] Content API endpoint answers inside five seconds at load and is idempotent
 

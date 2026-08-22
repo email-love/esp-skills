@@ -348,7 +348,8 @@ Practical rule: **write `|default('Guest', true)`**, and confirm it on a test se
 |---|---|
 | HTML text | `\|e` |
 | An HTML attribute | `\|e`, and the attribute quoted |
-| A URL path or query value | `\|urlencode` |
+| A URL path or query value you are inserting into a URL you wrote | `\|urlencode` — never piped over a complete URL, where it can mangle the `://` separator |
+| A complete URL arriving from data | validate against an HTTPS allowlist of expected domains, then `\|e` for the attribute |
 | Inside a `<script>` or JSON blob | JSON encoding — `\|e` does not provide it, and there is no `\|tojson` on 2.8 |
 
 Values that arrive from an event payload, a Content API response, a catalog item, or an auxiliary data file are markup written by someone other than you. Escape them. A product title containing a stray `<` breaks the layout for exactly the recipients who have that product; a title containing an anchor tag does something worse.

@@ -156,7 +156,8 @@ and the short form, when the parameters are all configured dashboard-side:
 ```jinja
 {% for cart_item in ContentApi.cart().items %}
   <h2>{{ cart_item.name|e }}: {{ cart_item.price|round(2) }}</h2>
-  <img src="{{ cart_item.image|urlencode }}" alt="">
+  {# a complete image URL: allowlist-check the domain, then escape for the attribute — |urlencode would mangle the scheme #}
+  <img src="{{ cart_item.image|e }}" alt="">
 {% endfor %}
 ```
 
