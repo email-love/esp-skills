@@ -330,9 +330,11 @@ There is no `limit` argument. Nest a comparison on `@index`:
 `urlEncode` applies standard URL formatting — spaces become `+`, special characters become their ASCII escapes. Wrap **every dynamic value that lands in a query string**; escaping alone does not URL-encode.
 
 ```handlebars
-https://example.com/preferences?email={{#urlEncode}}{{email}}{{/urlEncode}}&campaignId={{campaignId}}
+https://example.com/preferences?token={{#urlEncode}}{{prefToken}}{{/urlEncode}}&campaignId={{campaignId}}
 https://example.com/search?q={{#urlEncode}}{{lastSearchTerm}}{{/urlEncode}}
 ```
+
+(`prefToken` is an opaque, short-lived signed token synced to the profile — put that in the URL, never the email address or user ID: URL-encoding formats an identifier but does not stop it reaching logs, analytics, history, and referrers.)
 
 Because spaces become `+`, it is right for a query value and wrong for a path segment, where `+` stays a literal plus. `toJson` is the encoding for a value inside `<script>` or a JSON body — HTML escaping does not make a value JSON-safe, and neither does turning it off. `toUrlEncodedJson` is the URL-safe variant. Check any encoded value in Preview: a helper stacked on already-escaped output can double-encode, and Preview shows it straight away.
 
@@ -395,8 +397,8 @@ Whitespace — spaces, tabs, newlines — is **preserved by default**, which bre
 | Strip both | `{{~tag~}}` |
 
 ```handlebars
-<a href="{{~#if isSummerCampaign~}}https://example.com/summer?u={{~userId~}}
-{{~else~}}https://example.com/winter?u={{~userId~}}
+<a href="{{~#if isSummerCampaign~}}https://example.com/summer?cid={{~campaignId~}}
+{{~else~}}https://example.com/winter?cid={{~campaignId~}}
 {{~/if~}}">Shop</a>
 ```
 

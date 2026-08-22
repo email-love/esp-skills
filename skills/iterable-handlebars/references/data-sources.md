@@ -113,8 +113,10 @@ Available without any profile or event data.
 ### Preference centre link construction
 
 ```handlebars
-https://www.example.com/preferences?email={{#urlEncode}}{{email}}{{/urlEncode}}&campaignId={{campaignId}}&templateId={{templateId}}
+https://www.example.com/preferences?token={{#urlEncode}}{{prefToken}}{{/urlEncode}}&campaignId={{campaignId}}&templateId={{templateId}}
 ```
+
+Identify the recipient with an **opaque, short-lived signed token** (here `prefToken`, minted server-side and synced to the profile) or use Iterable's hosted unsubscribe/preference links — never the email address or user ID itself. URL-encoding an identifier only formats it; it does not prevent disclosure, and the value still lands in server logs, analytics, browser history, and referrer headers.
 
 If you append query params **in the template** rather than in project settings, start with `&`, not `?` — the base URL already carries a query string. Getting this wrong produces `InvalidHostedUnsubscribeUrl` send skips.
 
@@ -411,7 +413,7 @@ Hi {{defaultIfEmpty firstName "there"}},
 ### Conditional link without whitespace corruption
 
 ```handlebars
-<a href="{{~#if isVip~}}https://example.com/vip{{~else~}}https://example.com/sale{{~/if~}}?u={{~userId~}}">Shop</a>
+<a href="{{~#if isVip~}}https://example.com/vip{{~else~}}https://example.com/sale{{~/if~}}?cid={{~campaignId~}}">Shop</a>
 ```
 
 ---
