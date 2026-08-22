@@ -40,13 +40,29 @@ for skill in "$ROOT"/skills/*/; do
   install -m 0644 "$skill/SKILL.md" "$pkg/SKILL.md"
   install -m 0644 "$ROOT/LICENSE"   "$pkg/LICENSE"
 
-  for sub in references agents evals; do
+  # Recursive: nested reference material and future assets/icons must not
+  # silently vanish from a published archive because of a depth cap.
+  for sub in references agents evals assets; do
     [ -d "$skill/$sub" ] || continue
-    mkdir -p "$pkg/$sub"
-    find "$skill/$sub" -maxdepth 1 -type f \
-      \( -name '*.md' -o -name '*.yaml' -o -name '*.json' \) \
-      -exec install -m 0644 {} "$pkg/$sub/" \;
+    ( cd "$skill" && find "$sub" -type f \
+        \( -name '*.md' -o -name '*.yaml' -o -name '*.json' \
+           -o -name '*.png' -o -name '*.svg' -o -name '*.jpg' -o -name '*.webp' \) \
+        -print0 ) | while IFS= read -r -d '' f; do
+      mkdir -p "$pkg/$(dirname "$f")"
+      install -m 0644 "$skill/$f" "$pkg/$f"
+    done
   done
+
+  # Anything under those directories NOT matched by the allowlist is an error,
+  # not a silent omission.
+  unshipped="$(cd "$skill" && find references agents evals assets -type f \
+      ! -name '*.md' ! -name '*.yaml' ! -name '*.json' \
+      ! -name '*.png' ! -name '*.svg' ! -name '*.jpg' ! -name '*.webp' 2>/dev/null || true)"
+  if [ -n "$unshipped" ]; then
+    echo "refusing to build $name: files present that the allowlist would drop:" >&2
+    echo "$unshipped" >&2
+    exit 1
+  fi
 
   ( cd "$STAGE" && zip -qrX "$DIST/$name.skill" "$name" )
   built=$((built + 1))
@@ -59,6 +75,11 @@ if [ "$built" -ne "$expected" ]; then
   exit 1
 fi
 
-( cd "$DIST" && sha256sum ./*.skill > SHA256SUMS )
+# sha256sum on Linux, shasum -a 256 on macOS.
+if command -v sha256sum >/dev/null 2>&1; then
+  ( cd "$DIST" && sha256sum ./*.skill > SHA256SUMS )
+else
+  ( cd "$DIST" && shasum -a 256 ./*.skill > SHA256SUMS )
+fi
 echo
 echo "$built archive(s) for v$VERSION in dist/, checksums in dist/SHA256SUMS"

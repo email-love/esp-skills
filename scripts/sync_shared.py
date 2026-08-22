@@ -31,9 +31,12 @@ def figma(slug: str) -> str:
 
 
 def security(slug: str) -> str:
-    mechanisms = json.loads((ROOT / "shared" / "security" / "mechanisms.json").read_text())
-    body = (ROOT / "shared" / "security" / "_body.md").read_text().replace(
-        "{{MECHANISM}}", mechanisms[slug])
+    d = ROOT / "shared" / "security"
+    mechanisms = json.loads((d / "mechanisms.json").read_text())
+    escaping = json.loads((d / "escaping.json").read_text())
+    body = (d / "_body.md").read_text() \
+        .replace("{{MECHANISM}}", mechanisms[slug]) \
+        .replace("{{ESCAPING}}", escaping[slug])
     return f"{SEC_START}\n\n{body.rstrip()}\n\n{SEC_END}\n"
 
 

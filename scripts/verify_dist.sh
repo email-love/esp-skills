@@ -46,7 +46,24 @@ for a in "${archives[@]}"; do
   echo "ok $(basename "$a")"
 done
 
-( cd "$DIST" && sha256sum -c SHA256SUMS >/dev/null ) || {
+# Expected-vs-actual inventory: every allowlisted source file must be in the
+# archive, path for path. Catches an allowlist that silently drops something.
+for a in "${archives[@]}"; do
+  name="$(basename "$a" .skill)"
+  src="$ROOT/skills/$name"
+  listing="$(unzip -Z1 "$a")"
+  while IFS= read -r -d '' f; do
+    rel="${f#"$src/"}"
+    grep -qxF "$name/$rel" <<<"$listing" || {
+      echo "$a is missing source file $rel" >&2; exit 1; }
+  done < <(find "$src" -type f \
+      \( -name '*.md' -o -name '*.yaml' -o -name '*.json' \
+         -o -name '*.png' -o -name '*.svg' -o -name '*.jpg' -o -name '*.webp' \) -print0)
+done
+echo "ok source inventory"
+
+if command -v sha256sum >/dev/null 2>&1; then SHACMD="sha256sum"; else SHACMD="shasum -a 256"; fi
+( cd "$DIST" && $SHACMD -c SHA256SUMS >/dev/null ) || {
   echo "checksums in dist/SHA256SUMS do not match" >&2; exit 1; }
 echo "ok SHA256SUMS"
 
