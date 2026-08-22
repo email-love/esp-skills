@@ -126,7 +126,7 @@ Documented — `.size` dot notation can't be compared with `==`. Use `> 0`.
 
 ### Attribute value contains visible `{{ }}`
 
-The value itself contains Liquid (LLM action output, webhook payload). Use `{% render_liquid journey.body %}`.
+The value itself contains Liquid. If it is an author-written template string your own workflow stored, `{% render_liquid journey.body %}` renders it. If it came from an LLM action, webhook, partner feed, or a profile/event value, the literal `{{ }}` is the safe outcome — do **not** render it; that would execute untrusted content as template code. Rebuild the message from author-written copy with allowlisted placeholders.
 
 ### Message sent to the wrong person's data
 
@@ -188,7 +188,7 @@ Then reference `{{trigger.headline}}`. Per-recipient data via `per_user_data` (m
 7. **`sort` is case-sensitive** and won't reorder arrays containing nulls.
 8. **Snippet ↔ message variable scope is isolated** in both directions.
 9. **Liquid in a JSON array inside a snippet renders as literal text.**
-10. **Nested Liquid in attribute values needs `{% render_liquid %}`** — critical for LLM-action and webhook-generated content.
+10. **Nested Liquid in attribute values needs `{% render_liquid %}` — but only for author-written template strings.** LLM-action and webhook-generated values are untrusted data: leave them unrendered and escaped.
 11. **Drag-and-drop editor:** use the **Add Liquid** dropdown for anything with `&`, `>`, `<`, or a conditional.
 12. **Empty Liquid in URL parameters fails the message.**
 13. **Don't name object types "Customers" or "Relationships."** If you did, use `trigger._customer` / `trigger._relationship`.
@@ -247,7 +247,7 @@ Note also that `/journeys/*` doc URLs still resolve but redirect to `/messaging/
 - [ ] `{% view_in_browser %}` present if the hosted page is needed
 - [ ] `.size` compared with `> 0`, not `== 0`
 - [ ] Correct Liquid version assumed for `escape`, `default`, and timezone offsets
-- [ ] `{% render_liquid %}` on any attribute whose value contains Liquid
+- [ ] `{% render_liquid %}` only on author-written template strings — never on model, webhook, feed, profile, or event values
 - [ ] No variable assigned in one scope and read in another
 
 **Verified**

@@ -152,7 +152,7 @@ Hello, {{ username -}} !          →  Hello, Charlie!
 
 `{% view_in_browser %}` **must exist in the email** for the hosted page to be generated at all; otherwise the link is dead. Email only — not supported in push or WhatsApp.
 
-**`{% render_liquid %}`** renders Liquid stored *inside an attribute value* — output from an LLM action, a webhook payload, or any dynamically generated copy. Without it, `{{journey.body}}` prints `Hello {{customer.first_name}}!` as literal text.
+**`{% render_liquid %}`** renders Liquid stored *inside an attribute value*: without it, `{{journey.body}}` prints `Hello {{customer.first_name}}!` as literal text. It executes the stored string as template code, so point it **only at author-written template strings** your own workflow stored. LLM-action output, webhook payloads, partner feeds, and profile/event values are data — never render them with this tag; output them escaped and compose dynamic copy from a fixed allowlist of author-written placeholders instead.
 
 **Countdown parameters:** `point` (required, int, font size) · `time` (required, `"YYYY-MM-DD hh:mm:ss (GMT)"`, **no Liquid variables allowed**) · `fg` (required hex) · `bg` (required hex) · `apng` (bool, default false) · `font` (inter / roboto) · `weight` (default normal) · `locale` (`en ru jp zh pt es fr`) · `looping` (bool) · `resolution` (`S|M|H|D`) · `frames` (int, default 1). **Max 60 frames.** At `resolution:S` it stops 60 s after image load and reloads on each open.
 
@@ -403,7 +403,7 @@ Customer.io's position: **"Any part of your message can contain liquid."**
 | **To** | `{{customer.name}} <{{customer.email}}>` |
 | **SMS** | To: `{{customer.phone}}`. Sender ID accepts Liquid. **URL params are not auto-appended** — use `{% cio_link %}` |
 | **Push** | Full Liquid in title and body. Device-token targeting can be Liquid. `{% view_in_browser_url %}` **not supported** |
-| **Webhook JSON body** | Name the fields the endpoint needs: `{"id":"{{customer.id}}","email":"{{customer.email}}"}`. The whole-object dump `{{ customer \| replace: "=>", ":"}}` works, and ships every attribute on the profile — including ones nobody added when the endpoint was written. Use `strip`, `strip_newlines`, `escape`, `normalize_whitespace` to keep JSON valid |
+| **Webhook JSON body** | Name the fields the endpoint needs: `{"id":"{{customer.id}}","email":"{{customer.email}}"}`. When a field genuinely needs to be a serialized structure, serialize it properly with `\| to_json` / `\| json` on that **named field** — never fake JSON by string-replacing over the whole `customer` object, which is not real serialization and ships every attribute on the profile, including ones nobody added when the endpoint was written. Use `strip`, `strip_newlines`, `escape`, `normalize_whitespace` to keep hand-built JSON valid |
 | **In-app** | Full Liquid, including page rules (`/{{event.product_family}}/*`). **Anonymous in-app messages have no profile** — always add fallbacks |
 | **WhatsApp** | Links go in template variable fields and **must** use `{% cio_link %}`. No `{% view_in_browser_url %}` |
 | **URL parameter settings** | Workspace-level UTM values accept `{{campaign.name}}`, `{{message.id}}`, `{{delivery_id}}`, `{{customer.id}}`. ⚠️ These are appended to **every** link in the email, so `{{customer.id}}` leaks the identifier to every destination site, its analytics, and its referrer chain — prefer `{{delivery_id}}` |
