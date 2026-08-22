@@ -104,7 +104,7 @@ All the `_time` fields are UNIX timestamps, so comparisons go through `time()`:
 {if contains(profile.lists, 'Main')}…{/if}
 ```
 
-**A documentation inconsistency worth knowing:** the field table names the returns array `return`, while the sample profile object uses `returns`. Check against a real profile before relying on either.
+**A documentation inconsistency worth knowing:** the field table names the returns array `return`, while the sample profile object uses `returns`. Check against a seed or test profile before relying on either.
 
 ---
 
