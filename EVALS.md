@@ -2,6 +2,8 @@
 
 Every skill ships a small suite of test cases in `evals/evals.json`. They are **smoke tests, not a benchmark** — four or five cases per platform is enough to catch a regression and to show what the skill is claiming to fix. It is nowhere near enough to rank skills or to prove a capability. Read the numbers that way.
 
+These suites measure answer quality with the right skill already in context. Whether the right skill gets loaded at all — the step every content eval skips — is measured separately; see [ROUTING.md](ROUTING.md).
+
 ## Schema
 
 `evals/evals.json`, one per skill:
@@ -51,59 +53,73 @@ Assertions must also be *conditionally* fair. An assertion that a correct answer
 python3 scripts/run_evals.py                      # every suite
 python3 scripts/run_evals.py --skill braze-liquid # one suite
 python3 scripts/run_evals.py --dry-run            # print the plan, call nothing
+python3 scripts/test_eval_harness.py              # harness self-test, no model calls
 ```
 
-Requires the `claude` CLI on `PATH` and an authenticated session. Each case runs three model calls: the skill's content in context, the same prompt with no skill, and a grader that scores the response against that case's assertions one at a time.
+Requires the `claude` CLI on `PATH` and an authenticated session. The default model is `claude-sonnet-4-5` for both arms and the grader; override with `--model` and `--grader-model`. Each case runs three model calls: the skill's content in context, the same prompt with no skill, and a grader that scores the response against that case's assertions one at a time.
 
 The paired run is the point. A score on its own says very little, because a capable model already knows most of the syntax. The gap between the two arms is what tells you whether the skill is carrying its weight.
 
-Runs are resumable. `--out <name>` writes into a named directory and skips cases already recorded there, so an interrupted run picks up where it stopped.
+**Context modes.** The with-skill arm's context is controlled by `--context-mode` and recorded in `run.json` as `context_mode`:
+
+- `full` (default, recorded as `full-context-upper-bound`) — SKILL.md plus every file in `references/`, concatenated. That is everything the skill ships, which a progressive-disclosure runtime would rarely have loaded all at once, so read these numbers as an **upper bound** on what the skill can deliver.
+- `skillmd-only` (recorded as `skillmd-only`) — SKILL.md alone, closer to what a runtime has in context before any Read into `references/`.
+
+The two modes measure different things; never compare a number from one against a number from the other without saying so.
+
+**Resume and cache validity.** `--out <name>` writes into a named directory. A case already recorded there is reused only when its recorded hashes (skill context as sent, prompt, assertions) and model settings (model, grader model, context mode) match the current computation; anything stale — including cases recorded before the skill's content changed — is re-run, not silently reused. Failed cases are always re-run.
+
+**Grader validation.** A grader response is accepted only if it is valid JSON with exactly one verdict per assertion, the original assertion text preserved verbatim (same order, or an unambiguous text-keyed mapping), `met` strictly boolean, and non-empty `evidence`. Anything else is recorded as a **grader failure** for that case: the raw grader output is preserved in the artifact, the case is excluded from the averages (never scored zero), and the next invocation with the same `--out` re-runs it. No manual artifact surgery.
+
+**Two averages, kept apart.** `run.json` and the console report both the assertion-weighted micro average (`assertion_weighted_micro_pct`: total assertions met over total assertions) and the equal-case macro average (`equal_case_macro_pct`: mean of per-case percentages). They differ whenever cases have different assertion counts; quote whichever you mean by name, never a blend.
 
 ## What gets recorded
 
 Under `evals-runs/<name>/`:
 
 ```
-run.json              model, grader model, CLI version, settings, timestamps,
-                      per-case scores, aggregate
-<skill>.json          every case in that suite, with both raw responses and the
-                      grader's per-assertion verdict and evidence
+run.json              provenance (git commit + dirty flag, argv, model, grader
+                      model, CLI version, settings, context mode), the history
+                      of every invocation that wrote into the directory, one
+                      row per (skill, case), and the aggregate
+<skill>.json          every case in that suite: per-case hashes (skill context,
+                      prompt, assertions, suite file), model settings, both raw
+                      responses, the raw grader output (success or failure),
+                      and the grader's per-assertion verdict and evidence
 ```
+
+`run.json` is **cumulative**: when several invocations share an `--out` directory — one per suite, say — each invocation rebuilds the manifest from every per-skill artifact present, merged by (skill, case), and the aggregate covers everything in the directory. A four-suite run can no longer be recorded as one suite by whichever invocation finished last.
 
 Every number published anywhere in this repository has to be reproducible from a committed run directory. If you cannot point at one, do not publish the number.
 
 ## Current committed runs
 
-Two directories, because the four platforms added in 1.4.0 were run separately rather than re-running the six that had not changed. Both used `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.238.
-
-`evals-runs/baseline-v1.4.0/` — 16 cases, the platforms added in 1.4.0.
+`evals-runs/baseline-v1.4.1/` is the current content-eval run: 41 cases, all ten suites, `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.238, `full` context mode, produced from this code — provenance (commit, dirty flag, argv, per-case hashes) is in its `run.json`. All 41 cases scored; zero grader failures outstanding.
 
 | Skill | Cases | With skill | Baseline | Delta |
 |---|---:|---:|---:|---:|
-| `sailthru-zephyr` | 4 | 86% | 33% | +53 |
-| `moengage-jinja` | 4 | 65% | 21% | +44 |
-| `zeta-zml` | 4 | 89% | 48% | +41 |
-| `hubspot-hubl` | 4 | 79% | 40% | +39 |
-| **These four** | **16** | **80%** | **35%** | **+45** |
+| `moengage-jinja` | 4 | 86% | 23% | +63 |
+| `hubspot-hubl` | 4 | 86% | 28% | +58 |
+| `sailthru-zephyr` | 4 | 86% | 29% | +57 |
+| `zeta-zml` | 4 | 89% | 34% | +55 |
+| `braze-liquid` | 4 | 90% | 40% | +50 |
+| `sfmc-ampscript` | 4 | 95% | 47% | +48 |
+| `klaviyo-django` | 4 | 86% | 43% | +43 |
+| `customerio-liquid` | 4 | 85% | 46% | +39 |
+| `marketo-velocity` | 4 | 89% | 61% | +28 |
+| `iterable-handlebars` | 5 | 84% | 66% | +18 |
+| **All** | **41** | **88%** | **41%** | **+47** |
 
-`evals-runs/baseline-v1.3.0/` — 25 cases, the original six.
+Micro (assertion-weighted): 87.6% vs 41.0%. Macro (equal-case): 87.3% vs 41.8%.
 
-| Skill | Cases | With skill | Baseline | Delta |
-|---|---:|---:|---:|---:|
-| `customerio-liquid` | 4 | 75% | 36% | +39 |
-| `sfmc-ampscript` | 4 | 88% | 51% | +37 |
-| `marketo-velocity` | 4 | 90% | 53% | +37 |
-| `klaviyo-django` | 4 | 82% | 46% | +36 |
-| `braze-liquid` | 4 | 77% | 42% | +35 |
-| `iterable-handlebars` | 5 | 88% | 65% | +23 |
-| **These six** | **25** | **82%** | **49%** | **+33** |
+`evals-runs/routing-v1.4.1/` is the current routing run: 58 cases, 100% correct fire, 0% misfire, 0% silent — see `ROUTING.md`.
 
-Across both directories: **41 cases, 412 assertions, 81% with skill against 43% baseline.** The six skills in the 1.3.0 directory did change in 1.4.0 — the shared trust-boundary block was reworded — so their numbers are from the wording that shipped in 1.3.0, not from what is on disk now. Re-run them before quoting those rows as current.
+`evals-runs/baseline-v1.3.0/` and `evals-runs/baseline-v1.4.0/` are historical. They predate the provenance fields, were produced against earlier skill wording, and their numbers must not be quoted as current.
 
 ### Caveats worth stating plainly
 
 - **One run, one model, no repeats.** No variance estimate. A few points of movement between runs means nothing.
 - **The grader is a model.** It reads the assertion and the response and judges. It is more consistent than a human on a rubric this narrow, and it is not infallible; the per-assertion evidence is committed so you can check its work.
 - **With-skill is not 100%, and should not be.** The adversarial cases are the weakest across the board — several sit at 8/12 or below. That is a real finding about the skills, not noise to be tuned away, and it is the main reason this release is a beta.
-- **One grader call in the 1.4.0 run returned malformed JSON** on `moengage-jinja/partial-audience-drop-debug`, scoring the with-skill arm 0. The case was deleted from the artifact and re-run rather than left as a zero; the committed directory holds the re-run. A grader that can fail this way is a known weakness of the harness.
+- **One grader call in the 1.4.0 run returned malformed JSON** on `moengage-jinja/partial-audience-drop-debug`, scoring the with-skill arm 0 under the harness of the time. The case was deleted from the artifact by hand and re-run; the committed directory holds the re-run. The current harness closes this hole: a grader response that fails strict validation is recorded as a grader failure with its raw output preserved, excluded from the averages, and re-run automatically on the next invocation — never a zero, never manual surgery.
 - **`moengage-jinja/content-api-recommendation-row` scores 3/10 with the skill in context.** The response was sound code — `{% set %}`, a `|length` guard, `MOE_NOT_SEND` with reason strings, `|e` and `|urlencode` — and it missed six recall assertions whose answers live in `references/`, not in `SKILL.md`. Both readings are worth holding: the assertions may be asking for more recall than one response should carry, and the skill may be putting load-bearing facts a level too deep. It is published as it scored.

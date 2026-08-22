@@ -107,13 +107,13 @@ Verified against Claude Code 2.1.238: the marketplace resolves, the plugin insta
 
 ### Claude apps (web, desktop, Cowork)
 
-Download the `.skill` file for your platform from [Releases](../../releases), then **Settings → Capabilities → Skills → Upload**.
+Build the `.skill` file for your platform (`bash scripts/build.sh` produces all ten in `dist/`), or download it from [Releases](../../releases) once a release is published — none is yet. Then **Settings → Capabilities → Skills → Upload**.
 
 An uploaded skill is a snapshot, not a subscription. It does not update itself — to move to a new version, download the new `.skill` and upload it again; same name replaces the old one. Remove it from the same screen.
 
 ### ChatGPT
 
-These follow the [Agent Skills open standard](https://help.openai.com/en/articles/20001066-skills-in-chatgpt), so the same folder works unmodified. Download the `.skill` from [Releases](../../releases), then **Skills → Create → Upload from your computer**. Requires a Business, Enterprise, Healthcare, or Edu plan. Updates and removal work the same way as the Claude apps: re-upload to update, delete to remove.
+These follow the [Agent Skills open standard](https://help.openai.com/en/articles/20001066-skills-in-chatgpt), so the same folder works unmodified. Build the `.skill` with `bash scripts/build.sh` (or use [Releases](../../releases) once one is published — none is yet), then **Skills → Create → Upload from your computer**. Requires a Business, Enterprise, Healthcare, or Edu plan. Updates and removal work the same way as the Claude apps: re-upload to update, delete to remove.
 
 `agents/openai.yaml` supplies the display name, blurb, and default prompt ChatGPT shows. Claude ignores that file.
 
@@ -166,29 +166,29 @@ The one thing that isn't portable is *tools*. A skill that drives Figma or a bro
 
 Every skill is written against the platform's official documentation, then measured against a no-skill baseline before release. Each case runs twice — with the skill's content in context and without it — and a grader scores the response against that case's assertions one at a time.
 
-41 cases, `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.238:
+41 cases, `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.238, full-context mode. One run: `evals-runs/baseline-v1.4.1/`, produced from this code with provenance (commit, hashes, exact commands) recorded in its `run.json`.
 
 | Skill | Cases | With skill | Baseline | Delta |
 |---|---:|---:|---:|---:|
-| `sailthru-zephyr` | 4 | 86% | 33% | +53 |
-| `moengage-jinja` | 4 | 65% | 21% | +44 |
-| `zeta-zml` | 4 | 89% | 48% | +41 |
-| `customerio-liquid` | 4 | 75% | 36% | +39 |
-| `hubspot-hubl` | 4 | 79% | 40% | +39 |
-| `sfmc-ampscript` | 4 | 88% | 51% | +37 |
-| `marketo-velocity` | 4 | 90% | 53% | +37 |
-| `klaviyo-django` | 4 | 82% | 46% | +36 |
-| `braze-liquid` | 4 | 77% | 42% | +35 |
-| `iterable-handlebars` | 5 | 88% | 65% | +23 |
-| **All** | **41** | **81%** | **43%** | **+38** |
+| `moengage-jinja` | 4 | 86% | 23% | +63 |
+| `hubspot-hubl` | 4 | 86% | 28% | +58 |
+| `sailthru-zephyr` | 4 | 86% | 29% | +57 |
+| `zeta-zml` | 4 | 89% | 34% | +55 |
+| `braze-liquid` | 4 | 90% | 40% | +50 |
+| `sfmc-ampscript` | 4 | 95% | 47% | +48 |
+| `klaviyo-django` | 4 | 86% | 43% | +43 |
+| `customerio-liquid` | 4 | 85% | 46% | +39 |
+| `marketo-velocity` | 4 | 89% | 61% | +28 |
+| `iterable-handlebars` | 5 | 84% | 66% | +18 |
+| **All** | **41** | **88%** | **41%** | **+47** |
 
-**These are smoke tests, not a benchmark.** Four or five cases per platform catches a regression and shows what the skill claims to fix. It cannot rank skills or prove a capability, and one run of one model gives no variance estimate. Every prompt, response, per-assertion verdict, and setting is committed under `evals-runs/baseline-v1.3.0/` and `evals-runs/baseline-v1.4.0/` — [`EVALS.md`](EVALS.md) has the schema, the command, and the caveats.
+Assertion-weighted micro average 87.6% with skill against 41.0% baseline; equal-case macro 87.3% against 41.8%. Every prompt, response, per-assertion verdict, and raw grader output is committed under `evals-runs/baseline-v1.4.1/` — [`EVALS.md`](EVALS.md) has the schema, the commands, and the caveats.
 
-The spread is the interesting part, and we publish it rather than the average. **The delta tracks how alien the language is.** Klaviyo and Iterable have the smallest gaps, because a general model already knows roughly what those languages are. **Sailthru's Zephyr has the largest** — single braces, no filter pipe, functions instead of filters — and a baseline model writes confident Liquid at it. Customer.io and MoEngage are large for the opposite reason: the baseline doesn't fail by omission there, it produces elaborate, wrong answers that look reviewable. MoEngage's baseline scored **0 out of 10** on the case that asks what happens to a user with a missing attribute.
+**Routing is tested separately, and it is the harder property.** A skill that answers well but fires on the wrong platform is worse than no skill. `evals-runs/routing-v1.4.1/` holds 58 cases — the platform named, symptom-only phrasing, pasted code with no platform named, cross-platform confusables including the Zeta/Sailthru two-languages-one-vendor trap, and ten out-of-scope platforms that should trigger nothing. Result: **100% correct fire, 0% wrong-skill fire, 0% missed fire.** [`ROUTING.md`](ROUTING.md) has the method.
 
-The pattern across all ten: the baseline is better at *syntax* than at *consequences*. It usually knows the language. What it reliably misses is which mistakes cost you a send, where the platform records the failure, and what the platform's own documentation gets wrong.
+**These are smoke tests, not a benchmark.** Four or five cases per platform catches a regression and shows what the skill claims to fix. It cannot rank skills or prove a capability, and one run of one model gives no variance estimate. The with-skill arm loads the full skill content, which is an upper bound relative to runtime reference loading — the run records that mode explicitly.
 
-**With-skill is not 100%, and two results are worth naming rather than averaging away.** The adversarial cases are the weakest class across the board. And `moengage-jinja` scores 65% — the lowest in the set — because its Content API case expects the model to recall six specific platform facts that live in `references/`, and the response only surfaced three. We are publishing that rather than loosening the assertions. It is the main reason this is a beta rather than a stable release.
+The pattern across all ten: the baseline is better at *syntax* than at *consequences*. It usually knows the language. What it reliably misses is which mistakes cost you a send, where the platform records the failure, and what the platform's own documentation gets wrong. The largest deltas — MoEngage, HubSpot, Sailthru, Zeta — are the platforms where the language is least like anything a general model has seen, or where the governing rule (a null drops the user; filters don't apply to tokens in email) is undocumented folklore outside the vendor's own pages.
 
 ## Known limitations
 
@@ -212,7 +212,7 @@ bash scripts/build.sh                # package every skill into dist/*.skill
 bash scripts/verify_dist.sh          # zip integrity, inventory, licence, checksums
 ```
 
-Two blocks are shared between all six skills and generated rather than hand-edited: `references/figma-export.md`, and the "Handling untrusted content" section in each `SKILL.md`. Edit them in `shared/` and run `scripts/sync_shared.py`. CI runs `--check` and fails on drift.
+Two blocks are shared between all ten skills and generated rather than hand-edited: `references/figma-export.md`, and the "Handling untrusted content" section in each `SKILL.md`. Edit them in `shared/` and run `scripts/sync_shared.py`. CI runs `--check` and fails on drift.
 
 Changing the version means editing `VERSION` and adding a matching `## [x.y.z]` section to `CHANGELOG.md`; the validator checks that the marketplace manifest agrees.
 

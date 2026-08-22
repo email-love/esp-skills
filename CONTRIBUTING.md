@@ -17,8 +17,12 @@ ESPs ship changes and these skills go stale. The most valuable issue you can fil
 5. Register it in `.claude-plugin/marketplace.json`.
 
 ```bash
-python3 scripts/validate.py   # frontmatter + reference-file checks
-./scripts/build.sh            # package into dist/*.skill
+python3 -m pip install pyyaml==6.0.2
+python3 scripts/sync_shared.py       # regenerate the shared Figma and security blocks
+python3 scripts/validate.py          # frontmatter, metadata, evals, versions, hygiene
+bash scripts/build.sh                # package into dist/*.skill
+bash scripts/verify_dist.sh          # archive integrity, inventory, checksums
+python3 scripts/test_eval_harness.py # eval-harness self-test (no model calls)
 ```
 
 ## Writing style

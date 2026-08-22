@@ -2,6 +2,45 @@
 
 All notable changes to the skills in this repo.
 
+## [1.4.1] — 2026-08-22
+
+Correctness and evaluation-integrity release, driven by an external review of 1.4.0 and by reading every failed eval assertion against the response that failed it. No new platforms.
+
+### Corrected guidance
+
+- **The shared escaping section no longer claims HTML output is escaped by default everywhere.** It never was: Marketo Velocity is explicitly unencoded, MoEngage runs Jinja with autoescape off, and Zephyr output is raw unless `h()` is called. The generated section now states each platform's verified default — escaped (Iterable double-brace, Klaviyo Django), raw (Braze, Customer.io, SFMC, Marketo, MoEngage, Sailthru), or honestly undocumented (HubSpot, Zeta) — from `shared/security/escaping.json`.
+- **Klaviyo:** removed every suggestion that `|safe` or `{% autoescape off %}` addresses JSON or JavaScript output. Klaviyo ships no JSON/JS encoder; untrusted values must not be interpolated into inline script or JSON at all — assemble them upstream as structured data.
+- **Customer.io:** `{% render_liquid %}` guidance is now consistent everywhere — author-written template strings only, never LLM, webhook, partner, profile, feed, or event content. The whole-object pseudo-JSON example is gone in favour of named fields and real serialization.
+- **HubSpot:** `shared/security/mechanisms.json` wrongly said HubL has no stored-string evaluation construct. It does — the `|render` filter — and the generated trust-boundary text now names it.
+- **SFMC:** removed an inverted claim that attributed to Salesforce the statement that `Empty()`/`IsNull()` return false on an empty rowset; current Salesforce documentation says both return true and directs authors to `RowCount()`. Preview examples touching `UpsertDE`/deletes/HTTP now require an isolated test data extension and seed subscriber.
+- **MoEngage:** complete URLs are no longer piped through `|urlencode` (which is for path segments and query values and can mangle the scheme); dynamic destinations are validated against an HTTPS allowlist instead. The two fallback surfaces — raw-Jinja null suppression versus the UI's "No fallback" option — are now named as different mechanisms with different outcomes.
+- **Marketo:** copy-ready Velocity examples wrap dynamic HTML text in `$esc.html(...)`.
+- **All skills:** copy-ready URLs no longer embed recipient emails or user IDs (opaque signed tokens instead), and preview guidance uses dedicated seed/test records rather than production profiles.
+
+### Recall and statement fixes
+
+Every failed with-skill assertion from the 1.3.0 and 1.4.0 runs was classified — content gap, present-but-unattached, behaviour-right-statement-missing, or over-specified assertion — and fixed accordingly. Load-bearing facts are now attached to the scenarios that trigger them rather than filed under generic headings, and the skills now require *stating* the things models reliably did without saying (namespace assumptions, refusals, version assumptions). Five assertions across three suites were rewritten to test outcomes rather than one implementation; none were deleted or weakened.
+
+### Evaluation integrity
+
+- `run.json` is cumulative across `--skill` invocations sharing an `--out` directory; a multi-suite run can no longer be recorded as its final suite only.
+- Full provenance per run and per case: git commit and dirty flag, exact argv, models, CLI version, context mode, and hashes of the skill context actually sent, the prompt, and the assertions.
+- Cached cases are reused only when hashes and model settings match; stale results re-run.
+- Grader responses are validated strictly — indexed verdicts, boolean `met`, non-empty evidence, raw output preserved — and a malformed grader response is a recorded, re-runnable failure rather than a zero or a hand-deleted artifact.
+- Both assertion-weighted micro and equal-case macro averages are reported.
+- The with-skill arm's full-context mode is labelled as the upper bound it is; a `skillmd-only` mode exists alongside it.
+- **New: routing evals** (`scripts/run_routing_evals.py`, `routing/cases.json`, `ROUTING.md`) test that each skill's description fires on the right questions and stays silent on the wrong ones — 58 cases across named, symptom-only, code-only, confusable, and out-of-scope categories.
+
+### Results, re-measured from this code
+
+Content: 88% with skill vs 41% baseline across 41 cases (micro 87.6/41.0) — `evals-runs/baseline-v1.4.1/`. Routing: 100% correct fire, 0% misfire, 0% silent across 58 cases — `evals-runs/routing-v1.4.1/`. The 1.3.0/1.4.0 run directories remain committed as history and are labelled as such.
+
+### Packaging
+
+- `build.sh` stages recursively through the allowlist (nested references and future assets cannot silently vanish), errors on files the allowlist would drop, and generates checksums with `sha256sum` or `shasum -a 256`.
+- `verify_dist.sh` compares each archive's inventory against the source tree file-for-file.
+- `CONTRIBUTING.md` documents the full command sequence; stale six-skill wording fixed; install instructions no longer point at a GitHub release that does not exist yet.
+
 ## [1.4.0] — 2026-08-21
 
 Four platforms added, taking the set from six to ten. Each is written against first-party documentation only, and each names what its vendor does not document rather than filling the gap with a guess.
