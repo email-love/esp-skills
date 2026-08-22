@@ -11,7 +11,7 @@
       "name": "iterable-handlebars",
       "source": "./skills/iterable-handlebars",
       "description": "Write, review and debug Handlebars personalization in Iterable templates. Covers the helper set Iterable actually ships (handlebars.java, not JavaScript Handlebars), the field paths for profiles, events, catalogs, commerce and data feeds, and the failure modes that skip a send rather than rendering blank",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "author": {
         "name": "Email Love"
       },
@@ -21,7 +21,7 @@
     {
       "name": "klaviyo-django",
       "source": "./skills/klaviyo-django",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "author": {
         "name": "Email Love"
       },
@@ -32,7 +32,7 @@
     {
       "name": "braze-liquid",
       "source": "./skills/braze-liquid",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "author": {
         "name": "Email Love"
       },
@@ -43,7 +43,7 @@
     {
       "name": "customerio-liquid",
       "source": "./skills/customerio-liquid",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "author": {
         "name": "Email Love"
       },
@@ -54,7 +54,7 @@
     {
       "name": "sfmc-ampscript",
       "source": "./skills/sfmc-ampscript",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "author": {
         "name": "Email Love"
       },
@@ -65,7 +65,7 @@
     {
       "name": "marketo-velocity",
       "source": "./skills/marketo-velocity",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "author": {
         "name": "Email Love"
       },
@@ -76,7 +76,7 @@
     {
       "name": "hubspot-hubl",
       "source": "./skills/hubspot-hubl",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "author": {
         "name": "Email Love"
       },
@@ -87,7 +87,7 @@
     {
       "name": "moengage-jinja",
       "source": "./skills/moengage-jinja",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "author": {
         "name": "Email Love"
       },
@@ -98,7 +98,7 @@
     {
       "name": "sailthru-zephyr",
       "source": "./skills/sailthru-zephyr",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "author": {
         "name": "Email Love"
       },
@@ -109,7 +109,7 @@
     {
       "name": "zeta-zml",
       "source": "./skills/zeta-zml",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "author": {
         "name": "Email Love"
       },
