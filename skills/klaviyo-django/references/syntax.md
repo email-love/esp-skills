@@ -258,18 +258,13 @@ If someone asks for "in their local time," the answer is that Klaviyo can't do i
 
 **Autoescaping is ON by default.** ✅ verified: a value of `<b>bold</b> & "quote"` renders as `&lt;b&gt;bold&lt;/b&gt; &amp; &quot;quote&quot;`. A URL `https://x.com/?a=1&b=2` renders `?a=1&amp;b=2`.
 
-Inside an `href` that's harmless — browsers decode it. It breaks:
+Inside an `href` that's harmless — browsers decode it, so it needs no fix. It breaks:
 
 - inside `<script>`
 - inside JSON
 - when the URL is concatenated in a non-HTML context
 
-Escape hatches, both ✅ verified:
-
-```django
-{{ url|safe }}
-{% autoescape off %}{{ url }}{% endautoescape %}
-```
+`{{ url|safe }}` and `{% autoescape off %}{{ url }}{% endautoescape %}` (both ✅ verified to disable escaping) are **not** the fix for those contexts: they only turn HTML escaping off — they do not JSON- or JavaScript-encode anything, and Klaviyo's filter glossary documents no filter that does. Untrusted dynamic values (profile, event, feed, webhook data) must not be interpolated into inline `<script>` or JSON at all — assemble them upstream as structured, validated fields in the event payload or profile. Reserve `|safe` / `{% autoescape off %}` for markup you wrote and control yourself.
 
 ---
 

@@ -75,7 +75,7 @@ Class C. Check **Analytics → Recipient Activity → Other**. Almost always a `
 
 ### `&amp;` in a URL, or broken JSON
 
-Autoescaping. Use `{{ url|safe }}` or wrap in `{% autoescape off %}`. Inside a plain `href` this is harmless and doesn't need fixing — it matters in `<script>`, in JSON, and in non-HTML contexts.
+Autoescaping. Inside a plain `href` the `&amp;` is harmless and doesn't need fixing — browsers decode it. Broken JSON or `<script>` content is a design problem, not an escaping toggle: `|safe` and `{% autoescape off %}` only disable HTML escaping and JSON-encode nothing, so untrusted dynamic values don't belong in those contexts at all — restructure the data upstream as structured, validated fields.
 
 ### A conditional appears twice, or nested wrong
 
@@ -131,7 +131,7 @@ Shopify does not support `{% unsubscribe %}`, `{% manage_preferences %}`, or `{%
 | Metric-triggered flows | Profile + event. The profile comes from those who most recently took the trigger action; toggle through the **last 10 events** |
 | List / segment / date-property flows | Use *Search profiles* |
 
-**The default preview profile is your own login profile**, which has almost no properties. Switching to a real customer is usually the fix for "why is everything blank in preview."
+**The default preview profile is your own login profile**, which has almost no properties. Switching to a dedicated seed/test profile that has the relevant properties (and triggered the event, for a flow) is usually the fix for "why is everything blank in preview."
 
 **If nobody has triggered the event yet, there's no preview data.** You have to go perform the action on the site first.
 
@@ -163,7 +163,7 @@ Shopify does not support `{% unsubscribe %}`, `{% manage_preferences %}`, or `{%
 
 2. **Space after a filter colon is fatal**, spaces around the pipe are fine. Klaviyo's own custom-objects doc publishes the broken form — a user may have copied it verbatim.
 
-3. **Autoescaping is on.** Matters in `<script>`, JSON, and non-HTML contexts. `|safe` or `{% autoescape off %}`.
+3. **Autoescaping is on.** Correct in HTML, including `href` values. `|safe` / `{% autoescape off %}` disable it without JSON- or JS-encoding anything, so they never make a value safe for `<script>` or JSON — keep untrusted values out of those contexts and use them only on author-written markup.
 
 4. **`lookup` is sticky.** Once used in a chain, everything after must use it too.
 
@@ -223,13 +223,13 @@ Shopify does not support `{% unsubscribe %}`, `{% manage_preferences %}`, or `{%
 - [ ] Case copied from the preview panel, not typed
 - [ ] `event.*` used only in a flow triggered by that metric
 - [ ] `lookup` used consistently once introduced
-- [ ] URLs in `<script>` or JSON marked `|safe`
+- [ ] No untrusted dynamic values interpolated into `<script>` or JSON — that data assembled upstream as structured fields (`|safe` does not JSON-encode)
 - [ ] Dates parsed with `|format_date_string` before `|date:`
 - [ ] Numbers coerced with `|multiply:"1"` before comparison
 
 **Verified**
 
-- [ ] Previewed against a real profile who triggered the event — not your own login profile
+- [ ] Previewed against a dedicated seed/test profile that triggered the event — not a production customer, not your own login profile
 - [ ] Previewed against a profile missing the key property
 - [ ] Previewed with one cart item and with several
 - [ ] Coupons and link tags checked with a live test, since preview fakes them
