@@ -81,7 +81,7 @@
         "Warns explicitly that switching these to triple braces would make the injected markup live",
         "Flags item.url as attacker-influenced and recommends allowlisting or validating it to an expected HTTPS destination",
         "Recommends fixing the bad data in the catalog or partner feed rather than only patching the template",
-        "Uses only helpers that actually exist in Iterable"
+        "Any helper used exists in Iterable's shipped helper set — defaultIfEmpty, urlEncode, numberFormat, ifContainsStr, and the documented comparison helpers all count as existing — and no invented helper (e.g. startsWith, toFixed, subtract, #with) appears; using no helpers at all also satisfies this"
       ],
       "files": []
     }
