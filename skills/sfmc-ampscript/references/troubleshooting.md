@@ -170,7 +170,7 @@ Personalization modes: *Based on \<subscriber\>* · *Based on \<list or data ext
 ### Things to warn users about
 
 - **A test send counts as a send** against your contracted volume.
-- **Side effects are real.** Changes made during preview — subscriber attributes, unsubscribes, profile centre changes — *"permanently apply to that subscriber."*
+- **Side effects are real.** Changes made during preview — subscriber attributes, unsubscribes, profile centre changes — *"permanently apply to that subscriber."* Preview against a dedicated seed or test subscriber, never a production customer, and point any `UpsertDE`/`DeleteDE`/`InsertDE` write or `HTTPGet`/`HTTPPost` call at an isolated test Data Extension or test endpoint before previewing the block at all.
 - **Content Builder test sends are not recorded** on the Send Log DE by default.
 - If the previewed subscriber is unsubscribed, bounced or held, *"the generated preview doesn't deliver any test send."*
 
@@ -189,7 +189,7 @@ Personalization modes: *Based on \<subscriber\>* · *Based on \<list or data ext
 
 ## 7. Documented gotchas
 
-1. **`Empty()` and `IsNull()` return false on an empty rowset.** Gate on `RowCount(@rows) > 0`, always.
+1. **Never gate a rowset on `Empty()` or `IsNull()`.** Salesforce says to determine the number of rows with *only* `Rowcount()`, and its documentation of `Empty()`-on-rowset behaviour has not been stated consistently over time. Gate on `RowCount(@rows) > 0`, always.
 2. **`IIf()` evaluates both branches.** Never nest a `Lookup()` or `HTTPGet()` in a branch you expect skipped.
 3. **`DateDiff` is `arg2 − arg1`** — Salesforce's own example implies the opposite. Write `DateDiff(earlier, later, unit)`.
 4. **`RaiseError`'s second argument defaults to `false`, which stops the whole job.**

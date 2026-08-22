@@ -239,8 +239,8 @@ They interpret the same tokens **differently**. Salesforce's recommendation: *"u
 | Signature | Notes |
 |---|---|
 | `IIf(1, 2, 3)` | expression, value if true, value if false. **Not short-circuiting** |
-| `Empty(1)` | True for empty string **or** NULL. **Does not work on rowsets** |
-| `IsNull(1)` | True if null. **Does not work on rowsets** |
+| `Empty(1)` | True for empty string **or** NULL. **Not the rowset test — use `RowCount()`; see the rowset emptiness trap** |
+| `IsNull(1)` | True if null. **Not the rowset test — use `RowCount()`; see the rowset emptiness trap** |
 | `IsNullDefault(1, 2)` | value when non-null, value when null |
 | `AttributeValue(1)` | attribute name — returns null for a missing attribute |
 | `V(1)` | outputs a variable |
@@ -289,12 +289,13 @@ SET @AttributeValue = AttributeValue(@AttributeName)
 
 ### The rowset emptiness trap
 
-Salesforce documents it directly:
+Salesforce's directive is:
 
-> *"The `Empty()` and `IsNull()` functions both return **false** if the rowset doesn't contain data."*
 > *"To determine the number of rows (0-x), use **only** the `Rowcount()` function."*
 
-**Always gate on `RowCount(@rows) > 0`.** `IF NOT Empty(@rows) THEN` is not a valid emptiness test.
+The same guide currently documents `Empty()` and `IsNull()` as both returning **true** when a rowset contains no data — but this guidance has not been stated consistently over time, so treat the pair as unreliable on rowsets in either direction.
+
+**Always gate on `RowCount(@rows) > 0`.** `IF NOT Empty(@rows) THEN` is not the documented emptiness test and is not a guard to trust a send to.
 
 ### The canonical loop
 
