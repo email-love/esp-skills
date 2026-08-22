@@ -242,10 +242,10 @@ Calls execute **sequentially top to bottom**, so later calls can use earlier res
 
 ```liquid
 {% connected_content https://api.example.com/user :save user_data %}
-{% connected_content https://api.example.com/prefs?id={{user_data.id}} :save prefs %}
+{% connected_content https://api.example.com/prefs?t={{user_data.prefs_token}} :save prefs %}
 ```
 
-⚠️ An identifier in a GET query string lands in your endpoint's access logs and any proxy in front of it, and Braze retries put it there repeatedly. Send it in a POST body where the endpoint allows one, and pass only the identifier — not the profile fields the endpoint can look up itself.
+⚠️ Never put a recipient identifier (email, user ID, phone) in a GET query string — URL-encoding it does not prevent disclosure, it only formats it, and the value still lands in your endpoint's access logs, any proxy in front of it, analytics, and browser history, with Braze retries putting it there repeatedly. Send identifiers in a POST body where the endpoint allows one, or — as above — have the first call mint an **opaque, short-lived token** that later calls pass instead. Pass only that reference, not the profile fields the endpoint can look up itself.
 
 **Method and body:** GET and POST only. GET defaults to `Content-Type: application/json` with `Accept: */*`. POST body defaults to `application/x-www-form-urlencoded` (`key1=value1&key2=value2`). Setting `:content_type application/json` with a form-urlencoded body makes Braze auto-JSON-encode it. **Inline JSON bodies cannot contain spaces** — use `capture` or `assign`.
 
