@@ -46,7 +46,7 @@ AMPscript cannot evaluate `{{ }}` bindings — the JB engine has already substit
 
 | File | Read it when |
 |---|---|
-| `references/ampscript.md` | You need exact function signatures, argument order, control-flow spelling, or what AMPscript doesn't support. **Read before writing any function you haven't used in this conversation** — AMPscript has no arithmetic operators, argument orders are irregular, and Salesforce's own docs get `DateDiff` backwards. |
+| `references/ampscript.md` | You need exact function signatures, argument order, control-flow spelling, or what AMPscript doesn't support. **Read before writing any function you haven't used in this conversation** — AMPscript has no arithmetic operators, argument orders are irregular, and a reversed argument order (like `DateDiff`'s dates) fails silently with plausible-looking output. |
 | `references/data-sources.md` | You need field paths: personalization strings, system strings, sendable Data Extensions, Journey Builder bindings, data views, content blocks. |
 | `references/troubleshooting.md` | You're diagnosing a symptom, decoding a send error code, working out where errors surface, or want the pre-ship checklist. |
 | `references/figma-export.md` | The email is being designed in **Figma with the Email Love plugin** and exported from there. **Read before advising on placement** — the nesting rule for paired Code Blocks, the link-field quoting trap, and the specifics of this platform's export target are all Figma-only, and none of them are visible in the plugin's preview. |
@@ -96,6 +96,8 @@ SET @rowCount = RowCount(@rows)
 %%[ ENDIF ]%%
 ```
 
+One contract to state beside copy-ready output: **AMPscript has no built-in HTML-escape function.** `Field(@row,"ProductName")` lands in HTML text exactly as stored, so values printed into markup must be sanitised upstream or constrained to a known-safe character set in the Data Extension — say which contract applies when you hand the block over.
+
 Rules that account for most broken AMPscript:
 
 **Personalization strings are wrapped outside a block, bare inside one.** `%%=UPPERCASE(%%emailaddr%%)=%%` is invalid; `%%=UPPERCASE(emailaddr)=%%` is correct.
@@ -108,11 +110,11 @@ Rules that account for most broken AMPscript:
 
 **Square brackets for any attribute name with a space or special character:** `[First Name]`.
 
-**If the code computes a date difference**, write `DateDiff(earlierDate, laterDate, unit)` and say why: `DateDiff` returns **arg2 minus arg1**, while Salesforce's own reference implies the opposite. Reversed, the count comes back negative and reads to the user like bad data rather than a wrong argument order.
+**If the code computes a date difference**, write `DateDiff(startDate, endDate, unit)` — the documented order, with the result computed as **endDate minus startDate**. Pass the earlier date first to get a positive count; reversed, the count comes back negative and reads to the user like bad data rather than a wrong argument order.
 
 ### 3. Guard the ways a send dies
 
-**Never test a rowset with `Empty()` or `IsNull()`.** Salesforce's data-structures guide currently documents both as returning **true** for an empty rowset — and in the same breath says that to determine the number of rows you should use *"only the `Rowcount()` function"*. Follow that directive: gate on `RowCount(@rows) > 0`, always. It tests the thing you actually mean, and it does not hang the send on `Empty()`'s rowset behaviour, which this guidance has not stated consistently over time.
+**Gate rowsets on `RowCount(@rows) > 0`.** It is the clearest canonical guard: it names the thing you actually mean (how many rows came back) and feeds the loop bound directly. Salesforce's data-structures guide also documents `Empty(@rows)` and `IsNull(@rows)` as valid empty-rowset checks (both return true for an empty rowset), so treat `IF NOT Empty(@rows)` in existing code as working style, not a defect — don't flag it as the bug when troubleshooting.
 
 **`IIf()` is not short-circuiting** — both branches evaluate. Never put a `Lookup()` or `HTTPGet()` in an `IIf` branch you expect to be skipped; use `IF/ELSE`.
 
@@ -216,7 +218,7 @@ Disabling HTML escaping does not make a value safe for a script or JSON context;
 
 **Only evaluate, and only render raw, what you control.** AMPscript's `TreatAsContent()` executes a stored string as template code. Author-written content is the only thing that belongs there. Never route raw model output, a profile attribute, a webhook payload, a feed record, or catalog copy through it — a value that gets there can rewrite the message, leak other data into it, or break the send. When content genuinely has to be assembled at run time, compose it from a fixed allowlist of placeholders rather than passing through whatever string arrives.
 
-**Validate links that come from data.** A URL out of a feed, catalog, or profile field belongs in an `href` only after you have checked it resolves to an expected HTTPS destination. Use HTTPS everywhere, and keep tokens and recipient identifiers out of query strings.
+**Validate links that come from data.** A URL out of a feed, catalog, or profile field belongs in an `href` only after you have checked it resolves to an expected HTTPS destination. Use HTTPS everywhere. Credentials, API tokens, and raw recipient identifiers (email addresses, subscriber keys, user ids) do not belong in query strings. Purpose-built signed link tokens are the exception: an opaque, scoped, short-lived token minted for exactly one job — a preference-center or unsubscribe link — is how those links are supposed to work, and is not a leak.
 
 <!-- shared:security:end -->
 

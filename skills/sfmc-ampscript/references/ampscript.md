@@ -188,7 +188,7 @@ Named regex groups work: `'.*_(?<FirstNumber>[0-9]+)_.*'` with `'FirstNumber'` a
 | Signature | Notes |
 |---|---|
 | `DateAdd(1, 2, 3)` | date, integer, unit — `Y` `M` `D` `H` `MI` |
-| `DateDiff(1, 2, 3)` | **See the warning below** |
+| `DateDiff(1, 2, 3)` | startDate, endDate, unit — see below |
 | `DateParse(1, 2)` | date string, boolean return-as-UTC |
 | `DatePart(1, 2)` | date, part — `Y` `M` `D` `H` `MI` |
 | `FormatDate(1, 2, 3, 4)` | value, date format, time format, culture |
@@ -198,9 +198,9 @@ Named regex groups work: `'.*_(?<FirstNumber>[0-9]+)_.*'` with `'FirstNumber'` a
 
 Accepted input formats: `MM/dd/yyyy` or `YYYY-MM-DD`.
 
-### DateDiff argument order — Salesforce's own docs are wrong
+### DateDiff argument order
 
-The Salesforce reference implies `arg1 − arg2`. The actual behavior is **`arg2 − arg1`**, proven by a worked example:
+`DateDiff(startDate, endDate, unit)` — Salesforce documents the result as **the `startDate` subtracted from the `endDate`** (`arg2 − arg1`). Worked example:
 
 ```
 set @startDate = '2016-08-15 6:30 AM'
@@ -208,7 +208,7 @@ set @endDate   = '2017-10-16 8:31 AM'
 dateDiff(@startDate, @endDate, "D")   →  427
 ```
 
-**Always write `DateDiff(earlierDate, laterDate, unit)`** to get a positive result.
+**Pass the earlier date first** to get a positive result; reversed arguments return a negative count that reads like bad data.
 
 ### Now() vs GetSendTime()
 
@@ -239,8 +239,8 @@ They interpret the same tokens **differently**. Salesforce's recommendation: *"u
 | Signature | Notes |
 |---|---|
 | `IIf(1, 2, 3)` | expression, value if true, value if false. **Not short-circuiting** |
-| `Empty(1)` | True for empty string **or** NULL. **Not the rowset test — use `RowCount()`; see the rowset emptiness trap** |
-| `IsNull(1)` | True if null. **Not the rowset test — use `RowCount()`; see the rowset emptiness trap** |
+| `Empty(1)` | True for empty string **or** NULL. Also documented as true for an empty rowset; prefer `RowCount()` for new guards — see "Gating an empty rowset" |
+| `IsNull(1)` | True if null. Also documented as true for an empty rowset; prefer `RowCount()` for new guards — see "Gating an empty rowset" |
 | `IsNullDefault(1, 2)` | value when non-null, value when null |
 | `AttributeValue(1)` | attribute name — returns null for a missing attribute |
 | `V(1)` | outputs a variable |
@@ -287,15 +287,14 @@ SET @AttributeValue = AttributeValue(@AttributeName)
 
 **Enterprise prefix:** `Lookup`, `LookupRows` and `LookupOrderedRows` accept `Ent.` to reach parent-Enterprise DEs — `LookupRows("Ent.Merchants","ID",200043800)`.
 
-### The rowset emptiness trap
+### Gating an empty rowset
 
-Salesforce's directive is:
+Salesforce's data-structures guide documents two supported checks:
 
-> *"To determine the number of rows (0-x), use **only** the `Rowcount()` function."*
+- `RowCount(@rows)` — the number of rows, usable directly as the loop bound.
+- `Empty(@rows)` / `IsNull(@rows)` — both documented as returning **true** when the rowset contains no data.
 
-The same guide currently documents `Empty()` and `IsNull()` as both returning **true** when a rowset contains no data — but this guidance has not been stated consistently over time, so treat the pair as unreliable on rowsets in either direction.
-
-**Always gate on `RowCount(@rows) > 0`.** `IF NOT Empty(@rows) THEN` is not the documented emptiness test and is not a guard to trust a send to.
+**Prefer `RowCount(@rows) > 0`** when writing new code: it names the thing you mean and feeds the `FOR` bound in the same variable. But `IF NOT Empty(@rows) THEN` in existing code is a documented, valid emptiness test — when troubleshooting, do not diagnose it as the defect.
 
 ### The canonical loop
 
@@ -529,4 +528,4 @@ String and date literals must be quoted; numeric literals optionally.
 
 ## Sources
 
-Salesforce: [Programmatic content overview](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/programmatic-content-overview.html) · [Function calls](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/functionCalls.html) · [Language elements](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/languageElements.html) · [Personalization strings and AMPscript](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/personalizationStringsAMPscript.html) · [Order of operations](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/orderOfOperations.html) · [AMPscript processing during sends](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/ampscriptProcessing.html) · [Data modification functions](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/dataModificationFunctions.html) · [GTL syntax guide](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/gtlSyntaxGuide.html) · [GTL block helpers](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/gtlBlockHelpers.html) · [Execution context](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/executionContext.html) · plus [ampscript.guide](https://ampscript.guide/), the community reference, for worked examples and the corrected `DateDiff` behavior.
+Salesforce: [Programmatic content overview](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/programmatic-content-overview.html) · [Function calls](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/functionCalls.html) · [Language elements](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/languageElements.html) · [Personalization strings and AMPscript](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/personalizationStringsAMPscript.html) · [Order of operations](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/orderOfOperations.html) · [AMPscript processing during sends](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/ampscriptProcessing.html) · [Data modification functions](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/dataModificationFunctions.html) · [GTL syntax guide](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/gtlSyntaxGuide.html) · [GTL block helpers](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/gtlBlockHelpers.html) · [Execution context](https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/executionContext.html) · plus [ampscript.guide](https://ampscript.guide/), the community reference, for worked examples.

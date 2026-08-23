@@ -158,7 +158,7 @@ Endpoint codes that trigger Braze's automated daily error email: **4XX** 400, 40
 Four preview modes from the **Preview & Test** tab:
 
 1. **Random user**
-2. **Select Existing User** — enter a user ID or email; renders their real data
+2. **Select Existing User** — enter a user ID or email; renders that user's stored data. Use a dedicated seed/test user, not a production recipient
 3. **Preview as Custom User** — type mock values for standard and custom attributes
 4. **Customize an existing user** — select a user, click **Edit** to make them editable
 

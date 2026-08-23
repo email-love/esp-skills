@@ -113,7 +113,7 @@ Available without any profile or event data.
 ### Preference centre link construction
 
 ```handlebars
-https://www.example.com/preferences?token={{#urlEncode}}{{prefToken}}{{/urlEncode}}&campaignId={{campaignId}}&templateId={{templateId}}
+https://www.example.com/preferences?token={{#urlEncode}}{{prefToken}}{{/urlEncode}}&campaignId={{#urlEncode}}{{campaignId}}{{/urlEncode}}&templateId={{#urlEncode}}{{templateId}}{{/urlEncode}}
 ```
 
 Identify the recipient with an **opaque, short-lived signed token** (here `prefToken`, minted server-side and synced to the profile) or use Iterable's hosted unsubscribe/preference links — never the email address or user ID itself. URL-encoding an identifier only formats it; it does not prevent disclosure, and the value still lands in server logs, analytics, browser history, and referrer headers.

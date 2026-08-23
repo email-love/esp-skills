@@ -41,7 +41,7 @@ Where each value comes from, the exact tag that fetches it, and the ways each on
 
 with worked examples using `{{user.first_name}}`, `{% if user.tier == "Gold" %}`, and `{{user.first_name | default: "there"}}`. The Content Script Converter page adds a third form, describing migration mappings into *"`properties`, `person`, or `event.properties` paths in ZMP."*
 
-**How to handle it.** Write bare — it is what the reference section, the Objects page, and every ZML worked example do, and it is the form the account's own property list produces. But say you assumed it, and tell the user to confirm in a preview against a real `uid` before the campaign is activated. A wrong namespace here does not error; it renders nothing (`references/syntax.md` §2), so a preview that shows a blank name is the *only* signal you will get.
+**How to handle it.** Write bare — it is what the reference section, the Objects page, and every ZML worked example do, and it is the form the account's own property list produces. But say you assumed it, and tell the user to confirm in a preview against a dedicated seed or test `uid` before the campaign is activated. A wrong namespace here does not error; it renders nothing (`references/syntax.md` §2), so a preview that shows a blank name is the *only* signal you will get.
 
 **Property naming rules:** names *"cannot contain spaces and cannot be changed"* once created, and properties cannot be deleted. The HTML editor's autocomplete is authoritative for what exists — *"typing out double curly braces `{{` will open an auto-suggestion of available properties for use."* That is the fastest way to settle a spelling question.
 

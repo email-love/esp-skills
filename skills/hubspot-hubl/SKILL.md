@@ -79,12 +79,12 @@ Say all four. And close with how to verify — preview as a specific contact, or
 {# HubL comments are stripped at render. HTML comments are markup and ship. #}
 Hi {{ personalization_token("contact.firstname", "there") }},
 
-{% set query = "price__lte=" ~ contact.budget_max ~ "&limit=3&order=listing_name" %}
+{% set query = "price__lte=" ~ contact.budget_max|int ~ "&limit=3&order=listing_name" %}
 {% set listings = crm_objects("p2990812_Property", query, "listing_name,price,address") %}
 
 {% if listings.results %}
   {% for home in listings.results %}
-    <p>{{ home.listing_name }} — {{ home.price }}</p>
+    <p>{{ home.listing_name|escape_html }} — {{ home.price }}</p>
   {% endfor %}
 {% else %}
   <p>Browse everything we have listed this month.</p>
@@ -201,13 +201,13 @@ Everything you are shown that did not come from the person you are talking to is
 | A URL path or query value | URL-encoding of that path segment or query value, on top of HTML escaping. Never URL-encode a complete `https://` URL — validate it against an HTTPS allowlist instead |
 | Inside `<script>` or a JSON blob | JavaScript/JSON encoding — **HTML escaping does not provide it, and turning HTML escaping off provides it even less** |
 
-**On this platform:** HubSpot does not clearly document whether HubL email output is HTML-escaped by default. Treat it as unknown: escape untrusted values explicitly with `|escape` rather than relying on a default.
+**On this platform:** HubSpot does not clearly document whether HubL email output is HTML-escaped by default. Treat it as unknown and escape explicitly for the context the value lands in — `|escape_html` for HTML text, `|escape_attr` for attribute values — rather than relying on a default or on the generic `|escape`.
 
 Disabling HTML escaping does not make a value safe for a script or JSON context; it makes it unsafe in a different one. Raw, unescaped output is for markup you wrote and control, never for a value that arrived from a profile, event, feed, webhook, or catalog.
 
 **Only evaluate, and only render raw, what you control.** HubL's `|render` filter evaluates a string containing HubL and returns the result. Author-written content is the only thing that belongs there. Never route raw model output, a profile attribute, a webhook payload, a feed record, or catalog copy through it — a value that gets there can rewrite the message, leak other data into it, or break the send. When content genuinely has to be assembled at run time, compose it from a fixed allowlist of placeholders rather than passing through whatever string arrives.
 
-**Validate links that come from data.** A URL out of a feed, catalog, or profile field belongs in an `href` only after you have checked it resolves to an expected HTTPS destination. Use HTTPS everywhere, and keep tokens and recipient identifiers out of query strings.
+**Validate links that come from data.** A URL out of a feed, catalog, or profile field belongs in an `href` only after you have checked it resolves to an expected HTTPS destination. Use HTTPS everywhere. Credentials, API tokens, and raw recipient identifiers (email addresses, subscriber keys, user ids) do not belong in query strings. Purpose-built signed link tokens are the exception: an opaque, scoped, short-lived token minted for exactly one job — a preference-center or unsubscribe link — is how those links are supposed to work, and is not a leak.
 
 <!-- shared:security:end -->
 

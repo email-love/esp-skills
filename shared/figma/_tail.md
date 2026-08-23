@@ -5,7 +5,7 @@
 3. No `<` or `>` in any text layer.
 4. Every merge tag has a default value. This is the plugin's own house rule and it is a good one: "Always include a default value in your merge tags."
 5. The unsubscribe link is present and correct for the target ESP.
-6. Then test in the ESP with real data, on both branches of every conditional and with zero, one, and many items in every loop. The plugin cannot tell you any of this — its preview does not render Code Blocks, and it does not validate the code inside them.
+6. Then test in the ESP against dedicated seed or test records — never production recipients — on both branches of every conditional and with zero, one, and many items in every loop. The plugin cannot tell you any of this — its preview does not render Code Blocks, and it does not validate the code inside them.
 
 ## Sources
 

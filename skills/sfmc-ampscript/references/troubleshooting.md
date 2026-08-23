@@ -189,9 +189,9 @@ Personalization modes: *Based on \<subscriber\>* · *Based on \<list or data ext
 
 ## 7. Documented gotchas
 
-1. **Never gate a rowset on `Empty()` or `IsNull()`.** Salesforce says to determine the number of rows with *only* `Rowcount()`, and its documentation of `Empty()`-on-rowset behaviour has not been stated consistently over time. Gate on `RowCount(@rows) > 0`, always.
+1. **Gate rowsets on `RowCount(@rows) > 0`** — the clearest canonical guard, and it feeds the loop bound directly. Salesforce also documents `Empty(@rows)` / `IsNull(@rows)` as valid empty-rowset checks, so an existing `IF NOT Empty(@rows)` guard is working style, not the bug.
 2. **`IIf()` evaluates both branches.** Never nest a `Lookup()` or `HTTPGet()` in a branch you expect skipped.
-3. **`DateDiff` is `arg2 − arg1`** — Salesforce's own example implies the opposite. Write `DateDiff(earlier, later, unit)`.
+3. **`DateDiff(startDate, endDate, unit)` returns `endDate − startDate`** (documented). Pass the earlier date first for a positive count.
 4. **`RaiseError`'s second argument defaults to `false`, which stops the whole job.**
 5. **No arithmetic operators.** `Add()`, `Subtract()`, `Multiply()`, `Divide()`, `Concat()`.
 6. **Personalization strings are case-insensitive; `{{ }}` bindings are case-sensitive.** Two syntaxes, two rules.
@@ -230,7 +230,7 @@ Worth knowing so you don't over-claim:
 **Will it build**
 
 - [ ] Every attribute referenced exists in the sending audience — or goes through `AttributeValue()`
-- [ ] Every rowset gated on `RowCount(@rows) > 0`, never `Empty()`
+- [ ] Every rowset gated before looping — `RowCount(@rows) > 0` preferred
 - [ ] No `Lookup()` or `HTTPGet()` inside an `IIf()` branch
 - [ ] `Field()` on possibly-missing columns passes `0` as the third argument
 - [ ] Content block calls pass `0` plus a fallback if the block could move
@@ -242,7 +242,7 @@ Worth knowing so you don't over-claim:
 
 **Will it be correct**
 
-- [ ] `DateDiff(earlier, later, unit)` order
+- [ ] `DateDiff(startDate, endDate, unit)` — earlier date first for a positive count
 - [ ] Math via `Add`/`Subtract`/`Multiply`/`Divide`, concatenation via `Concat`
 - [ ] Prices through `FormatCurrency()` or `FormatNumber()`
 - [ ] `{{ }}` bindings match case exactly; names with spaces in double quotes

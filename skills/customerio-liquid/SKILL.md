@@ -75,7 +75,7 @@ Since a wrong prefix renders empty and still sends, ask what triggers this workf
 
 ```liquid
 {% comment %}latest liquid: default catches missing/null/empty and keeps the message sendable{% endcomment %}
-Hi {{customer.first_name | default: "there"}},
+Hi {{customer.first_name | default: "there" | escape}},
 
 {% comment %}attributes are stored as STRINGS — coerce before any math or comparison{% endcomment %}
 {% assign spend = customer.lifetime_value | plus: 0 %}
@@ -84,7 +84,7 @@ Hi {{customer.first_name | default: "there"}},
 {% endif %}
 
 {% for item in journey.recommended_products %}
-  {{ item.name }} — {{ item.price | currency }}
+  {{ item.name | escape }} — {{ item.price | currency }}
 {% endfor %}
 ```
 
@@ -104,10 +104,10 @@ Because missing = Failed, not blank:
 
 ```liquid
 {% comment %}latest{% endcomment %}
-{{customer.first_name | default: "there"}}
+{{customer.first_name | default: "there" | escape}}
 
 {% comment %}legacy — no default filter{% endcomment %}
-{% if customer.first_name != blank %}{{customer.first_name}}{% else %}there{% endif %}
+{% if customer.first_name != blank %}{{customer.first_name | escape}}{% else %}there{% endif %}
 ```
 
 **Empty Liquid in URL parameters is fatal.** Customer.io states it plainly: if a `utm_campaign` set to `campaign.name` resolves empty and you're using `cio_link` to add URL parameters on a broadcast, one-time send, or transactional message, **the message will fail**.
@@ -201,7 +201,7 @@ Disabling HTML escaping does not make a value safe for a script or JSON context;
 
 **Only evaluate, and only render raw, what you control.** Customer.io's `{% render_liquid %}` tag executes a stored string as template code. Author-written content is the only thing that belongs there. Never route raw model output, a profile attribute, a webhook payload, a feed record, or catalog copy through it — a value that gets there can rewrite the message, leak other data into it, or break the send. When content genuinely has to be assembled at run time, compose it from a fixed allowlist of placeholders rather than passing through whatever string arrives.
 
-**Validate links that come from data.** A URL out of a feed, catalog, or profile field belongs in an `href` only after you have checked it resolves to an expected HTTPS destination. Use HTTPS everywhere, and keep tokens and recipient identifiers out of query strings.
+**Validate links that come from data.** A URL out of a feed, catalog, or profile field belongs in an `href` only after you have checked it resolves to an expected HTTPS destination. Use HTTPS everywhere. Credentials, API tokens, and raw recipient identifiers (email addresses, subscriber keys, user ids) do not belong in query strings. Purpose-built signed link tokens are the exception: an opaque, scoped, short-lived token minted for exactly one job — a preference-center or unsubscribe link — is how those links are supposed to work, and is not a leak.
 
 <!-- shared:security:end -->
 

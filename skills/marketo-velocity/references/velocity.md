@@ -84,7 +84,9 @@ You still have to select the object's fields in the editing pane.
 <li>Product Ordered: $!{esc.html($TriggerObject.ProductName)}</li>
 <li>Order Total: $!{esc.html($TriggerObject.Amount)}</li>
 </ul>
-<p><a href="$!{TriggerObject.OrderURL}">View Your Order Online</a></p>
+<p><a href="$!{esc.html($TriggerObject.OrderURL)}">View Your Order Online</a></p>
+<!-- OrderURL arrives from data: confirm it resolves to an expected HTTPS destination before shipping;
+     attribute-escaping formats it for the href but does not make the destination trusted -->
 ```
 
 ---
@@ -286,9 +288,9 @@ Reusable — a computation-only macro, which is safe:
 ```velocity
 #macro ( displayIfFilled $checkValue $fallbackValue )
 #if( !($checkValue.isEmpty()) && !($checkValue == $display.get("0")) )
-$!checkValue##
+$!{esc.html($checkValue)}##
 #else
-$!fallbackValue##
+$!{esc.html($fallbackValue)}##
 #end
 #end
 
@@ -398,12 +400,12 @@ Note the `#set( $temp = … )` idiom — mutating methods return a value that wo
 Adobe's rule, verbatim: *"To ensure correct URL parsing, set the complete path as a variable and then print it. Do not print variables inside URL references. Include the protocol separately from the rest of the URL. Output a complete anchor (`<a>`) tag so links can be tracked. **Links output from a `for` or `foreach` loop are not tracked.**"*
 
 ```html
-<!-- Correct -->
-#set($url = "www.example.com/${object.id}")
+<!-- Correct — URL-encode the dynamic component with EscapeTool's URL encoder -->
+#set($url = "www.example.com/${esc.url($object.id)}")
 <a href="https://${url}">Link Text</a>
 
 <!-- Correct -->
-<a href="https://www.example.com/${object.id}">Link Text</a>
+<a href="https://www.example.com/${esc.url($object.id)}">Link Text</a>
 
 <!-- Incorrect -->
 <a href="${url}">Link Text</a>

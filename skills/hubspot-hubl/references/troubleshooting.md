@@ -97,7 +97,7 @@ The dropped case is the dangerous one because it is silent from the marketer's s
 
 - **Design manager error console.** Click **Show details** at the bottom left of the code editor. Publish-time HubL errors and the missing-required-tags error land here. **Show output** toggles a render of the template as you work.
 - **The email's Review Panel.** Function-limit errors appear here before publish — as warnings during the 2025 rollout period, as blocking errors after.
-- **Preview as a specific contact.** The editor's preview takes a contact. This is the only way tokens, conditionals and CRM queries resolve against real data, and it settles every property-name argument in seconds.
+- **Preview as a specific contact.** The editor's preview takes a contact. This is the only way tokens, conditionals and CRM queries resolve against stored contact data — use a dedicated seed/test contact — and it settles every property-name argument in seconds.
 - **Send test email → Preview as contact.** *"To receive the test email as a specific contact, click the Preview as contact dropdown menu and select a contact."*
 - **The contact record → Activities → View sent email.** The exact rendered copy that recipient got. **30 days** of retention, and — importantly — *"applies only to emails created with smart content or programmable modules"*. An email that only uses personalization tokens leaves no recoverable rendered copy. For longer retention HubSpot points at compliance copy emails.
 - **The web version of the email.** A 500 there is the tell for a function-limit breach.

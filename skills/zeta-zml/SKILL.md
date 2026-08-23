@@ -62,7 +62,7 @@ Read the one you need.
 
 **But Zeta never states this as a rule**, and one first-party page — Campaign Proofing — writes `{{user.first_name}}` instead, while the Content Script Converter page mentions `properties` and `person` paths. Three forms, no specification.
 
-Write bare, because that is what the reference section, the Objects page, and every ZML worked example do. Then **say you assumed it** and tell them to confirm in a preview against a real `uid`. Getting it wrong renders nothing, so a blank name in preview is the only signal there will be.
+Write bare, because that is what the reference section, the Objects page, and every ZML worked example do. Then **say you assumed it** and tell them to confirm in a preview against a dedicated seed or test `uid` — not a production recipient. Getting it wrong renders nothing, so a blank name in preview is the only signal there will be.
 
 System objects are also bare: `{{uid}}`, `{{recipient_email}}`, `{{campaign_name}}`, `{{unsubscribe_link}}`, `{{account_current_date}}`.
 
@@ -70,7 +70,7 @@ System objects are also bare: `{{uid}}`, `{{recipient_email}}`, `{{campaign_name
 
 ```zml
 {% comment %} default: fires on nil, false, and empty string — the only guard that covers all three {% endcomment %}
-Hi {{ first_name | default: 'there' }},
+Hi {{ first_name | default: 'there' | escape }},
 
 {% comment %} elsif — not elseif, not elif {% endcomment %}
 {% if tier == "gold" %}Gold perks
@@ -87,7 +87,8 @@ Hi {{ first_name | default: 'there' }},
   | sort_order: 'desc'
 %}
 {% for item in picks limit: 3 %}
-  <a href="{{ item.url }}?c={{ campaign_name | url_encode }}">{{ item.title | escape }}</a>
+  {% comment %} item.url comes from the resource feed: confirm it resolves to your own HTTPS domains; escaping alone does not make it trusted {% endcomment %}
+  <a href="{{ item.url | escape }}?c={{ campaign_name | url_encode }}">{{ item.title | escape }}</a>
 {% endfor %}
 ```
 
@@ -213,7 +214,7 @@ Disabling HTML escaping does not make a value safe for a script or JSON context;
 
 **Only evaluate, and only render raw, what you control.** ZML has no documented construct that executes a stored string as template code, so the exposure is resource, feed, recommendation and coupon field values landing in the message as markup. Author-written content is the only thing that belongs there. Never route raw model output, a profile attribute, a webhook payload, a feed record, or catalog copy through it — a value that gets there can rewrite the message, leak other data into it, or break the send. When content genuinely has to be assembled at run time, compose it from a fixed allowlist of placeholders rather than passing through whatever string arrives.
 
-**Validate links that come from data.** A URL out of a feed, catalog, or profile field belongs in an `href` only after you have checked it resolves to an expected HTTPS destination. Use HTTPS everywhere, and keep tokens and recipient identifiers out of query strings.
+**Validate links that come from data.** A URL out of a feed, catalog, or profile field belongs in an `href` only after you have checked it resolves to an expected HTTPS destination. Use HTTPS everywhere. Credentials, API tokens, and raw recipient identifiers (email addresses, subscriber keys, user ids) do not belong in query strings. Purpose-built signed link tokens are the exception: an opaque, scoped, short-lived token minted for exactly one job — a preference-center or unsubscribe link — is how those links are supposed to work, and is not a leak.
 
 <!-- shared:security:end -->
 

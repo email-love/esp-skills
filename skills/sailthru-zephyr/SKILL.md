@@ -88,9 +88,11 @@ The **Advanced tab → Setup** field holds *"Zephyr code to run when Sailthru ge
 
 ```zephyr
 {* Body *}
-<p>Hi {profile.vars.first_name ?: 'there'},</p>
+{* h() HTML-escapes — Zephyr output is raw by default. c.url comes from the content feed:
+   escaping formats it for the attribute, but only upstream HTTPS/domain allowlisting makes it trusted *}
+<p>Hi {h(profile.vars.first_name ?: 'there')},</p>
 {foreach slice(content, 0, 3) as c}
-  <a href="{c.url}">{c.title}</a> — ${number(c.price/100, 2)}
+  <a href="{h(c.url)}">{h(c.title)}</a> — ${number(c.price/100, 2)}
 {/foreach}
 ```
 
@@ -109,7 +111,7 @@ Three things to get right while writing:
 {assert(profile.purchase_incomplete, 'user has nothing in their cart')}
 
 {* cancel() is the inverse: cancels when the expression is TRUE *}
-{cancel(length(content) < 1, "no content in the user's favorite topic")}
+{cancel(length(content) < 1, 'no content in the preferred topic')}
 
 {* Neither call reaches Lifecycle Optimizer — say so in the reply, every time *}
 ```
@@ -209,7 +211,7 @@ Disabling HTML escaping does not make a value safe for a script or JSON context;
 
 **Only evaluate, and only render raw, what you control.** Zephyr has no documented construct that executes a stored string as template code, and its output is unescaped unless you call `h()`, so a stored string reaches the message as markup. Author-written content is the only thing that belongs there. Never route raw model output, a profile attribute, a webhook payload, a feed record, or catalog copy through it — a value that gets there can rewrite the message, leak other data into it, or break the send. When content genuinely has to be assembled at run time, compose it from a fixed allowlist of placeholders rather than passing through whatever string arrives.
 
-**Validate links that come from data.** A URL out of a feed, catalog, or profile field belongs in an `href` only after you have checked it resolves to an expected HTTPS destination. Use HTTPS everywhere, and keep tokens and recipient identifiers out of query strings.
+**Validate links that come from data.** A URL out of a feed, catalog, or profile field belongs in an `href` only after you have checked it resolves to an expected HTTPS destination. Use HTTPS everywhere. Credentials, API tokens, and raw recipient identifiers (email addresses, subscriber keys, user ids) do not belong in query strings. Purpose-built signed link tokens are the exception: an opaque, scoped, short-lived token minted for exactly one job — a preference-center or unsubscribe link — is how those links are supposed to work, and is not a leak.
 
 <!-- shared:security:end -->
 

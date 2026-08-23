@@ -134,11 +134,11 @@ Note the last row: it is a **per-user** suppression, not a campaign-level stop. 
 
 `cancel()`'s published signature is `cancel(mixed input)` — one argument — yet every documented example passes a reason string as a second argument. Treat the reason string as supported and the signature as under-documented, and always pass one: the string is what a colleague reads when they inherit the template.
 
-Sailthru's own worked example of the pattern:
+The canonical shape of the pattern (string single-quoted and apostrophe-free — double-quoted values are not reliably supported in Composer fields):
 
 ```zephyr
 {content = filter_content(content, lambda c: c.vars.sailthru_vertical && c.vars.sailthru_topic == profile.vars.favorite_topic)}
-{cancel(length(content) < 1, "No content in the user's favorite topic!")}
+{cancel(length(content) < 1, 'no content in the preferred topic')}
 ```
 
 ---

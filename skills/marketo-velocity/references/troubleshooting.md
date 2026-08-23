@@ -88,7 +88,7 @@ Velocity output is **not** HTML-encoded — the inverse of token behavior. Use `
 Almost certainly `$display.alt` on a lead field. Those are empty strings, not null, so `alt` never substitutes. Use `.isEmpty()`:
 
 ```velocity
-#if( $lead.FirstName.isEmpty() )Friend#else$lead.FirstName#end
+#if( $lead.FirstName.isEmpty() )Friend#else${esc.html($lead.FirstName)}#end
 ```
 
 ### A boolean branch always takes the same path

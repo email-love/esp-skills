@@ -56,13 +56,16 @@ Hi {{defaultIfEmpty firstName "there"}},
 <!-- Field name with a space needs bracket notation -->
 {{[First Name]}}
 
-<!-- Values from data stay in double braces — escaped output renders correctly in HTML -->
+<!-- Double braces HTML-escape, which covers text and quoted attributes. Escaping is not URL trust:
+     a complete URL from data belongs in href only if it is validated upstream against your own
+     HTTPS domains (feed/catalog allowlist) -->
 <a href="{{productUrl}}">Shop now</a>
 
 <!-- A dynamic query value needs URL-encoding too; urlEncode is block form only -->
 <a href="https://example.com/search?q={{#urlEncode}}{{lastSearchTerm}}{{/urlEncode}}">Your search</a>
 
-<!-- Cart loop: @index is zero-based, so add 1 for human-readable numbering -->
+<!-- Cart loop: @index is zero-based, so add 1 for human-readable numbering.
+     imageUrl is a full URL from cart data — same rule: upstream HTTPS/domain allowlisting, not just escaping -->
 {{#each shoppingCartItems}}
   <tr>
     <td><img src="{{imageUrl}}" alt="{{name}}" width="120"></td>
@@ -205,7 +208,7 @@ Disabling HTML escaping does not make a value safe for a script or JSON context;
 
 **Only evaluate, and only render raw, what you control.** Triple-brace output puts a stored string into the message as markup rather than escaped text. Author-written content is the only thing that belongs there. Never route raw model output, a profile attribute, a webhook payload, a feed record, or catalog copy through it — a value that gets there can rewrite the message, leak other data into it, or break the send. When content genuinely has to be assembled at run time, compose it from a fixed allowlist of placeholders rather than passing through whatever string arrives.
 
-**Validate links that come from data.** A URL out of a feed, catalog, or profile field belongs in an `href` only after you have checked it resolves to an expected HTTPS destination. Use HTTPS everywhere, and keep tokens and recipient identifiers out of query strings.
+**Validate links that come from data.** A URL out of a feed, catalog, or profile field belongs in an `href` only after you have checked it resolves to an expected HTTPS destination. Use HTTPS everywhere. Credentials, API tokens, and raw recipient identifiers (email addresses, subscriber keys, user ids) do not belong in query strings. Purpose-built signed link tokens are the exception: an opaque, scoped, short-lived token minted for exactly one job — a preference-center or unsubscribe link — is how those links are supposed to work, and is not a leak.
 
 <!-- shared:security:end -->
 

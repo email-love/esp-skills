@@ -20,4 +20,4 @@
 
 **HTML only, deliberately.** The plugin dropped Klaviyo drag-and-drop support because it "frequently broke custom HTML code." That is the right call for personalization work specifically — a drag-and-drop editor is exactly the thing that would mangle a Code Block.
 
-**Liquid tags only render through a campaign or flow with the event data attached.** A template previewed cold shows nothing. Test with a real profile in Klaviyo's preview tool, not by looking at the exported HTML.
+**Liquid tags only render through a campaign or flow with the event data attached.** A template previewed cold shows nothing. Test with a dedicated seed or test profile in Klaviyo's preview tool, not by looking at the exported HTML.

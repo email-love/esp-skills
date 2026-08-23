@@ -330,7 +330,7 @@ There is no `limit` argument. Nest a comparison on `@index`:
 `urlEncode` applies standard URL formatting — spaces become `+`, special characters become their ASCII escapes. Wrap **every dynamic value that lands in a query string**; escaping alone does not URL-encode.
 
 ```handlebars
-https://example.com/preferences?token={{#urlEncode}}{{prefToken}}{{/urlEncode}}&campaignId={{campaignId}}
+https://example.com/preferences?token={{#urlEncode}}{{prefToken}}{{/urlEncode}}&campaignId={{#urlEncode}}{{campaignId}}{{/urlEncode}}
 https://example.com/search?q={{#urlEncode}}{{lastSearchTerm}}{{/urlEncode}}
 ```
 
