@@ -56,7 +56,7 @@ python3 scripts/run_evals.py --dry-run            # print the plan, call nothing
 python3 scripts/test_eval_harness.py              # harness self-test, no model calls
 ```
 
-Requires the `claude` CLI on `PATH` and an authenticated session. The default model is `claude-sonnet-4-5` for both arms and the grader; override with `--model` and `--grader-model`. Each case runs three model calls: the skill's content in context, the same prompt with no skill, and a grader that scores the response against that case's assertions one at a time.
+Requires the `claude` CLI on `PATH` and an authenticated session. The default model is `claude-sonnet-4-5` for both arms and the grader; override with `--model` and `--grader-model`. Each case runs four model calls — a with-skill response, a baseline response, and a grader call for each — so the full 41-case suite is up to 164 calls.
 
 The paired run is the point. A score on its own says very little, because a capable model already knows most of the syntax. The gap between the two arms is what tells you whether the skill is carrying its weight.
 
@@ -94,7 +94,7 @@ Every number published anywhere in this repository has to be reproducible from a
 
 ## Current committed runs
 
-`evals-runs/baseline-v1.4.1/` is the current content-eval run: 41 cases, all ten suites, `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.238, `full` context mode, produced from this code — provenance (commit, dirty flag, argv, per-case hashes) is in its `run.json`. All 41 cases scored; zero grader failures outstanding.
+`evals-runs/baseline-v1.4.1/` is the current content-eval run: 41 cases, all ten suites, `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.239, `full` context mode, produced from this code — provenance (commit, dirty flag, argv, per-case hashes) is in its `run.json`. Prompt text is not stored per case: reproduction relies on the recorded input commit plus the prompt contracts recorded in `run.json`. All 41 cases scored; zero grader failures outstanding.
 
 | Skill | Cases | With skill | Baseline | Delta |
 |---|---:|---:|---:|---:|

@@ -35,6 +35,17 @@ jobs:
       - name: Check shared blocks are in sync
         run: python3 scripts/sync_shared.py --check
 
+      - name: Eval harness self-test (no model calls)
+        run: python3 scripts/test_eval_harness.py
+
+      - name: Eval runner dry-runs
+        run: |
+          python3 scripts/run_evals.py --dry-run
+          python3 scripts/run_routing_evals.py --dry-run
+
+      - name: Verify historical eval artifacts
+        run: python3 scripts/verify_eval_artifacts.py --historical
+
       - name: Build .skill archives
         run: bash scripts/build.sh
 

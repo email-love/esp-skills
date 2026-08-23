@@ -361,6 +361,65 @@ def check_workflow_expectations() -> None:
                 errors.append(f"{rel(wf)}: job `{name}` has write access with no `if:` guard")
 
 
+
+
+def check_semantics() -> None:
+    """Deterministic semantic gates over skills/ and shared/ — the stale
+    platform diagnoses this repository has already corrected once must not
+    reappear, in shared sources OR in generated outputs.
+
+    Each entry is (forbidden lowercase substring, why it is forbidden).
+    """
+    forbidden = [
+        # SFMC rowset: Salesforce documents Empty()/IsNull() as valid
+        # empty-rowset checks; RowCount() is preferred style, not the only
+        # valid test.
+        ("never gate a rowset on `empty()`",
+         "stale rowset diagnosis: Empty() on a rowset is documented as valid"),
+        ("never test a rowset with `empty()`",
+         "stale rowset diagnosis: Empty() on a rowset is documented as valid"),
+        ("is not a valid rowset test",
+         "stale rowset diagnosis: Empty() on a rowset is documented as valid"),
+        ("not the rowset test",
+         "stale rowset diagnosis: Empty() on a rowset is documented as valid"),
+        # SFMC DateDiff: current Salesforce docs state endDate - startDate.
+        ("docs get `datediff` backwards",
+         "stale DateDiff claim: current docs state endDate minus startDate"),
+        ("docs are wrong",
+         "stale docs-are-wrong claim: verify against current first-party docs"),
+        ("implies the opposite",
+         "stale DateDiff claim: current docs state endDate minus startDate"),
+        ("contrary to salesforce's own documentation",
+         "stale DateDiff claim: current docs state endDate minus startDate"),
+        # URL handling: a complete URL is validated, never urlencoded whole.
+        ("|urlencode for urls",
+         "urlencode is for path/query components; validate complete URLs"),
+        ("urlencode for complete urls",
+         "urlencode is for path/query components; validate complete URLs"),
+        # Testing guidance: dedicated seed/test records, not production data.
+        ("test with a real profile",
+         "production-record testing language: use dedicated seed/test records"),
+        ("against a real `uid`",
+         "production-record testing language: use dedicated seed/test records"),
+        ("renders their real data",
+         "production-record testing language: use dedicated seed/test records"),
+        # Iterable preference-center examples must URL-encode every component.
+        ("&campaignid={{campaignid}}",
+         "unencoded query component: wrap campaignId in urlEncode"),
+        ("&templateid={{templateid}}",
+         "unencoded query component: wrap templateId in urlEncode"),
+    ]
+    scan_roots = [ROOT / "skills", ROOT / "shared"]
+    for root_dir in scan_roots:
+        for path in sorted(root_dir.rglob("*")):
+            if not path.is_file() or path.suffix not in (".md", ".json", ".source"):
+                continue
+            text = path.read_text(encoding="utf-8").lower()
+            for needle, why in forbidden:
+                if needle in text:
+                    errors.append(f"{rel(path)}: forbidden phrase {needle!r} — {why}")
+
+
 CHECKS = [
     ("SKILL.md frontmatter", check_skill_frontmatter),
     ("reference and link targets", check_references),
@@ -369,6 +428,7 @@ CHECKS = [
     ("marketplace manifest and version agreement", check_marketplace_and_version),
     ("hygiene: symlinks, exec bits, secrets, placeholders, HTTPS", check_hygiene),
     ("workflow permissions and pinning", check_workflow_expectations),
+    ("semantic gates: no stale platform diagnoses", check_semantics),
 ]
 
 

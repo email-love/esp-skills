@@ -107,13 +107,13 @@ Verified against Claude Code 2.1.238: the marketplace resolves, the plugin insta
 
 ### Claude apps (web, desktop, Cowork)
 
-Build the `.skill` file for your platform (`bash scripts/build.sh` produces all ten in `dist/`), or download it from [Releases](../../releases) once a release is published — none is yet. Then **Settings → Capabilities → Skills → Upload**.
+Build the `.skill` file for your platform (`bash scripts/build.sh` produces all ten in `dist/`), or download it from [Releases](../../releases). Then **Customize → Skills → + → Create skill → Upload a skill**.
 
 An uploaded skill is a snapshot, not a subscription. It does not update itself — to move to a new version, download the new `.skill` and upload it again; same name replaces the old one. Remove it from the same screen.
 
 ### ChatGPT
 
-These follow the [Agent Skills open standard](https://help.openai.com/en/articles/20001066-skills-in-chatgpt), so the same folder works unmodified. Build the `.skill` with `bash scripts/build.sh` (or use [Releases](../../releases) once one is published — none is yet), then **Skills → Create → Upload from your computer**. Requires a Business, Enterprise, Healthcare, or Edu plan. Updates and removal work the same way as the Claude apps: re-upload to update, delete to remove.
+These follow the [Agent Skills open standard](https://help.openai.com/en/articles/20001066-skills-in-chatgpt), so the same folder works unmodified. Build the `.skill` with `bash scripts/build.sh` (or use [Releases](../../releases)), then **Skills → Create → Upload from your computer**. Requires a Business, Enterprise, Healthcare, or Edu plan. Updates and removal work the same way as the Claude apps: re-upload to update, delete to remove.
 
 `agents/openai.yaml` supplies the display name, blurb, and default prompt ChatGPT shows. Claude ignores that file.
 
@@ -140,7 +140,8 @@ Once installed, skills trigger on their own. You don't invoke them — ask a que
 Every release ships `SHA256SUMS`. From the directory holding the downloaded files:
 
 ```bash
-sha256sum -c SHA256SUMS
+sha256sum -c SHA256SUMS        # Linux
+shasum -a 256 -c SHA256SUMS    # macOS
 ```
 
 ## One skill, both platforms
@@ -166,7 +167,7 @@ The one thing that isn't portable is *tools*. A skill that drives Figma or a bro
 
 Every skill is written against the platform's official documentation, then measured against a no-skill baseline before release. Each case runs twice — with the skill's content in context and without it — and a grader scores the response against that case's assertions one at a time.
 
-41 cases, `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.238, full-context mode. One run: `evals-runs/baseline-v1.4.1/`, produced from this code with provenance (commit, hashes, exact commands) recorded in its `run.json`.
+41 cases, `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.239, full-context mode. One run: `evals-runs/baseline-v1.4.1/`, produced from this code with provenance (commit, hashes, exact commands) recorded in its `run.json`.
 
 | Skill | Cases | With skill | Baseline | Delta |
 |---|---:|---:|---:|---:|

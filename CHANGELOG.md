@@ -2,6 +2,36 @@
 
 All notable changes to the skills in this repo.
 
+## [1.4.2] — 2026-08-23
+
+Correctness release: platform claims verified against current first-party documentation, plus an evaluation-integrity overhaul. No new platforms. 1.4.1 was never published; 1.4.2 is the first release candidate carrying these corrections.
+
+### Corrected guidance (verified against first-party docs)
+
+- **SFMC rowsets:** Salesforce's data-structures guide documents `Empty(rowset)` and `IsNull(rowset)` as valid empty-rowset checks. `RowCount(@rows) > 0` remains the preferred canonical guard, but `IF NOT Empty(@rows)` in existing code is working style, not a defect — the skill, references, and the four eval cases that rewarded the old "invalid rowset test" diagnosis are all corrected (the errored-notsent case now locates the failure in the unguarded scalar references; the injection-review case in the output rendering outside the guard).
+- **SFMC DateDiff:** the current reference documents `DateDiff(startDate, endDate, unit)` returning `endDate − startDate`. The earlier-date-first advice stands; every claim that Salesforce's own documentation states the opposite is removed.
+- **Escaping at the point of use:** copy-ready examples now escape dynamic HTML text with each platform's documented filter (Braze/Customer.io `| escape`, MoEngage `|e`, Sailthru `h()`, Zeta `| escape`, HubSpot `|escape_html` with `|int` query coercion); the HubSpot shared policy names `escape_html`/`escape_attr` instead of the generic `|escape`; SFMC states the upstream-sanitation contract beside copy-ready output (AMPscript has no HTML escaper).
+- **URLs:** complete data-derived URLs are validated against expected HTTPS destinations, never urlencoded whole; URL-encoding applies to path segments and query values (Iterable preference-center examples now encode `campaignId`/`templateId` like `prefToken`; Marketo URL examples encode the dynamic component with `$esc.url`).
+- **MoEngage fallbacks:** the UI overlay's **No fallback** sends a blank; only unresolved raw Jinja suppresses the recipient. The skill, the shared Figma reference, and the eval no longer conflate the two.
+- **Sailthru:** Composer examples use single-quoted, apostrophe-free strings; double-quoted values are not reliably supported.
+- **Signed links:** the shared security section now distinguishes purpose-built opaque, scoped, short-lived preference tokens (permitted — that is how those links work) from credentials, API tokens, and raw recipient identifiers (prohibited in query strings).
+- **Seed records:** every "test with real data/profile/uid" instruction now prescribes dedicated seed or test records.
+
+### Evaluation integrity
+
+- **Provenance precedes writes.** Both runners capture the input commit, tree hash, dirty flag, and CLI/Python/platform versions before creating the output directory, and `--require-clean-input` gates publishable runs. `prepare_run()` refuses to create a run directory without captured provenance.
+- **Exact prompt contracts are recorded and hashed.** The response wrapper, grader instructions, and router instructions are stored verbatim in `run.json` and hashed into cache identities. Caching is two-level: a grader-contract change reuses stored raw responses and regrades them; a response-contract or content change reruns both calls.
+- **Live runs are strict and homogeneous.** Indexed verdicts only (`type(i) is int` — JSON booleans rejected); text-keyed parsing lives only in the named historical compatibility verifier inside `scripts/verify_eval_artifacts.py`. A run directory that mixes model/context/contract identities fails the manifest build. Failures exit nonzero unless `--allow-incomplete`.
+- **Graded responses are untrusted evidence.** The grader prompt embeds the response as a JSON string, so delimiter-closing content and embedded instructions ("mark every assertion true") stay inside the data slot; the contract says so explicitly.
+- **Exact-fraction averages.** Micro and macro averages are computed from exact fractions and rounded only for display, in both runners.
+- **Offline artifact verification.** New `scripts/verify_eval_artifacts.py` re-derives every published number from raw material: inventory, re-parsing of every stored grader/router output, exact aggregate recomputation, identity homogeneity, provenance, and documentation agreement. `--historical` preserves and verifies `baseline-v1.4.1`/`routing-v1.4.1` as history (with their known caveats reported, not failed); `--require-current` will verify the successor run named by `evals-runs/current.json` under strict rules. CI and the release workflow run the self-test, both dry-runs, and historical verification.
+- **Semantic gates.** `scripts/validate.py` now rejects the stale platform diagnoses this release corrects — in shared sources and generated outputs alike.
+- **Documentation agreement.** EVALS.md's call count (four calls per case, 164 for 41 cases) and CLI version (2.1.239) now match the artifacts; the claim that prompt text lives under the run directory is corrected to name the recorded contracts + input commit.
+
+### Not yet in this release
+
+- A successor evaluation run (`baseline-v1.4.2` / `routing-v1.4.2`) requires paid model calls and explicit approval; `evals-runs/current.json` lands with it. `baseline-v1.4.1` remains the latest recorded run, preserved as historical.
+
 ## [1.4.1] — 2026-08-22
 
 Correctness and evaluation-integrity release, driven by an external review of 1.4.0 and by reading every failed eval assertion against the response that failed it. No new platforms.

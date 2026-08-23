@@ -36,6 +36,21 @@ jobs:
       - name: Check shared blocks are in sync
         run: python3 scripts/sync_shared.py --check
 
+      - name: Eval harness self-test (no model calls)
+        run: python3 scripts/test_eval_harness.py
+
+      - name: Eval runner dry-runs
+        run: |
+          python3 scripts/run_evals.py --dry-run
+          python3 scripts/run_routing_evals.py --dry-run
+
+      # Historical artifact verification: every published number in
+      # evals-runs/baseline-v1.4.1 and routing-v1.4.1 re-derives from its raw
+      # material. Once a successor run lands with evals-runs/current.json,
+      # add: python3 scripts/verify_eval_artifacts.py --require-current
+      - name: Verify historical eval artifacts
+        run: python3 scripts/verify_eval_artifacts.py --historical
+
       # Invoked through bash so the job does not depend on the executable bit,
       # which is not preserved by every path a file can reach this repository.
       - name: Build .skill archives
