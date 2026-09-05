@@ -94,6 +94,37 @@ Install only the one you use. Each skill is deliberately scoped to a single plat
 
 ## Install
 
+### Start here: which install do you want?
+
+Two routes carry these skills, and you probably only need one:
+
+- **Already using an Email Love plugin?** Check before installing anything here. The official
+  [Email Love ChatGPT/Codex plugin](https://chatgpt.com/plugins/plugins_6a739f43c3b48191b1281a9b2d48b409)
+  bundles ALL TEN of these ESP skills alongside the Figma workflows, and the Claude Code
+  marketplace bundle `emaillove-esp@email-love` (from
+  [email-love/claude-skills](https://github.com/email-love/claude-skills)) installs the same
+  ten in one step. Installing individual skills on top of those creates duplicates.
+- **Just want ESP help for one platform?** Install a single skill from this repository using
+  the routes below. ESP advice and HTML personalization need **no Figma connection and no
+  Email Love MCP** — a skill plus your email HTML is the whole setup.
+
+Artifacts differ: a standalone `.skill` file is ONE skill for direct upload; the combined
+plugin ZIPs live in the other repositories and carry all fourteen skills. Uploaded copies are
+snapshots — a change in this repository does not update anything already uploaded or
+published. To see what you are running, ask the skill: each one states its version, and
+`claude plugin details` shows the installed version in Claude Code.
+
+First prompt to try, on any platform:
+
+> I use [ESP]. Here is my email HTML and an anonymized example of the [event/profile] data.
+> Add [personalization requirement], preserve the existing design, and tell me how to test
+> missing values and empty lists. Ask if you need to know my message type or template engine.
+
+And when something already broke:
+
+> This [ESP] email renders blank for some recipients. Here is the template and an anonymized
+> example of a recipient it fails for. Diagnose the cause first; do not rewrite anything yet.
+
 ### Claude Code
 
 ```bash

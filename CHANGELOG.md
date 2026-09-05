@@ -2,6 +2,24 @@
 
 All notable changes to the skills in this repo.
 
+## [1.5.0] - 2026-09-05
+
+Shared-rule hardening from the 2026-09-05 external review; platform content unchanged.
+
+- **Editing supplied email HTML** (all ten skills, shared block): three explicit modes - new
+  example, edit to existing HTML, diagnosis only. Edits change only the requested regions and
+  preserve unrelated content, table structure, inline CSS, responsive styles, Outlook
+  conditionals/VML, tracking attributes, links, and footer markup byte-for-byte; necessary
+  adjacent fixes stay narrow and are called out; diagnosis performs no edits.
+- **Safe URL validation** (all ten skills, shared block): links from data are validated
+  STRUCTURALLY (scheme and expected host), never by opening them - real unsubscribe,
+  preference, reset, signed, and tracking links are never followed to check them; synthetic
+  links or an approved test account cover live checks; token values stay out of logs; HTTPS
+  alone is not trust, and a missing expected host is a question, not a guess.
+- **README Start here**: combined-plugin users are warned off duplicate installs; standalone
+  .skill vs combined ZIP artifacts distinguished; snapshots-do-not-self-update stated; ESP
+  advice explicitly needs no Figma or MCP connection; two concrete first prompts.
+
 ## [1.4.2] — 2026-08-23
 
 Correctness release: platform claims verified against current first-party documentation, plus an evaluation-integrity overhaul. No new platforms. 1.4.1 was never published; 1.4.2 is the first release candidate carrying these corrections.
