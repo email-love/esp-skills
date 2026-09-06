@@ -490,65 +490,108 @@
         "output_format": "text",
         "timeout_seconds": 600
       },
-      "recorded_utc": "2026-09-05T22:15:51.998237+00:00",
+      "recorded_utc": "2026-09-06T03:24:39.640802+00:00",
       "with_skill": {
         "response": "The emails that went out are **safe** — Iterable's `{{ }}` escaping neutralized both payloads. Here's exactly what happened:\n\n## First payload: `\"><script>alert(1)</script>`\n\nIn your template's `title=\"{{item.name}}\"` and `alt=\"{{item.name}}\"`, the double quote is escaped to `&quot;` and the angle brackets to `&lt;`/`&gt;`, producing:\n\n```html\ntitle=\"&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;\"\n```\n\nThe `&quot;` cannot terminate the attribute (it's just data now), and the escaped `<>` cannot open a tag. In the `<p>{{item.name}}</p>`, same thing — the script tags display as visible text, they don't execute.\n\n## Second payload: `' onmouseover='alert(1)`\n\nThe apostrophe is escaped to `&#x27;`, producing:\n\n```html\ntitle=\"&#x27; onmouseover=&#x27;alert(1)\"\n```\n\nThe `&#x27;` cannot break out of the double-quoted attribute — it's inert. The `onmouseover` lands inside the title value as plain text, never as an event handler.\n\n## Your template is correct as written\n\n`{{ }}` is the right choice for catalog data — it's attacker-influenceable by definition (bad imports, partner feeds, compromised catalogs). Switching to `{{{ }}}` would have made both payloads live.\n\n**You should still clean the catalog** — while the escaping protected sent emails, those records will keep rendering as `\"><script>...` visible text in product names until you remove them, which looks broken even though it's safe.",
         "response_sha256": "sha256:ee57187d695e24777f366ba8f82b53514b6c7e790b3d5c8474e02d95a4a55709",
         "grader_key": "sha256:4dd3432b7ddeedc89009fb4494c5c741dca1eff099c277d5d17834ebb111ee24",
-        "raw_grader_output": "```json\n{\"verdicts\": [{\"i\": 0, \"met\": true, \"evidence\": \"Switching to `{{{ }}}` would have made both payloads live.\"}, {\"i\": 1, \"met\": true, \"evidence\": \"the script tags display as visible text, they don't execute\" and \"those records will keep rendering as `\\\"><script>...` visible text\"}, {\"i\": 2, \"met\": true, \"evidence\": \"The apostrophe is escaped to `&#x27;`... The `&#x27;` cannot break out of the double-quoted attribute\"}, {\"i\": 3, \"met\": true, \"evidence\": \"the angle brackets to `&lt;`/`&gt;`... the escaped `<>` cannot open a tag\"}, {\"i\": 4, \"met\": true, \"evidence\": \"Switching to `{{{ }}}` would have made both payloads live.\"}, {\"i\": 5, \"met\": false, \"evidence\": \"Response mentions catalog data is attacker-influenceable but never specifically flags item.url for validation or HTTPS allowlisting\"}, {\"i\": 6, \"met\": true, \"evidence\": \"You should still clean the catalog — while the escaping protected sent emails, those records will keep rendering as... visible text... until you remove them\"}, {\"i\": 7, \"met\": true, \"evidence\": \"No helpers used or recommended in the response\"}]}\n```",
-        "raw_grader_output_sha256": "sha256:7444413c29bba36b178bf8edc216f4c07788f87b494bcb19d6526ae8bdc4dbd4",
-        "grader_failure": "grader output is not valid JSON: Expecting ',' delimiter: line 1 column 208 (char 207)",
-        "response_key": "sha256:bfcd3040d6d15f833db1aec831ddbc40a68b4d7b538a75851e6018230d61294b"
+        "raw_grader_output": "```json\n{\"verdicts\": [{\"i\": 0, \"met\": true, \"evidence\": \"Switching to `{{{ }}}` would have made both payloads live.\"}, {\"i\": 1, \"met\": true, \"evidence\": \"the script tags display as visible text, they don't execute\"}, {\"i\": 2, \"met\": true, \"evidence\": \"The apostrophe is escaped to `&#x27;` ... The `&#x27;` cannot break out of the double-quoted attribute\"}, {\"i\": 3, \"met\": true, \"evidence\": \"the escaped `<>` cannot open a tag\"}, {\"i\": 4, \"met\": true, \"evidence\": \"Switching to `{{{ }}}` would have made both payloads live.\"}, {\"i\": 5, \"met\": false, \"evidence\": \"No mention of item.url validation or allowlisting\"}, {\"i\": 6, \"met\": true, \"evidence\": \"You should still clean the catalog\"}, {\"i\": 7, \"met\": true, \"evidence\": \"No helpers used or recommended\"}]}\n```",
+        "raw_grader_output_sha256": "sha256:d5d633603e4f890f6129c7cdb0d757739c091728fa4c8fc6bcc615c6b8daee8c",
+        "verdicts": [
+          {
+            "assertion": "Does not recommend triple braces for item.name, item.url, or item.imageUrl",
+            "met": true,
+            "evidence": "Switching to `{{{ }}}` would have made both payloads live."
+          },
+          {
+            "assertion": "States that the output remains escaped and the payload renders as inert literal text",
+            "met": true,
+            "evidence": "the script tags display as visible text, they don't execute"
+          },
+          {
+            "assertion": "Explains that escaping the quote character is what stops the ' onmouseover= payload from breaking out of the title/alt attribute",
+            "met": true,
+            "evidence": "The apostrophe is escaped to `&#x27;` ... The `&#x27;` cannot break out of the double-quoted attribute"
+          },
+          {
+            "assertion": "Explains that escaping < and > is what stops the \"><script> payload from opening a tag",
+            "met": true,
+            "evidence": "the escaped `<>` cannot open a tag"
+          },
+          {
+            "assertion": "Warns explicitly that switching these to triple braces would make the injected markup live",
+            "met": true,
+            "evidence": "Switching to `{{{ }}}` would have made both payloads live."
+          },
+          {
+            "assertion": "Flags item.url as attacker-influenced and recommends allowlisting or validating it to an expected HTTPS destination",
+            "met": false,
+            "evidence": "No mention of item.url validation or allowlisting"
+          },
+          {
+            "assertion": "Recommends fixing the bad data in the catalog or partner feed rather than only patching the template",
+            "met": true,
+            "evidence": "You should still clean the catalog"
+          },
+          {
+            "assertion": "Any helper used exists in Iterable's shipped helper set — defaultIfEmpty, urlEncode, numberFormat, ifContainsStr, and the documented comparison helpers all count as existing — and no invented helper (e.g. startsWith, toFixed, subtract, #with) appears; using no helpers at all also satisfies this",
+            "met": true,
+            "evidence": "No helpers used or recommended"
+          }
+        ],
+        "response_key": "sha256:bfcd3040d6d15f833db1aec831ddbc40a68b4d7b538a75851e6018230d61294b",
+        "response_reused": true
       },
       "baseline": {
         "response": "Looking at this XSS injection attempt in your email templates.\n\n## Risk for Already-Sent Emails: **Low**\n\nThe good news: email clients are much more restrictive than web browsers:\n\n1. **`<script>` tags are stripped** by virtually all modern email clients (Gmail, Outlook, Apple Mail, Yahoo, etc.)\n2. **Event handlers like `onmouseover` are neutered** - email clients don't allow JavaScript execution\n3. **Main impact**: Broken/corrupted display rather than code execution\n\nSo while this is sloppy and breaks the email layout, it won't execute malicious code in recipients' inboxes.\n\n## How the Template Should Be Written\n\nYour template needs **HTML entity escaping**. Iterable uses Handlebars-style syntax. Here's the fix:\n\n### Current (vulnerable):\n```html\n<a href=\"{{item.url}}\" title=\"{{item.name}}\">\n  <img src=\"{{item.imageUrl}}\" alt=\"{{item.name}}\">\n</a>\n<p>{{item.name}}</p>\n```\n\n### Secure version:\nIterable **does** auto-escape `{{...}}` by default, so your current syntax should actually be safe. But to be explicit and handle edge cases:\n\n```html\n<a href=\"{{item.url}}\" title=\"{{item.name}}\">\n  <img src=\"{{item.imageUrl}}\" alt=\"{{item.name}}\">\n</a>\n<p>{{item.name}}</p>\n```\n\n**Key points:**\n\n1. **Always use quoted attributes** (you're already doing this) - prevents the `' onmouseover='` attack\n2. **Verify Iterable's escaping**: `{{...}}` should escape to:\n   - `\"><script>alert(1)</script>` → `&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;`\n   - `' onmouseover='alert(1)` → `&#x27; onmouseover=&#x27;alert(1)`\n3. **For URLs specifically**: Use `{{{...}}}` (triple braces) for the `href` only if you need raw HTML, but validate/sanitize URLs server-side first\n\n## Recommended Actions\n\n1. **Clean your product catalog** - remove the junk data\n2. **Add validation** at import time - reject product names with `<`, `>`, `\"`, `'` or use a sanitization layer\n3. **Test Iterable's escaping** - create a test campaign with these exact payloads to confirm they're rendered as text\n4. **Consider**: If you control the data pipeline, sanitize at ingestion rather than relying solely on template-time escaping\n\nThe template pattern itself is fine if Iterable auto-escapes (which it should). The real fix is **data validation** - product names shouldn't contain HTML markup.",
         "response_sha256": "sha256:555025812f785db766640bc5da3b1d47488a87543aa022f39f245d5c936df2f4",
         "grader_key": "sha256:580bbf6fcb60ba5ca22d73df8ae7ed715a0b87745819fa7a6cc57b20bf9a3d57",
-        "raw_grader_output": "```json\n{\"verdicts\": [{\"i\": 0, \"met\": false, \"evidence\": \"Recommends triple braces: 'For URLs specifically: Use {{{...}}} (triple braces) for the href only if you need raw HTML'\"}, {\"i\": 1, \"met\": true, \"evidence\": \"Shows escaping: '\\\"><script>alert(1)</script>' → '&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;' and says 'confirm they're rendered as text'\"}, {\"i\": 2, \"met\": false, \"evidence\": \"Attributes prevention to 'Always use quoted attributes - prevents the onmouseover attack' rather than explaining that escaping the quote character stops the breakout\"}, {\"i\": 3, \"met\": false, \"evidence\": \"Shows the escaping transformation but does not explain that escaping < and > is the mechanism that prevents tag opening\"}, {\"i\": 4, \"met\": false, \"evidence\": \"Recommends triple braces for URLs with validation instead of warning that triple braces would make injected markup live\"}, {\"i\": 5, \"met\": false, \"evidence\": \"Says 'validate/sanitize URLs server-side' but does not recommend allowlisting or validating to expected HTTPS destinations specifically\"}, {\"i\": 6, \"met\": true, \"evidence\": \"'Clean your product catalog - remove the junk data' and 'The real fix is data validation - product names shouldn't contain HTML markup'\"}, {\"i\": 7, \"met\": true, \"evidence\": \"Template uses only plain variable references with no helpers\"}]}\n```",
-        "raw_grader_output_sha256": "sha256:481372061072161dcdf058436355267fddde75ec7b75a9f20f85e8957083a6e4",
+        "raw_grader_output": "```json\n{\n  \"verdicts\": [\n    {\n      \"i\": 0,\n      \"met\": false,\n      \"evidence\": \"Under 'Key points' #3: 'For URLs specifically: Use `{{{...}}}` (triple braces) for the `href` only if you need raw HTML' - recommends triple braces for item.url\"\n    },\n    {\n      \"i\": 1,\n      \"met\": true,\n      \"evidence\": \"Under Recommended Actions #3: 'confirm they're rendered as text' - states escaped payloads render as inert text\"\n    },\n    {\n      \"i\": 2,\n      \"met\": false,\n      \"evidence\": \"Key points #1 credits 'quoted attributes' for preventing the attack, not escaping the quote character itself\"\n    },\n    {\n      \"i\": 3,\n      \"met\": false,\n      \"evidence\": \"Shows the escaping transformation in Key points #2 but does not explain that < and > escaping is the mechanism that stops tag opening\"\n    },\n    {\n      \"i\": 4,\n      \"met\": false,\n      \"evidence\": \"Suggests triple braces as an option in Key points #3 but never warns that switching to them would make injected markup live\"\n    },\n    {\n      \"i\": 5,\n      \"met\": false,\n      \"evidence\": \"Recommends generic 'validate/sanitize URLs server-side' but does not flag item.url as attacker-influenced or recommend allowlisting to HTTPS destinations\"\n    },\n    {\n      \"i\": 6,\n      \"met\": true,\n      \"evidence\": \"Recommended Actions #1: 'Clean your product catalog - remove the junk data' and conclusion: 'The real fix is data validation'\"\n    },\n    {\n      \"i\": 7,\n      \"met\": true,\n      \"evidence\": \"Template examples use only {{item.url}}, {{item.name}}, {{item.imageUrl}} with no helpers - satisfies by using no helpers at all\"\n    }\n  ]\n}\n```",
+        "raw_grader_output_sha256": "sha256:942eb352259fe49a76b525990c4791c677d58ce722783453a85c36e4a9e65fb3",
         "verdicts": [
           {
             "assertion": "Does not recommend triple braces for item.name, item.url, or item.imageUrl",
             "met": false,
-            "evidence": "Recommends triple braces: 'For URLs specifically: Use {{{...}}} (triple braces) for the href only if you need raw HTML'"
+            "evidence": "Under 'Key points' #3: 'For URLs specifically: Use `{{{...}}}` (triple braces) for the `href` only if you need raw HTML' - recommends triple braces for item.url"
           },
           {
             "assertion": "States that the output remains escaped and the payload renders as inert literal text",
             "met": true,
-            "evidence": "Shows escaping: '\"><script>alert(1)</script>' → '&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;' and says 'confirm they're rendered as text'"
+            "evidence": "Under Recommended Actions #3: 'confirm they're rendered as text' - states escaped payloads render as inert text"
           },
           {
             "assertion": "Explains that escaping the quote character is what stops the ' onmouseover= payload from breaking out of the title/alt attribute",
             "met": false,
-            "evidence": "Attributes prevention to 'Always use quoted attributes - prevents the onmouseover attack' rather than explaining that escaping the quote character stops the breakout"
+            "evidence": "Key points #1 credits 'quoted attributes' for preventing the attack, not escaping the quote character itself"
           },
           {
             "assertion": "Explains that escaping < and > is what stops the \"><script> payload from opening a tag",
             "met": false,
-            "evidence": "Shows the escaping transformation but does not explain that escaping < and > is the mechanism that prevents tag opening"
+            "evidence": "Shows the escaping transformation in Key points #2 but does not explain that < and > escaping is the mechanism that stops tag opening"
           },
           {
             "assertion": "Warns explicitly that switching these to triple braces would make the injected markup live",
             "met": false,
-            "evidence": "Recommends triple braces for URLs with validation instead of warning that triple braces would make injected markup live"
+            "evidence": "Suggests triple braces as an option in Key points #3 but never warns that switching to them would make injected markup live"
           },
           {
             "assertion": "Flags item.url as attacker-influenced and recommends allowlisting or validating it to an expected HTTPS destination",
             "met": false,
-            "evidence": "Says 'validate/sanitize URLs server-side' but does not recommend allowlisting or validating to expected HTTPS destinations specifically"
+            "evidence": "Recommends generic 'validate/sanitize URLs server-side' but does not flag item.url as attacker-influenced or recommend allowlisting to HTTPS destinations"
           },
           {
             "assertion": "Recommends fixing the bad data in the catalog or partner feed rather than only patching the template",
             "met": true,
-            "evidence": "'Clean your product catalog - remove the junk data' and 'The real fix is data validation - product names shouldn't contain HTML markup'"
+            "evidence": "Recommended Actions #1: 'Clean your product catalog - remove the junk data' and conclusion: 'The real fix is data validation'"
           },
           {
             "assertion": "Any helper used exists in Iterable's shipped helper set — defaultIfEmpty, urlEncode, numberFormat, ifContainsStr, and the documented comparison helpers all count as existing — and no invented helper (e.g. startsWith, toFixed, subtract, #with) appears; using no helpers at all also satisfies this",
             "met": true,
-            "evidence": "Template uses only plain variable references with no helpers"
+            "evidence": "Template examples use only {{item.url}}, {{item.name}}, {{item.imageUrl}} with no helpers - satisfies by using no helpers at all"
           }
         ],
-        "response_key": "sha256:096659c5932ce9e131e642c9af5ff1183f3fca033d8604c343056f7aafdbf785"
+        "response_key": "sha256:096659c5932ce9e131e642c9af5ff1183f3fca033d8604c343056f7aafdbf785",
+        "response_reused": true
       }
     }
   ]

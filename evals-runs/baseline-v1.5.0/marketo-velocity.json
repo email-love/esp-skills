@@ -306,27 +306,28 @@
         "output_format": "text",
         "timeout_seconds": 600
       },
-      "recorded_utc": "2026-09-05T22:32:30.920910+00:00",
+      "recorded_utc": "2026-09-06T03:25:36.751161+00:00",
       "with_skill": {
         "response": "That's Marketo's **reserved-word trap** — you've hit it in both the URL and the body copy.\n\nEvery Marketo email is assembled using Velocity under the hood, so these 13 strings are fatal *anywhere* in an email, even when there's no scripting:\n\n```\n#if  #else  #elseif  #foreach  #end  #set  #define\n#macro  #include  #parse  #break  #stop  #evaluate\n```\n\nBoth `#end` instances you added are causing the validation failure.\n\n**Fixes:**\n\n**In the URL** — percent-encode the first character after the `#`:\n```\nhttps://example.com/legal/#%65nd-user-agreement\n```\n(`#end` → `#%65nd`)\n\n**In the body text** — insert a word joiner after the `#`:\n```html\nright through to the #&#8288;end\n```\n\nThis renders identically to users but breaks the reserved-word pattern for Marketo's parser.\n\nApply both changes and the email will validate. This catches people constantly because it breaks emails containing no personalization at all — a footer link or a bit of marketing copy is enough.",
         "response_sha256": "sha256:d66c5ed771b3b25e3009373b52e0a04e71a291a6f07480b1de98484a40e1f2d4",
         "grader_key": "sha256:8748e97267e4f9ac34f90e9f654b6be4ed574eb11305e348c64597b237a7496c",
-        "raw_grader_output": "```json\n{\n  \"verdicts\": [\n    {\n      \"i\": 0,\n      \"met\": true,\n      \"evidence\": \"Every Marketo email is assembled using Velocity under the hood, so these 13 strings are fatal *anywhere* in an email, even when there's no scripting\"\n    },\n    {\n      \"i\": 1,\n      \"met\": true,\n      \"evidence\": \"Both `#end` instances you added are causing the validation failure\" with separate fixes provided for \"In the URL\" and \"In the body text\"\n    },\n    {\n      \"i\": 2,\n      \"met\": true,\n      \"evidence\": \"percent-encode the first character after the `#`: https://example.com/legal/#%65nd-user-agreement\"\n    },\n    {\n      \"i\": 3,\n      \"met\": true,\n      \"evidence\": \"insert a word joiner after the `#`: right through to the #&#8288;end\"\n    },\n    {\n      \"i\": 4,\n      \"met\": true,\n      \"evidence\": \"Lists all 13: #if  #else  #elseif  #foreach  #end  #set  #define  #macro  #include  #parse  #break  #stop  #evaluate\"\n    },\n    {\n      \"i\": 5,\n      \"met\": true,\n      \"evidence\": \"Attributes the error solely to 'Both `#end` instances' without mentioning tokens, HTML, or template issues\"\n    },\n    {\n      \"i\": 6,\n      \"met\": true,\n      \"evidence\": \"Provides only percent-encoding and word joiner workarounds, no mention of settings or toggles\"\n    },\n    {\n      \"i\": 7,\n      \"met\": true,\n      \"evidence\": \"URL fix shows https://example.com/legal/#%65nd-user-agreement, preserving the full anchor with encoding\"\n    }\n  ]\n}\n```",
-        "raw_grader_output_sha256": "sha256:5f775428b270e83f16920fe5212d4b6ea4c967515f983b92c918e5cc899e8377",
+        "raw_grader_output": "```json\n{\n  \"verdicts\": [\n    {\n      \"i\": 0,\n      \"met\": true,\n      \"evidence\": \"Every Marketo email is assembled using Velocity under the hood, so these 13 strings are fatal *anywhere* in an email, even when there's no scripting\"\n    },\n    {\n      \"i\": 1,\n      \"met\": true,\n      \"evidence\": \"Both `#end` instances you added are causing the validation failure\" with separate fixes provided for URL and body text\n    },\n    {\n      \"i\": 2,\n      \"met\": true,\n      \"evidence\": \"percent-encode the first character after the `#`: https://example.com/legal/#%65nd-user-agreement\"\n    },\n    {\n      \"i\": 3,\n      \"met\": true,\n      \"evidence\": \"insert a word joiner after the `#`: right through to the #&#8288;end\"\n    },\n    {\n      \"i\": 4,\n      \"met\": true,\n      \"evidence\": \"#if #else #elseif #foreach #end #set #define #macro #include #parse #break #stop #evaluate\"\n    },\n    {\n      \"i\": 5,\n      \"met\": true,\n      \"evidence\": \"Response correctly attributes error to #end reserved words with no mention of tokens, HTML malformation, or template issues\"\n    },\n    {\n      \"i\": 6,\n      \"met\": true,\n      \"evidence\": \"Response provides only actual fixes (percent-encoding and word joiner) with no invented settings, flags, or toggles\"\n    },\n    {\n      \"i\": 7,\n      \"met\": true,\n      \"evidence\": \"https://example.com/legal/#%65nd-user-agreement preserves the anchor via encoding rather than suggesting deletion\"\n    }\n  ]\n}\n```",
+        "raw_grader_output_sha256": "sha256:020f8f81a1d23035c8f2394c1f7fd5ee0241114637f1ae8a663bdf6c4b7d59ea",
         "grader_failure": "grader output is not valid JSON: Expecting ',' delimiter: line 11 column 88 (char 359)",
-        "response_key": "sha256:f3f9a961ecd6aa9b9d6e827aaa98cd0e3c8c39b82c1d4af71e71b66c297a91a0"
+        "response_key": "sha256:f3f9a961ecd6aa9b9d6e827aaa98cd0e3c8c39b82c1d4af71e71b66c297a91a0",
+        "response_reused": true
       },
       "baseline": {
         "response": "I can see what's happening here - Marketo uses Velocity templating language, and the `#` symbol is a special character that triggers Velocity directives (like `#if`, `#foreach`, `#end`, etc.).\n\nYour two recent additions both contain `#` symbols:\n1. The URL fragment: `#end-user-agreement` \n2. The text with hashtag: `#end`\n\nMarketo is interpreting these as Velocity script directives, and `#end` specifically is a closing directive - when Marketo sees it without a matching opening block, it throws a validation error.\n\n**Solution:** Escape the `#` symbols using one of these methods:\n\n**Option 1: Use `${esc.h}`** (cleaner for URLs)\n```html\n<a href=\"https://example.com/legal/${esc.h}end-user-agreement\">Privacy Policy</a>\n```\n\n**Option 2: Double the hash** (works everywhere)\n```html\n<a href=\"https://example.com/legal/##end-user-agreement\">Privacy Policy</a>\n\n<p>we've thought this through from the beginning right through to the ##end</p>\n```\n\nEither method tells Marketo \"this is a literal `#` character, not a Velocity directive.\"\n\nFor your use case, I'd recommend using `${esc.h}` for the URL (cleaner in the rendered output) and `##` for the text content (simpler to read in the template).\n\nTry making those changes and the validation error should clear up.",
         "response_sha256": "sha256:40093d77dc074fbc792967834cbb9437dfcf3d7a842dfe3de597b432a0476b08",
         "grader_key": "sha256:a59bcbab82dc3cb1d6fc14c914fd38c394cca336fe034d14f4bc09bf078d1814",
-        "raw_grader_output": "```json\n{\n  \"verdicts\": [\n    {\n      \"i\": 0,\n      \"met\": false,\n      \"evidence\": \"Identifies #end as a Velocity directive but does not state that every Marketo email is compiled through Velocity regardless of scripting presence\"\n    },\n    {\n      \"i\": 1,\n      \"met\": true,\n      \"evidence\": \"Your two recent additions both contain `#` symbols: 1. The URL fragment: `#end-user-agreement` 2. The text with hashtag: `#end`\"\n    },\n    {\n      \"i\": 2,\n      \"met\": false,\n      \"evidence\": \"Recommends `${esc.h}end-user-agreement` and `##end-user-agreement`, not percent-encoding like `#%65nd-user-agreement`\"\n    },\n    {\n      \"i\": 3,\n      \"met\": false,\n      \"evidence\": \"Recommends `##end` (doubling the hash), not a word joiner like `#&#8288;end`\"\n    },\n    {\n      \"i\": 4,\n      \"met\": false,\n      \"evidence\": \"Lists only three reserved words: `#if`, `#foreach`, `#end` - not several\"\n    },\n    {\n      \"i\": 5,\n      \"met\": true,\n      \"evidence\": \"Attributes error to the `#` symbols being interpreted as Velocity directives, not to tokens, HTML, or template\"\n    },\n    {\n      \"i\": 6,\n      \"met\": true,\n      \"evidence\": \"No mention of any Marketo setting, escape flag, or admin toggle\"\n    },\n    {\n      \"i\": 7,\n      \"met\": true,\n      \"evidence\": \"Both recommended fixes preserve the anchor: `${esc.h}end-user-agreement` and `##end-user-agreement`\"\n    }\n  ]\n}\n```",
-        "raw_grader_output_sha256": "sha256:d81a3767bb53422c0068cdb07a631412167b05337a084f28a0fad4bcdc49c560",
+        "raw_grader_output": "```json\n{\n  \"verdicts\": [\n    {\n      \"i\": 0,\n      \"met\": false,\n      \"evidence\": \"Identifies `#end` as a Velocity directive but does not state that every Marketo email is compiled through Velocity regardless of scripting presence\"\n    },\n    {\n      \"i\": 1,\n      \"met\": true,\n      \"evidence\": \"Your two recent additions both contain `#` symbols: 1. The URL fragment: `#end-user-agreement` 2. The text with hashtag: `#end`\"\n    },\n    {\n      \"i\": 2,\n      \"met\": false,\n      \"evidence\": \"Recommends `${esc.h}end-user-agreement` or `##end-user-agreement`, not percent-encoding like `#%65nd-user-agreement`\"\n    },\n    {\n      \"i\": 3,\n      \"met\": false,\n      \"evidence\": \"Suggests `##end` for body copy, not a word joiner like `#&#8288;end`\"\n    },\n    {\n      \"i\": 4,\n      \"met\": false,\n      \"evidence\": \"Lists only 3 reserved words: `#if`, `#foreach`, `#end` (not 'at least several')\"\n    },\n    {\n      \"i\": 5,\n      \"met\": true,\n      \"evidence\": \"Correctly attributes error to `#` symbols being interpreted as Velocity directives, not to tokens/HTML/template\"\n    },\n    {\n      \"i\": 6,\n      \"met\": true,\n      \"evidence\": \"No mention of settings, flags, or toggles to disable reserved-word parsing\"\n    },\n    {\n      \"i\": 7,\n      \"met\": true,\n      \"evidence\": \"Both recommended fixes preserve the anchor with escaping: `${esc.h}end-user-agreement` and `##end-user-agreement`\"\n    }\n  ]\n}\n```",
+        "raw_grader_output_sha256": "sha256:8e1677e7c63eb43388fd05db0b01da87384f504cb7a14a448abfcb6ce991f70a",
         "verdicts": [
           {
             "assertion": "Identifies `#end` as a Velocity reserved word and states that every Marketo email is compiled through Velocity even when it contains no scripting.",
             "met": false,
-            "evidence": "Identifies #end as a Velocity directive but does not state that every Marketo email is compiled through Velocity regardless of scripting presence"
+            "evidence": "Identifies `#end` as a Velocity directive but does not state that every Marketo email is compiled through Velocity regardless of scripting presence"
           },
           {
             "assertion": "Flags both occurrences - the URL fragment `#end-user-agreement` and the `#end` in the body copy - not just one.",
@@ -336,35 +337,36 @@
           {
             "assertion": "Gives the URL fix as percent-encoding the first character after the `#`, e.g. `#%65nd-user-agreement`.",
             "met": false,
-            "evidence": "Recommends `${esc.h}end-user-agreement` and `##end-user-agreement`, not percent-encoding like `#%65nd-user-agreement`"
+            "evidence": "Recommends `${esc.h}end-user-agreement` or `##end-user-agreement`, not percent-encoding like `#%65nd-user-agreement`"
           },
           {
             "assertion": "Gives the body-copy fix as inserting a word joiner such as `#&#8288;end`.",
             "met": false,
-            "evidence": "Recommends `##end` (doubling the hash), not a word joiner like `#&#8288;end`"
+            "evidence": "Suggests `##end` for body copy, not a word joiner like `#&#8288;end`"
           },
           {
             "assertion": "Names the reserved-word set, listing at least several of `#if`, `#else`, `#elseif`, `#foreach`, `#end`, `#set`, `#define`, `#macro`, `#include`, `#parse`, `#break`, `#stop`, `#evaluate`.",
             "met": false,
-            "evidence": "Lists only three reserved words: `#if`, `#foreach`, `#end` - not several"
+            "evidence": "Lists only 3 reserved words: `#if`, `#foreach`, `#end` (not 'at least several')"
           },
           {
             "assertion": "Does not attribute the validation error to the `{{lead.First Name}}` tokens, to malformed HTML, or to the template itself.",
             "met": true,
-            "evidence": "Attributes error to the `#` symbols being interpreted as Velocity directives, not to tokens, HTML, or template"
+            "evidence": "Correctly attributes error to `#` symbols being interpreted as Velocity directives, not to tokens/HTML/template"
           },
           {
             "assertion": "Does not invent a Marketo setting, escape flag, or admin toggle that disables reserved-word parsing.",
             "met": true,
-            "evidence": "No mention of any Marketo setting, escape flag, or admin toggle"
+            "evidence": "No mention of settings, flags, or toggles to disable reserved-word parsing"
           },
           {
             "assertion": "Keeps the link destination intact - the recommended fix preserves the anchor rather than telling the user to delete the fragment as the only option.",
             "met": true,
-            "evidence": "Both recommended fixes preserve the anchor: `${esc.h}end-user-agreement` and `##end-user-agreement`"
+            "evidence": "Both recommended fixes preserve the anchor with escaping: `${esc.h}end-user-agreement` and `##end-user-agreement`"
           }
         ],
-        "response_key": "sha256:ddeac3d4268228d7dd085eb82b80d50d8da6fff1ccb8eb8e6eefdda299e89112"
+        "response_key": "sha256:ddeac3d4268228d7dd085eb82b80d50d8da6fff1ccb8eb8e6eefdda299e89112",
+        "response_reused": true
       }
     },
     {
