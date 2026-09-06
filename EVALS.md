@@ -94,27 +94,27 @@ Every number published anywhere in this repository has to be reproducible from a
 
 ## Current committed runs
 
-`evals-runs/baseline-v1.4.1/` is the current content-eval run: 41 cases, all ten suites, `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.239, `full` context mode, produced from this code — provenance (commit, dirty flag, argv, per-case hashes) is in its `run.json`. Prompt text is not stored per case: reproduction relies on the recorded input commit plus the prompt contracts recorded in `run.json`. All 41 cases scored; zero grader failures outstanding.
+`evals-runs/baseline-v1.5.0/` is the current content-eval run: 41 cases, all ten suites, `claude-sonnet-4-5` on both arms and as grader, Claude Code CLI 2.1.241, `full` context mode, produced from this code — provenance (commit, dirty flag, argv, per-case hashes) is in its `run.json`. Prompt text is not stored per case: reproduction relies on the recorded input commit plus the prompt contracts recorded in `run.json`. All 41 cases scored; zero grader failures outstanding (three graders failed transiently and were re-run to completion; the raw failed outputs are preserved in the git history of the run directory).
 
 | Skill | Cases | With skill | Baseline | Delta |
 |---|---:|---:|---:|---:|
-| `moengage-jinja` | 4 | 86% | 23% | +63 |
-| `hubspot-hubl` | 4 | 86% | 28% | +58 |
-| `sailthru-zephyr` | 4 | 86% | 29% | +57 |
-| `zeta-zml` | 4 | 89% | 34% | +55 |
-| `braze-liquid` | 4 | 90% | 40% | +50 |
-| `sfmc-ampscript` | 4 | 95% | 47% | +48 |
-| `klaviyo-django` | 4 | 86% | 43% | +43 |
-| `customerio-liquid` | 4 | 85% | 46% | +39 |
-| `marketo-velocity` | 4 | 89% | 61% | +28 |
-| `iterable-handlebars` | 5 | 84% | 66% | +18 |
-| **All** | **41** | **88%** | **41%** | **+47** |
+| `hubspot-hubl` | 4 | 91% | 28% | +63 |
+| `moengage-jinja` | 4 | 84% | 23% | +60 |
+| `sailthru-zephyr` | 4 | 81% | 29% | +52 |
+| `zeta-zml` | 4 | 95% | 48% | +48 |
+| `marketo-velocity` | 4 | 92% | 45% | +47 |
+| `iterable-handlebars` | 5 | 92% | 47% | +45 |
+| `customerio-liquid` | 4 | 85% | 41% | +44 |
+| `klaviyo-django` | 4 | 88% | 48% | +40 |
+| `braze-liquid` | 4 | 92% | 52% | +40 |
+| `sfmc-ampscript` | 4 | 88% | 65% | +23 |
+| **All** | **41** | **89%** | **42%** | **+46** |
 
-Micro (assertion-weighted): 87.6% vs 41.0%. Macro (equal-case): 87.3% vs 41.8%.
+Micro (assertion-weighted): 88.8% vs 42.5%. Macro (equal-case): 88.8% vs 42.3%.
 
-`evals-runs/routing-v1.4.1/` is the current routing run: 58 cases, 100% correct fire, 0% misfire, 0% silent — see `ROUTING.md`.
+`evals-runs/routing-v1.5.0/` is the current routing run: 58 cases, 100% correct fire, 0% misfire, 0% silent — see `ROUTING.md`.
 
-`evals-runs/baseline-v1.3.0/` and `evals-runs/baseline-v1.4.0/` are historical. They predate the provenance fields, were produced against earlier skill wording, and their numbers must not be quoted as current.
+`evals-runs/baseline-v1.3.0/`, `evals-runs/baseline-v1.4.0/`, `evals-runs/baseline-v1.4.1/` (41 cases, `claude-sonnet-4-5`, Claude Code CLI 2.1.239), and `evals-runs/routing-v1.4.1/` are historical. They predate the provenance fields, were produced against earlier skill wording, and their numbers must not be quoted as current.
 
 ### Caveats worth stating plainly
 
