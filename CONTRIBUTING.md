@@ -14,11 +14,12 @@ ESPs ship changes and these skills go stale. The most valuable issue you can fil
 2. Put lookup material in `references/*.md`. Both Claude and ChatGPT load these on demand, so depth here costs nothing until it's needed; depth in `SKILL.md` is paid every time the skill fires.
 3. Write the description last, and write it as trigger conditions rather than a summary. It is the entire mechanism by which the skill gets used — and with sibling skills in the same install, it also needs to say which platforms it is *not* for.
 4. Add test prompts to `evals/evals.json` and run them against a no-skill baseline before you open the PR. If the baseline scores as well as the skill, the skill isn't earning its context.
-5. Register it in `.claude-plugin/marketplace.json`.
+5. Register it in `.claude-plugin/marketplace.json` with `"source": "./plugins/<platform>-<language>"`, then run `python3 scripts/sync_plugins.py` to generate that plugin folder. Never point an entry at `skills/` directly: Claude Code installs a bare skill folder, but the Claude apps refuse it.
 
 ```bash
 python3 -m pip install pyyaml==6.0.2
 python3 scripts/sync_shared.py       # regenerate the shared Figma and security blocks
+python3 scripts/sync_plugins.py      # regenerate the plugin folders in plugins/
 python3 scripts/validate.py          # frontmatter, metadata, evals, versions, hygiene
 bash scripts/build.sh                # package into dist/*.skill
 bash scripts/verify_dist.sh          # archive integrity, inventory, checksums

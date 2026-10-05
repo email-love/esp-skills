@@ -4,8 +4,10 @@
 Every check here exists because the failure it catches is silent. A malformed
 description means a skill never triggers and nobody sees an error. A version that
 disagrees between the changelog and the marketplace manifest installs the wrong
-thing. A leftover TODO ships as product copy. None of these break a build on
-their own, so the build has to be taught to care.
+thing. A leftover TODO ships as product copy. A plugin folder without its own
+manifest installs in Claude Code and fails in the Claude apps behind a generic
+sync error. None of these break a build on their own, so the build has to be
+taught to care.
 
     python3 scripts/validate.py
     python3 scripts/validate.py --list   # show what is checked, run nothing
@@ -260,9 +262,7 @@ def check_marketplace_and_version() -> None:
         if plugin.get("version") != version:
             errors.append(
                 f"{rel(path)}[{pname}]: version {plugin.get('version')} != VERSION {version}")
-        source = plugin.get("source", "")
-        if source and not (ROOT / source.lstrip("./")).is_dir():
-            errors.append(f"{rel(path)}[{pname}]: source `{source}` is not a directory")
+        check_plugin(plugin, version)
 
     on_disk = {s.name for s in SKILLS}
     for missing in sorted(on_disk - listed):
@@ -271,16 +271,63 @@ def check_marketplace_and_version() -> None:
         errors.append(f"{rel(path)}: lists `{extra}`, which has no skill directory")
 
 
+def check_plugin(entry: dict, version: str) -> None:
+    """A marketplace entry must install in the Claude apps, not just Claude Code.
+
+    Claude Code accepts a bare skill folder as a plugin, so `claude plugin
+    install` succeeds on a layout the Claude apps reject: adding the marketplace
+    in Cowork or claude.ai fails with only "Marketplace sync failed". Those apps
+    need the plugin folder to hold .claude-plugin/plugin.json, named like the
+    marketplace entry, with its skill at skills/<name>/SKILL.md beside it. A
+    top-level bin/ directory stops them installing the plugin at all. Whether
+    the copied skill still matches skills/ is scripts/sync_plugins.py --check.
+    """
+    name = entry.get("name", "<unnamed>")
+    where = f".claude-plugin/marketplace.json[{name}]"
+    source = entry.get("source")
+    if not isinstance(source, str) or not source.startswith("./") or ".." in source:
+        errors.append(f"{where}: source {source!r} is not a ./ path inside the repository")
+        return
+    root = (ROOT / source).resolve()
+    if not root.is_dir():
+        errors.append(f"{where}: source `{source}` is not a directory")
+        return
+
+    path = root / ".claude-plugin" / "plugin.json"
+    if not path.is_file():
+        errors.append(f"{where}: source `{source}` has no .claude-plugin/plugin.json")
+        return
+    try:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        errors.append(f"{rel(path)}: not valid JSON - {exc}")
+        return
+    if manifest.get("name") != name:
+        errors.append(f"{rel(path)}: name `{manifest.get('name')}` != marketplace entry `{name}`")
+    if manifest.get("version") != version:
+        errors.append(f"{rel(path)}: version {manifest.get('version')} != VERSION {version}")
+
+    shipped = sorted(p.parent.name for p in (root / "skills").glob("*/SKILL.md"))
+    if shipped != [name]:
+        errors.append(f"{where}: plugin ships skills {shipped}, "
+                      f"expected only `{name}` at skills/{name}/SKILL.md")
+    if (root / "bin").exists():
+        errors.append(f"{where}: plugin has a top-level bin/, which the Claude apps refuse")
+
+
 def check_hygiene() -> None:
     """Symlinks, executables, secrets, placeholders, and plain-HTTP examples."""
-    for path in sorted((ROOT / "skills").rglob("*")):
-        if path.is_symlink():
-            errors.append(f"{rel(path)}: symlinks are not allowed inside skills/")
+    for top in ("skills", "plugins"):
+        if not (ROOT / top).is_dir():
             continue
-        if not path.is_file():
-            continue
-        if path.stat().st_mode & stat.S_IXUSR:
-            errors.append(f"{rel(path)}: unexpected executable bit inside skills/")
+        for path in sorted((ROOT / top).rglob("*")):
+            if path.is_symlink():
+                errors.append(f"{rel(path)}: symlinks are not allowed inside {top}/")
+                continue
+            if not path.is_file():
+                continue
+            if path.stat().st_mode & stat.S_IXUSR:
+                errors.append(f"{rel(path)}: unexpected executable bit inside {top}/")
 
     scan = list((ROOT / "skills").rglob("*.md")) + list((ROOT / "skills").rglob("*.json")) \
         + list((ROOT / "skills").rglob("*.yaml")) + list((ROOT / "shared").rglob("*")) \
@@ -425,7 +472,8 @@ CHECKS = [
     ("reference and link targets", check_references),
     ("OpenAI presentation metadata", check_openai_metadata),
     ("eval suites", check_evals),
-    ("marketplace manifest and version agreement", check_marketplace_and_version),
+    ("marketplace manifest, plugin layout and version agreement",
+     check_marketplace_and_version),
     ("hygiene: symlinks, exec bits, secrets, placeholders, HTTPS", check_hygiene),
     ("workflow permissions and pinning", check_workflow_expectations),
     ("semantic gates: no stale platform diagnoses", check_semantics),
@@ -441,6 +489,7 @@ def main() -> int:
         for label, _ in CHECKS:
             print(f"  {label}")
         print("  shared-block drift (scripts/sync_shared.py --check, run separately)")
+        print("  plugin-folder drift (scripts/sync_plugins.py --check, run separately)")
         return 0
 
     print(f"validating {len(SKILLS)} skill(s)\n")

@@ -1,0 +1,14 @@
+{
+  "name": "iterable-handlebars",
+  "displayName": "Iterable Handlebars",
+  "version": "1.5.1",
+  "description": "Write, review and debug Handlebars personalization in Iterable templates. Covers the helper set Iterable actually ships (handlebars.java, not JavaScript Handlebars), the field paths for profiles, events, catalogs, commerce and data feeds, and the failure modes that skip a send rather than rendering blank",
+  "author": {
+    "name": "Email Love",
+    "email": "hello@emaillove.com",
+    "url": "https://emaillove.com"
+  },
+  "homepage": "https://github.com/email-love/esp-skills",
+  "repository": "https://github.com/email-love/esp-skills",
+  "license": "MIT"
+}

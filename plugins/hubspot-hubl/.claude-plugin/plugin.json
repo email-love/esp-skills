@@ -1,0 +1,14 @@
+{
+  "name": "hubspot-hubl",
+  "displayName": "HubSpot HubL",
+  "version": "1.5.1",
+  "description": "Write, review and debug HubL personalization in HubSpot marketing email. Covers the rule that filters do not apply to personalization tokens in email at all, the personalization_token() fallback idiom that replaces them, programmable email and its CRM function and recipient limits, and the difference between a token that renders blank and one that drops the recipient",
+  "author": {
+    "name": "Email Love",
+    "email": "hello@emaillove.com",
+    "url": "https://emaillove.com"
+  },
+  "homepage": "https://github.com/email-love/esp-skills",
+  "repository": "https://github.com/email-love/esp-skills",
+  "license": "MIT"
+}

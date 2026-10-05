@@ -1,0 +1,14 @@
+{
+  "name": "moengage-jinja",
+  "displayName": "MoEngage Jinja",
+  "version": "1.5.1",
+  "description": "Write, review and debug Jinja personalization in MoEngage. Covers the rule that governs everything there (a null value removes the user from the send rather than rendering blank), the five fallback forms and which one shows up in analytics, the UserAttribute, EventAttribute, ProductSet and ContentApi namespaces, and the editor behaviour that corrupts a template after it saves cleanly",
+  "author": {
+    "name": "Email Love",
+    "email": "hello@emaillove.com",
+    "url": "https://emaillove.com"
+  },
+  "homepage": "https://github.com/email-love/esp-skills",
+  "repository": "https://github.com/email-love/esp-skills",
+  "license": "MIT"
+}

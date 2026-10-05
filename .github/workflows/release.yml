@@ -35,6 +35,9 @@ jobs:
       - name: Check shared blocks are in sync
         run: python3 scripts/sync_shared.py --check
 
+      - name: Check plugin folders are in sync
+        run: python3 scripts/sync_plugins.py --check
+
       - name: Eval harness self-test (no model calls)
         run: python3 scripts/test_eval_harness.py
 

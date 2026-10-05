@@ -1,0 +1,14 @@
+{
+  "name": "customerio-liquid",
+  "displayName": "Customer.io Liquid",
+  "version": "1.5.1",
+  "description": "Write, review and debug Liquid personalization in Customer.io. Covers both Liquid engines and what changes between them, the namespace rules for customer, event, trigger, objects and journey data, and why a missing attribute fails the send rather than rendering blank",
+  "author": {
+    "name": "Email Love",
+    "email": "hello@emaillove.com",
+    "url": "https://emaillove.com"
+  },
+  "homepage": "https://github.com/email-love/esp-skills",
+  "repository": "https://github.com/email-love/esp-skills",
+  "license": "MIT"
+}

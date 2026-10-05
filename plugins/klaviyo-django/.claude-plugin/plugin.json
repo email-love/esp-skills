@@ -1,0 +1,14 @@
+{
+  "name": "klaviyo-django",
+  "displayName": "Klaviyo Personalization",
+  "version": "1.5.1",
+  "description": "Write, review and debug personalization in Klaviyo templates. Klaviyo runs the Django template language, not Liquid. This skill covers the tag and filter set it actually ships, the per-integration event paths for Shopify, WooCommerce, Magento and BigCommerce, and the three distinct ways a Klaviyo template fails",
+  "author": {
+    "name": "Email Love",
+    "email": "hello@emaillove.com",
+    "url": "https://emaillove.com"
+  },
+  "homepage": "https://github.com/email-love/esp-skills",
+  "repository": "https://github.com/email-love/esp-skills",
+  "license": "MIT"
+}

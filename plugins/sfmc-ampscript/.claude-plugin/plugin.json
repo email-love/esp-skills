@@ -1,0 +1,14 @@
+{
+  "name": "sfmc-ampscript",
+  "displayName": "Marketing Cloud AMPscript",
+  "version": "1.5.1",
+  "description": "Write, review and debug AMPscript, Guide Template Language and personalization strings in Salesforce Marketing Cloud. Covers the two independent substitution engines and their opposite case rules, Data Extension lookups and the rowset emptiness trap, Journey Builder data binding, and the send error codes behind subscribers who show as Errored or NotSent",
+  "author": {
+    "name": "Email Love",
+    "email": "hello@emaillove.com",
+    "url": "https://emaillove.com"
+  },
+  "homepage": "https://github.com/email-love/esp-skills",
+  "repository": "https://github.com/email-love/esp-skills",
+  "license": "MIT"
+}
