@@ -177,6 +177,8 @@ sha256sum -c SHA256SUMS        # Linux
 shasum -a 256 -c SHA256SUMS    # macOS
 ```
 
+From 1.5.1 on, a release can also be rebuilt from source: check out its tag, run `bash scripts/build.sh`, and `dist/SHA256SUMS` is identical to the published one. This needs Info-ZIP zip 3.0, the `zip` that ships with macOS and Ubuntu. Archives from 1.5.0 and earlier carry build-time timestamps, so a rebuild matches their contents but not their checksums.
+
 ## One skill, both platforms
 
 There is no Claude version and ChatGPT version. Both products read the same `SKILL.md` frontmatter and the same `references/` folder, so a skill authored once installs in either.

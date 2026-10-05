@@ -7,7 +7,22 @@
 #
 # Files are staged through an explicit allowlist rather than zipped in place, so a
 # stray file in a skill directory cannot silently end up in a published archive.
+#
+# Builds are DETERMINISTIC: staged files are stamped with one fixed timestamp,
+# given fixed permissions, added in sorted path order, and stripped of extra zip
+# attributes, and zip ignores any default options set in the environment. The
+# same source tree therefore produces a byte-identical archive on any machine with
+# Info-ZIP zip 3.0 (the zip macOS and Ubuntu ship), so a published release asset
+# can be independently re-derived and checksum-compared.
 set -euo pipefail
+
+# One fixed timestamp for reproducibility. touch -t reads it as local time and zip
+# stores local time, so every archive records 2026-01-01 00:00 in any timezone.
+STAMP="202601010000"
+
+# zip adds the contents of these variables to its command line. A stray -9 in
+# either would change the bytes of every archive.
+unset ZIP ZIPOPT
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIST="$ROOT/dist"
@@ -64,7 +79,13 @@ for skill in "$ROOT"/skills/*/; do
     exit 1
   fi
 
-  ( cd "$STAGE" && zip -qrX "$DIST/$name.skill" "$name" )
+  # Deterministic: fixed modes and mtime, sorted entry order, no extra attributes.
+  # install already gave every file 0644; the directories come from mkdir -p and
+  # would otherwise carry the builder's umask (0775 under umask 002, say).
+  find "$pkg" -type d -exec chmod 0755 {} +
+  find "$pkg" -exec touch -t "$STAMP" {} +
+  ( cd "$STAGE" && find "$name" \( -type f -o -type d \) | LC_ALL=C sort \
+      | zip -qX "$DIST/$name.skill" -@ )
   built=$((built + 1))
   echo "built dist/$name.skill"
 done

@@ -4,8 +4,8 @@ All notable changes to the skills in this repo.
 
 ## [1.5.1] - 2026-10-05
 
-A packaging fix for the Claude apps. The skills are unchanged: every file in every `.skill`
-archive is identical to 1.5.0.
+Packaging fixes for the Claude apps and for the `.skill` archives. The skills are unchanged:
+every file in every `.skill` archive is identical to 1.5.0.
 
 - Adding this repository as a marketplace in the Claude apps (**Customize > Plugins > Add
   marketplace** in Cowork, the desktop app or claude.ai) failed with "Marketplace sync
@@ -22,6 +22,18 @@ archive is identical to 1.5.0.
 - Marketplace entries now carry display names, the same ones ChatGPT shows.
 - `scripts/validate.py` checks every marketplace entry for the manifest, a matching name and
   version, the `skills/<name>/SKILL.md` layout, and no top-level `bin/`.
+- `.skill` archives are now byte-reproducible. `scripts/build.sh` zipped each file with the
+  time it was staged and in the order the filesystem listed it, so the same source built at
+  another time or on another machine gave different bytes, and a published archive could
+  not be checked by rebuilding it. It now gives every file and directory one fixed time
+  (2026-01-01 00:00) and fixed permissions, adds entries in sorted path order, and ignores
+  zip options set in the environment. The same source gives the same bytes on any machine
+  with Info-ZIP zip 3.0, macOS and the Ubuntu release runner included, so the `SHA256SUMS`
+  of this and later releases can be re-derived from the release tag.
+- Archives built before this change, including the 1.4.2 and 1.5.0 release assets, cannot be
+  reproduced byte for byte, only their contents. Rebuilding v1.5.0 gives every archive the
+  same files, bytes and permissions as the published one, but different timestamps, entry
+  order and checksums.
 
 ## [1.5.0] - 2026-09-05
 
