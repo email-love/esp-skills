@@ -1,0 +1,14 @@
+{
+  "name": "zeta-zml",
+  "displayName": "Zeta ZML",
+  "version": "1.5.1",
+  "description": "Write, review and debug ZML personalization in the Zeta Marketing Platform. Covers the tag and filter set ZML actually ships, the resources, recommendation, feeds and skip_message tags, the documented campaign error categories, the constructs that fail silently rather than erroring, and the fact that Zeta's other email platform speaks a different language entirely",
+  "author": {
+    "name": "Email Love",
+    "email": "hello@emaillove.com",
+    "url": "https://emaillove.com"
+  },
+  "homepage": "https://github.com/email-love/esp-skills",
+  "repository": "https://github.com/email-love/esp-skills",
+  "license": "MIT"
+}

@@ -2,6 +2,27 @@
 
 All notable changes to the skills in this repo.
 
+## [1.5.1] - 2026-10-05
+
+A packaging fix for the Claude apps. The skills are unchanged: every file in every `.skill`
+archive is identical to 1.5.0.
+
+- Adding this repository as a marketplace in the Claude apps (**Customize > Plugins > Add
+  marketplace** in Cowork, the desktop app or claude.ai) failed with "Marketplace sync
+  failed. Check the repository URL and try again." The Claude apps check every plugin when
+  they sync a marketplace, and require a `.claude-plugin/plugin.json` manifest in the plugin
+  folder with the skill at `skills/<name>/SKILL.md`. Every entry pointed at a bare skill
+  folder, which has neither. Claude Code requires neither, so installs there were unaffected.
+- Each skill now has a plugin folder at `plugins/<name>/`, holding the manifest and a copy of
+  exactly what the skill's `.skill` archive ships, `LICENSE` included. The marketplace
+  entries point there. Skills are still edited in `skills/<name>/`;
+  `scripts/sync_plugins.py` writes the plugin folders, and CI fails if they drift.
+- Plugin ids are unchanged (`iterable-handlebars@email-love-esp` and the other nine), so
+  existing Claude Code installs update in place.
+- Marketplace entries now carry display names, the same ones ChatGPT shows.
+- `scripts/validate.py` checks every marketplace entry for the manifest, a matching name and
+  version, the `skills/<name>/SKILL.md` layout, and no top-level `bin/`.
+
 ## [1.5.0] - 2026-09-05
 
 Shared-rule hardening from the 2026-09-05 external review; platform content unchanged.

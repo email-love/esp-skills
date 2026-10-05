@@ -1,0 +1,14 @@
+{
+  "name": "braze-liquid",
+  "displayName": "Braze Liquid",
+  "version": "1.5.1",
+  "description": "Write, review and debug Liquid personalization in Braze. Covers Braze's ${} variable syntax, the restriction on where filters and operators may appear, Connected Content, catalogs and Content Blocks, and the abort reasons behind a message that never sent",
+  "author": {
+    "name": "Email Love",
+    "email": "hello@emaillove.com",
+    "url": "https://emaillove.com"
+  },
+  "homepage": "https://github.com/email-love/esp-skills",
+  "repository": "https://github.com/email-love/esp-skills",
+  "license": "MIT"
+}

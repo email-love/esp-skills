@@ -3,7 +3,8 @@
 #
 # Everything here is a property a broken release would violate: the right number
 # of archives, readable zip data, no symlinks or executables smuggled in, the
-# licence present in each one, and checksums that match the files on disk.
+# licence present in each one, plugin folders that ship the same files, and
+# checksums that match the files on disk.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -61,6 +62,27 @@ for a in "${archives[@]}"; do
          -o -name '*.png' -o -name '*.svg' -o -name '*.jpg' -o -name '*.webp' \) -print0)
 done
 echo "ok source inventory"
+
+# Each Claude plugin folder must carry exactly what its .skill archive ships,
+# file for file and byte for byte. scripts/sync_plugins.py writes those copies
+# from its own allowlist; this catches the two allowlists drifting apart.
+for a in "${archives[@]}"; do
+  name="$(basename "$a" .skill)"
+  copy="$ROOT/plugins/$name/skills"
+  [ -d "$copy/$name" ] || { echo "plugins/$name/skills/$name is missing" >&2; exit 1; }
+  want="$(unzip -Z1 "$a" | grep -v '/$' | LC_ALL=C sort)"
+  have="$(cd "$copy" && find "$name" -type f | LC_ALL=C sort)"
+  if [ "$want" != "$have" ]; then
+    echo "plugins/$name does not ship the same files as $(basename "$a")" >&2
+    diff <(echo "$want") <(echo "$have") >&2 || true
+    exit 1
+  fi
+  while IFS= read -r f; do
+    unzip -p "$a" "$f" | cmp -s - "$copy/$f" || {
+      echo "plugins/$name/skills/$f differs from $(basename "$a")" >&2; exit 1; }
+  done <<<"$want"
+done
+echo "ok plugin folders match the archives"
 
 if command -v sha256sum >/dev/null 2>&1; then SHACMD="sha256sum"; else SHACMD="shasum -a 256"; fi
 ( cd "$DIST" && $SHACMD -c SHA256SUMS >/dev/null ) || {

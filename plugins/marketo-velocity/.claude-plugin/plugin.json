@@ -1,0 +1,14 @@
+{
+  "name": "marketo-velocity",
+  "displayName": "Marketo Personalization",
+  "version": "1.5.1",
+  "description": "Write, review and debug personalization in Adobe Marketo Engage, both tokens and Velocity email scripting. Covers which mechanism to use, why :default= and $display.alt silently fail on script tokens, custom object loops and their retrieval limits, link-tracking breakage, and the reserved words that break an email containing no scripting at all",
+  "author": {
+    "name": "Email Love",
+    "email": "hello@emaillove.com",
+    "url": "https://emaillove.com"
+  },
+  "homepage": "https://github.com/email-love/esp-skills",
+  "repository": "https://github.com/email-love/esp-skills",
+  "license": "MIT"
+}

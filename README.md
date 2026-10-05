@@ -132,13 +132,15 @@ claude plugin marketplace add email-love/esp-skills
 claude plugin install klaviyo-django@email-love-esp
 ```
 
-Update with `claude plugin marketplace update email-love-esp`, then reinstall. Remove with `claude plugin uninstall klaviyo-django@email-love-esp`.
+Update with `claude plugin marketplace update email-love-esp`, then `claude plugin update klaviyo-django@email-love-esp`. Remove with `claude plugin uninstall klaviyo-django@email-love-esp`.
 
-Verified against Claude Code 2.1.238: the marketplace resolves, the plugin installs at the version in `VERSION`, and `claude plugin details` reports roughly 370 tokens always-on with about 5.1k paid when the skill actually fires.
+Verified against Claude Code 2.1.241: the marketplace resolves, the plugin installs at the version in `VERSION`, an install from 1.5.0 updates in place, and `claude plugin details` reports roughly 260 tokens always-on with about 4.9k paid when the skill actually fires.
 
 ### Claude apps (web, desktop, Cowork)
 
-Build the `.skill` file for your platform (`bash scripts/build.sh` produces all ten in `dist/`), or download it from [Releases](../../releases). Then **Customize → Skills → + → Create skill → Upload a skill**.
+Add this repository as a marketplace: **Customize → Plugins → Add → Add marketplace**, enter `email-love/esp-skills`, then install the plugin for your platform, such as **Klaviyo Personalization**. **Check for updates** on the marketplace pulls new versions, or turn on **Sync automatically**.
+
+To install without a marketplace, upload the skill instead. Build the `.skill` file for your platform (`bash scripts/build.sh` produces all ten in `dist/`), or download it from [Releases](../../releases). Then **Customize → Skills → + → Create skill → Upload a skill**.
 
 An uploaded skill is a snapshot, not a subscription. It does not update itself — to move to a new version, download the new `.skill` and upload it again; same name replaces the old one. Remove it from the same screen.
 
@@ -192,6 +194,8 @@ skills/iterable-handlebars/
 └── evals/evals.json         # test prompts and assertions
 ```
 
+For Claude's marketplace installs, each skill also has a plugin folder at `plugins/<name>/`: a `.claude-plugin/plugin.json` manifest plus a copy of the skill at `plugins/<name>/skills/<name>/`, which is the layout the Claude apps require. `scripts/sync_plugins.py` generates those folders from `skills/`, so there is still one copy to edit.
+
 The one thing that isn't portable is *tools*. A skill that drives Figma or a browser only works where those tools exist. Everything in this repo is pure knowledge — no tool dependencies — so it runs anywhere.
 
 ## How these are built
@@ -240,13 +244,16 @@ Adding a platform:
 python3 -m pip install pyyaml==6.0.2
 python3 scripts/validate.py          # frontmatter, metadata, evals, versions, hygiene
 python3 scripts/sync_shared.py       # regenerate the blocks shared by every skill
+python3 scripts/sync_plugins.py      # regenerate the plugin folders in plugins/
 bash scripts/build.sh                # package every skill into dist/*.skill
 bash scripts/verify_dist.sh          # zip integrity, inventory, licence, checksums
 ```
 
 Two blocks are shared between all ten skills and generated rather than hand-edited: `references/figma-export.md`, and the "Handling untrusted content" section in each `SKILL.md`. Edit them in `shared/` and run `scripts/sync_shared.py`. CI runs `--check` and fails on drift.
 
-Changing the version means editing `VERSION` and adding a matching `## [x.y.z]` section to `CHANGELOG.md`; the validator checks that the marketplace manifest agrees.
+The plugin folders in `plugins/` are generated too. Edit the skill in `skills/<name>/`, or its entry in `.claude-plugin/marketplace.json`, then run `scripts/sync_plugins.py`. CI runs `--check` on those as well.
+
+Changing the version means editing `VERSION`, every `version` in `.claude-plugin/marketplace.json`, and adding a matching `## [x.y.z]` section to `CHANGELOG.md`. Then run `scripts/sync_plugins.py` to carry the version into each `plugin.json`. The validator checks that all of them agree, and that every plugin still has the layout the Claude apps require.
 
 Keep `SKILL.md` under ~500 lines and push lookup tables into `references/` — both platforms load reference files on demand, so depth there is close to free while depth in `SKILL.md` is paid on every trigger.
 

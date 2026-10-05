@@ -1,0 +1,14 @@
+{
+  "name": "sailthru-zephyr",
+  "displayName": "Sailthru Zephyr",
+  "version": "1.5.1",
+  "description": "Write, review and debug Zephyr personalization in Sailthru, now sold as Zeta Engage by Sailthru. Covers a syntax nothing else shares (single braces, no filter pipe, functions only), the creation-time versus send-time brace distinction, the suppression functions and why they do not stop a Lifecycle Optimizer flow, and the feed response that ships an empty email instead of cancelling",
+  "author": {
+    "name": "Email Love",
+    "email": "hello@emaillove.com",
+    "url": "https://emaillove.com"
+  },
+  "homepage": "https://github.com/email-love/esp-skills",
+  "repository": "https://github.com/email-love/esp-skills",
+  "license": "MIT"
+}
